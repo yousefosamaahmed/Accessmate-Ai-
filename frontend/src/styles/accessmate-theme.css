@@ -1,0 +1,2103 @@
+/*
+  ============================================================
+  AccessMate AI — GLOBAL THEME SYSTEM
+  ============================================================
+
+  LIGHT MODE — Palette 3: Teal + Blue
+
+  Background        #FFFFFF
+  Cards / Surface   #F7F9FB
+  Primary Teal      #14B8A6
+  CTA Teal Light    #2DD4BF
+  Accent Blue       #0EA5E9
+  Main Text         #0F172A
+  Secondary Text    #64748B
+  Borders           #E2E8F0
+
+  DARK MODE
+  Keeps the existing AccessMate dark identity.
+
+  IMPORTANT:
+  Components should consume CSS variables rather than
+  defining their own Light Mode palette.
+*/
+
+
+/* ============================================================
+   1. DARK MODE TOKENS
+   ============================================================ */
+
+:root,
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --am-bg: #06070A;
+
+  --am-card: #101216;
+  --am-surface: #101216;
+  --am-surface-2: #15151C;
+  --am-surface-3: #1B1B24;
+
+  --am-primary: #34D399;
+  --am-primary-light: #4ADE80;
+  --am-primary-hover: #4ADE80;
+
+  --am-cta: #4ADE80;
+  --am-cta-hover: #65E98C;
+  --am-cta-text: #061108;
+
+  --am-accent: #8B5CF6;
+  --am-accent-light: #A78BFA;
+  --am-accent-hover: #A78BFA;
+
+  --am-text: #F8FAFC;
+  --am-text-2: #D7DCE3;
+
+  --am-muted: #A1A1AA;
+  --am-muted-2: #71717A;
+
+  --am-border: #25233A;
+  --am-border-strong: #34314F;
+
+  --am-primary-soft:
+    rgba(
+      52,
+      211,
+      153,
+      0.08
+    );
+
+  --am-primary-soft-2:
+    rgba(
+      52,
+      211,
+      153,
+      0.14
+    );
+
+  --am-accent-soft:
+    rgba(
+      139,
+      92,
+      246,
+      0.10
+    );
+
+  --am-accent-soft-2:
+    rgba(
+      139,
+      92,
+      246,
+      0.16
+    );
+
+  --am-success: #34D399;
+  --am-info: #60A5FA;
+  --am-warning: #F59E0B;
+  --am-danger: #EF4444;
+
+  --am-soft-success:
+    rgba(
+      52,
+      211,
+      153,
+      0.10
+    );
+
+  --am-soft-info:
+    rgba(
+      96,
+      165,
+      250,
+      0.10
+    );
+
+  --am-soft-warning:
+    rgba(
+      245,
+      158,
+      11,
+      0.10
+    );
+
+  --am-soft-danger:
+    rgba(
+      239,
+      68,
+      68,
+      0.10
+    );
+
+  --am-focus: #A78BFA;
+
+  --am-shadow:
+    rgba(
+      0,
+      0,
+      0,
+      0.30
+    );
+
+  --am-shadow-hover:
+    rgba(
+      0,
+      0,
+      0,
+      0.42
+    );
+
+  --am-scrollbar: #34D399;
+  --am-scrollbar-hover: #8B5CF6;
+
+
+  /*
+    Compatibility aliases for older code.
+  */
+
+  --am-emerald:
+    var(
+      --am-primary
+    );
+
+  --am-emerald-soft:
+    var(
+      --am-primary-soft
+    );
+
+  --am-purple:
+    var(
+      --am-accent
+    );
+
+  --am-purple-light:
+    var(
+      --am-accent-light
+    );
+
+  --am-purple-soft:
+    var(
+      --am-accent-soft
+    );
+
+  --am-purple-soft-strong:
+    var(
+      --am-accent-soft-2
+    );
+}
+
+
+/* ============================================================
+   2. LIGHT MODE TOKENS
+   EXACT PALETTE 3 — TEAL + BLUE
+   ============================================================ */
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  /* Main background */
+
+  --am-bg: #FFFFFF;
+
+
+  /* Surfaces */
+
+  --am-card: #FFFFFF;
+
+  --am-surface: #F7F9FB;
+
+  --am-surface-2: #F8FAFC;
+
+  --am-surface-3: #EEF4F7;
+
+
+  /* Teal */
+
+  --am-primary: #14B8A6;
+
+  --am-primary-light: #2DD4BF;
+
+  --am-primary-hover: #0F9F92;
+
+
+  /* CTA */
+
+  --am-cta: #14B8A6;
+
+  --am-cta-hover: #0F9F92;
+
+  --am-cta-text: #FFFFFF;
+
+
+  /* Blue */
+
+  --am-accent: #0EA5E9;
+
+  --am-accent-light: #38BDF8;
+
+  --am-accent-hover: #0284C7;
+
+
+  /* Typography */
+
+  --am-text: #0F172A;
+
+  --am-text-2: #334155;
+
+  --am-muted: #64748B;
+
+  --am-muted-2: #94A3B8;
+
+
+  /* Borders */
+
+  --am-border: #E2E8F0;
+
+  --am-border-strong: #CBD5E1;
+
+
+  /* Soft colors */
+
+  --am-primary-soft: #F0FDFA;
+
+  --am-primary-soft-2: #CCFBF1;
+
+  --am-accent-soft: #F0F9FF;
+
+  --am-accent-soft-2: #E0F2FE;
+
+
+  /* Status */
+
+  --am-success: #0F9F92;
+
+  --am-info: #0EA5E9;
+
+  --am-warning: #D97706;
+
+  --am-danger: #DC2626;
+
+
+  --am-soft-success: #F0FDFA;
+
+  --am-soft-info: #F0F9FF;
+
+  --am-soft-warning: #FFFBEB;
+
+  --am-soft-danger: #FEF2F2;
+
+
+  /* Accessibility */
+
+  --am-focus: #14B8A6;
+
+
+  /* Shadows */
+
+  --am-shadow:
+    rgba(
+      15,
+      23,
+      42,
+      0.05
+    );
+
+  --am-shadow-hover:
+    rgba(
+      15,
+      23,
+      42,
+      0.09
+    );
+
+
+  /* Scrollbar */
+
+  --am-scrollbar: #14B8A6;
+
+  --am-scrollbar-hover: #0EA5E9;
+
+
+  /*
+    Compatibility aliases.
+  */
+
+  --am-emerald:
+    var(
+      --am-primary
+    );
+
+  --am-emerald-soft:
+    var(
+      --am-primary-soft
+    );
+
+  --am-purple:
+    var(
+      --am-accent
+    );
+
+  --am-purple-light:
+    var(
+      --am-accent-light
+    );
+
+  --am-purple-soft:
+    var(
+      --am-accent-soft
+    );
+
+  --am-purple-soft-strong:
+    var(
+      --am-accent-soft-2
+    );
+}
+
+
+/* ============================================================
+   3. GLOBAL BASE
+   ============================================================ */
+
+html,
+body,
+#root,
+.accessmate-global-app {
+  color:
+    var(
+      --am-text
+    );
+
+  transition:
+    background-color
+    180ms
+    ease,
+    color
+    180ms
+    ease;
+}
+
+
+::selection {
+  background:
+    var(
+      --am-primary-soft-2
+    );
+
+  color:
+    var(
+      --am-text
+    );
+}
+
+
+a {
+  color:
+    var(
+      --am-primary
+    );
+}
+
+
+a:hover {
+  color:
+    var(
+      --am-primary-hover
+    );
+}
+
+
+/* ============================================================
+   4. ACCESSIBLE FOCUS
+   ============================================================ */
+
+:where(
+  button,
+  a,
+  input,
+  textarea,
+  select,
+  [role="button"],
+  [role="switch"],
+  [role="tab"],
+  [tabindex]
+):focus-visible {
+  outline:
+    3px
+    solid
+    var(
+      --am-focus
+    )
+    !important;
+
+  outline-offset:
+    3px
+    !important;
+}
+
+
+/* ============================================================
+   5. LIGHT MODE — SOLID WHITE WEBSITE
+   ============================================================ */
+
+html[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="light"] #root,
+html[data-theme="light"] .accessmate-global-app {
+  background:
+    #FFFFFF
+    !important;
+
+  background-color:
+    #FFFFFF
+    !important;
+
+  background-image:
+    none
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+}
+
+
+/*
+  Kill old global wallpapers.
+*/
+
+html[data-theme="light"] body {
+  background-image:
+    none
+    !important;
+
+  background-attachment:
+    initial
+    !important;
+}
+
+
+html[data-theme="light"] #root {
+  background:
+    #FFFFFF
+    !important;
+}
+
+
+/* ============================================================
+   6. PAGE ROOTS
+   ============================================================ */
+
+html[data-theme="light"] .accessmate-page-bg,
+html[data-theme="light"] .workspace-bg,
+html[data-theme="light"] .dashboard-page,
+html[data-theme="light"] .dashboard-main,
+html[data-theme="light"] .chat-page,
+html[data-theme="light"] .accessmate-chat-page,
+html[data-theme="light"] .final-chat-page,
+html[data-theme="light"] .library-page,
+html[data-theme="light"] .archive-page,
+html[data-theme="light"] .account-page,
+html[data-theme="light"] .settings-page,
+html[data-theme="light"] .website-safety-page,
+html[data-theme="light"] .auth-page {
+  background:
+    #FFFFFF
+    !important;
+
+  background-color:
+    #FFFFFF
+    !important;
+
+  background-image:
+    none
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+}
+
+
+/* ============================================================
+   7. REMOVE OLD BACKGROUND OVERLAYS
+   ============================================================ */
+
+html[data-theme="light"]
+.accessmate-page-bg::before,
+
+html[data-theme="light"]
+.accessmate-page-bg::after,
+
+html[data-theme="light"]
+.workspace-bg::before,
+
+html[data-theme="light"]
+.workspace-bg::after {
+  display:
+    none
+    !important;
+
+  content:
+    none
+    !important;
+
+  background:
+    none
+    !important;
+
+  background-image:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.library-overlay,
+
+html[data-theme="light"]
+.archive-overlay,
+
+html[data-theme="light"]
+.account-overlay {
+  display:
+    none
+    !important;
+
+  background:
+    none
+    !important;
+}
+
+
+/* ============================================================
+   8. TYPOGRAPHY
+   ============================================================ */
+
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] h5,
+html[data-theme="light"] h6,
+html[data-theme="light"] strong {
+  color:
+    var(
+      --am-text
+    );
+}
+
+
+html[data-theme="light"] p {
+  color:
+    var(
+      --am-muted
+    );
+}
+
+
+/* ============================================================
+   9. LEGACY TEXT COLORS
+   ============================================================ */
+
+html[data-theme="light"]
+[class~="text-white"] {
+  color:
+    var(
+      --am-text
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class~="text-slate-200"],
+
+html[data-theme="light"]
+[class~="text-gray-200"],
+
+html[data-theme="light"]
+[class~="text-slate-300"],
+
+html[data-theme="light"]
+[class~="text-gray-300"] {
+  color:
+    var(
+      --am-text-2
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class~="text-slate-400"],
+
+html[data-theme="light"]
+[class~="text-gray-400"],
+
+html[data-theme="light"]
+[class~="text-slate-500"],
+
+html[data-theme="light"]
+[class~="text-gray-500"],
+
+html[data-theme="light"]
+[class~="text-slate-600"],
+
+html[data-theme="light"]
+[class~="text-gray-600"] {
+  color:
+    var(
+      --am-muted
+    )
+    !important;
+}
+
+
+/* ============================================================
+   10. GREEN / EMERALD -> TEAL
+   ============================================================ */
+
+html[data-theme="light"]
+[class*="text-green-"],
+
+html[data-theme="light"]
+[class*="text-emerald-"] {
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class*="bg-green-"],
+
+html[data-theme="light"]
+[class*="bg-emerald-"] {
+  background:
+    var(
+      --am-primary-soft
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class*="border-green-"],
+
+html[data-theme="light"]
+[class*="border-emerald-"] {
+  border-color:
+    var(
+      --am-border
+    )
+    !important;
+}
+
+
+/* ============================================================
+   11. PURPLE / VIOLET -> BLUE
+   ============================================================ */
+
+html[data-theme="light"]
+[class*="text-purple-"],
+
+html[data-theme="light"]
+[class*="text-violet-"] {
+  color:
+    var(
+      --am-accent
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class*="bg-purple-"],
+
+html[data-theme="light"]
+[class*="bg-violet-"] {
+  background:
+    var(
+      --am-accent-soft
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class*="border-purple-"],
+
+html[data-theme="light"]
+[class*="border-violet-"] {
+  border-color:
+    var(
+      --am-border
+    )
+    !important;
+}
+
+
+/* ============================================================
+   12. BLUE / CYAN
+   ============================================================ */
+
+html[data-theme="light"]
+[class*="text-blue-"],
+
+html[data-theme="light"]
+[class*="text-sky-"] {
+  color:
+    var(
+      --am-accent
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class*="text-cyan-"] {
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class*="bg-blue-"],
+
+html[data-theme="light"]
+[class*="bg-sky-"] {
+  background:
+    var(
+      --am-accent-soft
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class*="bg-cyan-"] {
+  background:
+    var(
+      --am-primary-soft
+    )
+    !important;
+}
+
+
+/* ============================================================
+   13. OLD DARK SURFACES
+   ============================================================ */
+
+html[data-theme="light"]
+[class*="bg-[#020906]"],
+
+html[data-theme="light"]
+[class*="bg-[#030a07]"],
+
+html[data-theme="light"]
+[class*="bg-[#010706]"],
+
+html[data-theme="light"]
+[class*="bg-[#06070A]"],
+
+html[data-theme="light"]
+[class*="bg-[#06100c]"],
+
+html[data-theme="light"]
+[class*="bg-[#07100d]"],
+
+html[data-theme="light"]
+[class*="bg-[#03100b]"],
+
+html[data-theme="light"]
+[class*="bg-[#04110b]"],
+
+html[data-theme="light"]
+[class*="bg-[#05110c]"],
+
+html[data-theme="light"]
+[class*="bg-[#101216]"],
+
+html[data-theme="light"]
+[class*="bg-black"] {
+  background:
+    var(
+      --am-card
+    )
+    !important;
+
+  background-image:
+    none
+    !important;
+}
+
+
+/* ============================================================
+   14. OLD HARD-CODED ACCENTS
+   ============================================================ */
+
+html[data-theme="light"]
+[class*="text-[#A78BFA]"],
+
+html[data-theme="light"]
+[class*="text-[#8B5CF6]"] {
+  color:
+    var(
+      --am-accent
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[class*="text-[#55f474]"],
+
+html[data-theme="light"]
+[class*="text-[#56f77c]"],
+
+html[data-theme="light"]
+[class*="text-[#62f780]"],
+
+html[data-theme="light"]
+[class*="text-[#5df57a]"],
+
+html[data-theme="light"]
+[class*="text-[#34D399]"],
+
+html[data-theme="light"]
+[class*="text-[#4ADE80]"] {
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+}
+
+
+/* ============================================================
+   15. CARDS
+   ============================================================ */
+
+html[data-theme="light"] .glass-action,
+
+html[data-theme="light"] .quick-card,
+
+html[data-theme="light"] .account-profile-card,
+
+html[data-theme="light"] .account-form-card,
+
+html[data-theme="light"] .account-side-card,
+
+html[data-theme="light"] .account-main-card,
+
+html[data-theme="light"] .account-info-box,
+
+html[data-theme="light"] .setting-box,
+
+html[data-theme="light"] .toggle-box,
+
+html[data-theme="light"] .telegram-panel,
+
+html[data-theme="light"] .library-card,
+
+html[data-theme="light"] .library-file-card,
+
+html[data-theme="light"] .library-empty {
+  background:
+    #FFFFFF
+    !important;
+
+  background-image:
+    none
+    !important;
+
+  border:
+    1px
+    solid
+    var(
+      --am-border
+    )
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  box-shadow:
+    0
+    4px
+    20px
+    var(
+      --am-shadow
+    )
+    !important;
+
+  backdrop-filter:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.quick-card:hover,
+
+html[data-theme="light"]
+.library-file-card:hover {
+  border-color:
+    rgba(
+      20,
+      184,
+      166,
+      0.35
+    )
+    !important;
+
+  box-shadow:
+    0
+    8px
+    26px
+    var(
+      --am-shadow-hover
+    )
+    !important;
+}
+
+
+/* ============================================================
+   16. SIDEBAR
+   ============================================================ */
+
+html[data-theme="light"]
+.workspace-sidebar {
+  background:
+    #FFFFFF
+    !important;
+
+  background-image:
+    none
+    !important;
+
+  border-color:
+    var(
+      --am-border
+    )
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+
+  backdrop-filter:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.sidebar-item:hover,
+
+html[data-theme="light"]
+.recent-chat-row:hover {
+  background:
+    var(
+      --am-primary-soft
+    )
+    !important;
+
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.sidebar-item-active,
+
+html[data-theme="light"]
+.recent-chat-active {
+  background:
+    rgba(
+      20,
+      184,
+      166,
+      0.08
+    )
+    !important;
+
+  border-color:
+    rgba(
+      20,
+      184,
+      166,
+      0.30
+    )
+    !important;
+
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+/* ============================================================
+   17. ACTIVE STATES
+   ============================================================ */
+
+html[data-theme="light"]
+[aria-current="page"],
+
+html[data-theme="light"]
+[aria-pressed="true"]:not(
+  [role="switch"]
+) {
+  background:
+    var(
+      --am-primary-soft
+    )
+    !important;
+
+  border-color:
+    var(
+      --am-primary
+    )
+    !important;
+
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+/* ============================================================
+   18. INPUTS
+   ============================================================ */
+
+html[data-theme="light"]
+input,
+
+html[data-theme="light"]
+textarea,
+
+html[data-theme="light"]
+select {
+  background:
+    #FFFFFF
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  border-color:
+    var(
+      --am-border
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+input::placeholder,
+
+html[data-theme="light"]
+textarea::placeholder {
+  color:
+    #94A3B8
+    !important;
+}
+
+
+html[data-theme="light"]
+input:focus,
+
+html[data-theme="light"]
+textarea:focus,
+
+html[data-theme="light"]
+select:focus {
+  border-color:
+    var(
+      --am-primary
+    )
+    !important;
+
+  box-shadow:
+    0
+    0
+    0
+    3px
+    rgba(
+      20,
+      184,
+      166,
+      0.10
+    )
+    !important;
+}
+
+
+/* ============================================================
+   19. SEARCH
+   ============================================================ */
+
+html[data-theme="light"]
+.workspace-search,
+
+html[data-theme="light"]
+.workspace-search-wide,
+
+html[data-theme="light"]
+.workspace-search-left,
+
+html[data-theme="light"]
+.recent-search,
+
+html[data-theme="light"]
+.library-search {
+  background:
+    #FFFFFF
+    !important;
+
+  border:
+    1px
+    solid
+    var(
+      --am-border
+    )
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.workspace-search
+input,
+
+html[data-theme="light"]
+.workspace-search-wide
+input,
+
+html[data-theme="light"]
+.workspace-search-left
+input,
+
+html[data-theme="light"]
+.recent-search
+input,
+
+html[data-theme="light"]
+.library-search
+input {
+  background:
+    transparent
+    !important;
+
+  border:
+    0
+    !important;
+
+  outline:
+    0
+    !important;
+
+  box-shadow:
+    none
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+}
+
+
+/* ============================================================
+   20. COMPOSER
+   ============================================================ */
+
+html[data-theme="light"]
+.workspace-input,
+
+html[data-theme="light"]
+.composer,
+
+html[data-theme="light"]
+.clean-composer {
+  background:
+    #FFFFFF
+    !important;
+
+  background-image:
+    none
+    !important;
+
+  border:
+    1px
+    solid
+    var(
+      --am-border
+    )
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  box-shadow:
+    0
+    4px
+    20px
+    rgba(
+      15,
+      23,
+      42,
+      0.06
+    )
+    !important;
+
+  backdrop-filter:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.workspace-input
+textarea,
+
+html[data-theme="light"]
+.composer
+textarea,
+
+html[data-theme="light"]
+.clean-composer
+textarea,
+
+html[data-theme="light"]
+.composer-textarea,
+
+html[data-theme="light"]
+.clean-composer-textarea {
+  background:
+    transparent
+    !important;
+
+  border:
+    0
+    !important;
+
+  outline:
+    0
+    !important;
+
+  box-shadow:
+    none
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+}
+
+
+/* ============================================================
+   21. PRIMARY BUTTONS
+   ============================================================ */
+
+html[data-theme="light"]
+.auth-primary-btn,
+
+html[data-theme="light"]
+.send-btn,
+
+html[data-theme="light"]
+.clean-send-btn,
+
+html[data-theme="light"]
+.new-chat-sidebar-btn,
+
+html[data-theme="light"]
+.account-save-btn {
+  background:
+    var(
+      --am-cta
+    )
+    !important;
+
+  background-image:
+    none
+    !important;
+
+  border-color:
+    var(
+      --am-cta
+    )
+    !important;
+
+  color:
+    #FFFFFF
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.auth-primary-btn:hover:not(:disabled),
+
+html[data-theme="light"]
+.send-btn:hover:not(:disabled),
+
+html[data-theme="light"]
+.clean-send-btn:hover:not(:disabled),
+
+html[data-theme="light"]
+.account-save-btn:hover {
+  background:
+    var(
+      --am-cta-hover
+    )
+    !important;
+
+  color:
+    #FFFFFF
+    !important;
+}
+
+
+/* ============================================================
+   22. ICON BUTTONS
+   ============================================================ */
+
+html[data-theme="light"]
+.top-action-btn,
+
+html[data-theme="light"]
+.icon-action-btn,
+
+html[data-theme="light"]
+.profile-btn,
+
+html[data-theme="light"]
+.input-icon-btn,
+
+html[data-theme="light"]
+.composer-icon-btn,
+
+html[data-theme="light"]
+.clean-composer-btn {
+  background:
+    #FFFFFF
+    !important;
+
+  border:
+    1px
+    solid
+    var(
+      --am-border
+    )
+    !important;
+
+  color:
+    var(
+      --am-muted
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.top-action-btn:hover,
+
+html[data-theme="light"]
+.icon-action-btn:hover,
+
+html[data-theme="light"]
+.profile-btn:hover,
+
+html[data-theme="light"]
+.input-icon-btn:hover,
+
+html[data-theme="light"]
+.composer-icon-btn:hover,
+
+html[data-theme="light"]
+.clean-composer-btn:hover {
+  background:
+    var(
+      --am-primary-soft
+    )
+    !important;
+
+  border-color:
+    var(
+      --am-primary
+    )
+    !important;
+
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+}
+
+
+/* ============================================================
+   23. CHAT
+   ============================================================ */
+
+html[data-theme="light"]
+.message-bubble.chat-user-message,
+
+html[data-theme="light"]
+.chat-user-message,
+
+html[data-theme="light"]
+.message-user {
+  background:
+    var(
+      --am-primary-soft
+    )
+    !important;
+
+  background-image:
+    none
+    !important;
+
+  border:
+    1px
+    solid
+    rgba(
+      20,
+      184,
+      166,
+      0.15
+    )
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.message-bubble.chat-ai-message,
+
+html[data-theme="light"]
+.chat-ai-message,
+
+html[data-theme="light"]
+.message-ai {
+  background:
+    var(
+      --am-surface
+    )
+    !important;
+
+  border:
+    1px
+    solid
+    var(
+      --am-border
+    )
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+/* ============================================================
+   24. AUTH
+   ============================================================ */
+
+html[data-theme="light"]
+.auth-input {
+  background:
+    #FFFFFF
+    !important;
+
+  border:
+    1px
+    solid
+    var(
+      --am-border
+    )
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+html[data-theme="light"]
+.auth-input:focus {
+  border-color:
+    var(
+      --am-primary
+    )
+    !important;
+
+  box-shadow:
+    0
+    0
+    0
+    3px
+    rgba(
+      20,
+      184,
+      166,
+      0.10
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+.auth-link-btn {
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+}
+
+
+/* ============================================================
+   25. SETTINGS
+   ============================================================ */
+
+html[data-theme="light"]
+.settings-page
+[role="switch"][aria-checked="true"] {
+  background:
+    var(
+      --am-primary
+    )
+    !important;
+
+  border-color:
+    var(
+      --am-primary
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+.settings-page
+[role="switch"][aria-checked="false"] {
+  background:
+    #CBD5E1
+    !important;
+}
+
+
+/* ============================================================
+   26. TABLES
+   ============================================================ */
+
+html[data-theme="light"]
+table {
+  background:
+    #FFFFFF
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+thead,
+
+html[data-theme="light"]
+th {
+  background:
+    var(
+      --am-surface
+    )
+    !important;
+
+  color:
+    var(
+      --am-muted
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+td,
+
+html[data-theme="light"]
+th {
+  border-color:
+    var(
+      --am-border
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+tbody
+tr:hover {
+  background:
+    #F8FAFC
+    !important;
+}
+
+
+/* ============================================================
+   27. DROPDOWNS
+   ============================================================ */
+
+html[data-theme="light"]
+.chat-options-menu,
+
+html[data-theme="light"]
+.avatar-menu,
+
+html[data-theme="light"]
+[role="menu"] {
+  background:
+    #FFFFFF
+    !important;
+
+  border:
+    1px
+    solid
+    var(
+      --am-border
+    )
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  box-shadow:
+    0
+    8px
+    30px
+    rgba(
+      15,
+      23,
+      42,
+      0.09
+    )
+    !important;
+}
+
+
+html[data-theme="light"]
+[role="menuitem"]:hover {
+  background:
+    var(
+      --am-primary-soft
+    )
+    !important;
+
+  color:
+    var(
+      --am-primary
+    )
+    !important;
+}
+
+
+/* ============================================================
+   28. MODALS
+   ============================================================ */
+
+html[data-theme="light"]
+[role="dialog"] {
+  background:
+    #FFFFFF
+    !important;
+
+  color:
+    var(
+      --am-text
+    )
+    !important;
+
+  border:
+    1px
+    solid
+    var(
+      --am-border
+    )
+    !important;
+
+  box-shadow:
+    0
+    20px
+    60px
+    rgba(
+      15,
+      23,
+      42,
+      0.14
+    )
+    !important;
+}
+
+
+/* ============================================================
+   29. STATUS
+   ============================================================ */
+
+html[data-theme="light"]
+.status-success,
+
+html[data-theme="light"]
+.alert-success {
+  background:
+    var(
+      --am-soft-success
+    )
+    !important;
+
+  color:
+    #0F766E
+    !important;
+}
+
+
+html[data-theme="light"]
+.status-info,
+
+html[data-theme="light"]
+.alert-info {
+  background:
+    var(
+      --am-soft-info
+    )
+    !important;
+
+  color:
+    #0369A1
+    !important;
+}
+
+
+html[data-theme="light"]
+.status-warning,
+
+html[data-theme="light"]
+.alert-warning {
+  background:
+    var(
+      --am-soft-warning
+    )
+    !important;
+
+  color:
+    #B45309
+    !important;
+}
+
+
+html[data-theme="light"]
+.status-error,
+
+html[data-theme="light"]
+.alert-error {
+  background:
+    var(
+      --am-soft-danger
+    )
+    !important;
+
+  color:
+    var(
+      --am-danger
+    )
+    !important;
+}
+
+
+/* ============================================================
+   30. DELETE / DANGER
+   ============================================================ */
+
+html[data-theme="light"]
+.library-delete-btn,
+
+html[data-theme="light"]
+.account-logout-btn,
+
+html[data-theme="light"]
+.remove-avatar-btn {
+  background:
+    var(
+      --am-soft-danger
+    )
+    !important;
+
+  border-color:
+    #FECACA
+    !important;
+
+  color:
+    var(
+      --am-danger
+    )
+    !important;
+
+  box-shadow:
+    none
+    !important;
+}
+
+
+/* ============================================================
+   31. TOOLTIP
+   ============================================================ */
+
+html[data-theme="light"]
+[role="tooltip"] {
+  background:
+    #0F172A
+    !important;
+
+  color:
+    #FFFFFF
+    !important;
+}
+
+
+/* ============================================================
+   32. SCROLLBARS
+   ============================================================ */
+
+* {
+  scrollbar-color:
+    var(
+      --am-scrollbar
+    )
+    transparent;
+}
+
+
+*::-webkit-scrollbar {
+  width:
+    8px;
+
+  height:
+    8px;
+}
+
+
+*::-webkit-scrollbar-track {
+  background:
+    transparent
+    !important;
+}
+
+
+*::-webkit-scrollbar-thumb {
+  background:
+    var(
+      --am-scrollbar
+    )
+    !important;
+
+  border-radius:
+    999px
+    !important;
+}
+
+
+*::-webkit-scrollbar-thumb:hover {
+  background:
+    var(
+      --am-scrollbar-hover
+    )
+    !important;
+}
+
+
+/* ============================================================
+   33. DISABLED
+   ============================================================ */
+
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity:
+    0.50
+    !important;
+
+  cursor:
+    not-allowed
+    !important;
+}
+
+
+/* ============================================================
+   34. RTL
+   ============================================================ */
+
+html[dir="rtl"] body,
+body.app-arabic {
+  direction:
+    rtl;
+}
+
+
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select,
+body.app-arabic input,
+body.app-arabic textarea,
+body.app-arabic select {
+  text-align:
+    right;
+}
+
+
+/* ============================================================
+   35. HIGH CONTRAST
+   ============================================================ */
+
+body.accessmate-high-contrast
+:focus-visible,
+
+html[data-high-contrast="true"]
+:focus-visible {
+  outline-width:
+    4px
+    !important;
+}
+
+
+/* ============================================================
+   36. REDUCED MOTION
+   ============================================================ */
+
+html[data-reduced-motion="true"] *,
+
+html[data-reduced-motion="true"] *::before,
+
+html[data-reduced-motion="true"] *::after {
+  animation:
+    none
+    !important;
+
+  transition:
+    none
+    !important;
+
+  scroll-behavior:
+    auto
+    !important;
+}
+
+
+/* ============================================================
+   37. PRINT
+   ============================================================ */
+
+@media print {
+
+  html,
+  body,
+  #root,
+  .accessmate-global-app {
+    background:
+      #FFFFFF
+      !important;
+
+    color:
+      #0F172A
+      !important;
+  }
+
+}

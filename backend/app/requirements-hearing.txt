@@ -1,0 +1,5 @@
+# Optional dependencies for Hearing Assistant Sound Awareness
+# Keep these in the main backend venv if you want environmental sound detection.
+tensorflow
+tensorflow-hub
+scipy

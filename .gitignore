@@ -1,0 +1,117 @@
+﻿# ============================================================
+# AccessMate AI - Root .gitignore
+# ============================================================
+
+# -----------------------------
+# Environment / secrets
+# -----------------------------
+**/.env
+**/.env.*
+!**/.env.example
+
+# -----------------------------
+# Python
+# -----------------------------
+backend/.venv/
+backend/.venv-*/
+**/__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# -----------------------------
+# Node / Vite
+# -----------------------------
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+
+# -----------------------------
+# Logs / temp
+# -----------------------------
+*.log
+*.tmp
+*.temp
+*.cache
+*.pid
+
+# -----------------------------
+# IDE / OS
+# -----------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -----------------------------
+# Local cleanup backups
+# -----------------------------
+_cleanup_backups/
+
+# -----------------------------
+# Temporary cleanup utilities
+# -----------------------------
+accessmate_sign_phase2_cleanup.ps1
+accessmate_sign_runtime_cleanup.py
+
+# -----------------------------
+# Python local artifacts
+# -----------------------------
+*.egg-info/
+build/
+dist/
+
+# -----------------------------
+# Local model/download caches
+# -----------------------------
+.cache/
+.cache*/
+__pycache__/
+
+# -----------------------------
+# Keep important project files
+# -----------------------------
+!backend/app/requirements-hearing.txt
+!backend/sql/
+!backend/sql/**
+
+# ============================================================
+# Runtime / user-generated uploads
+# ============================================================
+backend/uploads/
+
+# ============================================================
+# Frontend local recovery / temporary files
+# ============================================================
+frontend/backup/
+frontend/dashboard_chat_block.txt
+frontend/fix_dashboard.py
+frontend/ALERT-HISTORY-MANUAL-PATCH.txt
+frontend/apply_alert_history_hearing_patch.ps1
+
+# ============================================================
+# Legacy Sign Language research
+# ============================================================
+backend/data/sign_dataset/
+backend/data/sign_dataset_augmented/
+
+backend/research/karsl_pretrained/
+backend/research/karsl_samples/
+backend/research/accessmate_calibration/
+
+backend/tools/build_targeted_training_dataset.py
+backend/tools/*karsl*.py
+backend/tools/*sign*.py
+
+
+# All remaining legacy KArSL research artifacts
+backend/research/karsl*/
+
+
+backend/account_routes.json

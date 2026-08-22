@@ -1,4 +1,4 @@
-﻿// src/pages/WebsiteSafety.tsx
+// src/pages/WebsiteSafety.tsx
 
 import {
   type FormEvent,
@@ -560,7 +560,7 @@ export default function WebsiteSafety() {
       setError(
         txt(
           "Enter a website URL first.",
-          "Ø§ÙƒØªØ¨ Ø±Ø§Ø¨Ø· Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø£ÙˆÙ„Ø§Ù‹."
+          "اكتب رابط الموقع أولاً."
         )
       );
 
@@ -654,7 +654,7 @@ export default function WebsiteSafety() {
       setError(
         txt(
           "Brand name and domain are required.",
-          "Ø§Ø³Ù… Ø§Ù„Ù…ÙˆÙ‚Ø¹ ÙˆØ§Ù„Ø¯ÙˆÙ…ÙŠÙ† Ù…Ø·Ù„ÙˆØ¨Ø§Ù†."
+          "اسم الموقع والدومين مطلوبان."
         )
       );
 
@@ -687,7 +687,7 @@ export default function WebsiteSafety() {
         setSuccess(
           txt(
             "Trusted domain updated.",
-            "ØªÙ… ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ† Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚."
+            "تم تحديث الدومين الموثوق."
           )
         );
       } else {
@@ -699,7 +699,7 @@ export default function WebsiteSafety() {
         setSuccess(
           txt(
             "Domain added to your trusted list.",
-            "ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ† Ø¥Ù„Ù‰ Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚Ø©."
+            "تمت إضافة الدومين إلى قائمة المواقع الموثوقة."
           )
         );
       }
@@ -765,7 +765,7 @@ export default function WebsiteSafety() {
       window.confirm(
         txt(
           `Remove ${item.official_domain} from your trusted domains?`,
-          `Ù‡Ù„ ØªØ±ÙŠØ¯ Ø­Ø°Ù ${item.official_domain} Ù…Ù† Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚Ø©ØŸ`
+          `هل تريد حذف ${item.official_domain} من المواقع الموثوقة؟`
         )
       );
 
@@ -797,7 +797,7 @@ export default function WebsiteSafety() {
       setSuccess(
         txt(
           "Trusted domain removed.",
-          "ØªÙ… Ø­Ø°Ù Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ† Ù…Ù† Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚Ø©."
+          "تم حذف الدومين من المواقع الموثوقة."
         )
       );
 
@@ -820,7 +820,7 @@ export default function WebsiteSafety() {
       window.confirm(
         txt(
           `Delete the saved check for ${item.domain || item.url}?`,
-          `Ù‡Ù„ ØªØ±ÙŠØ¯ Ø­Ø°Ù Ù†ØªÙŠØ¬Ø© ÙØ­Øµ ${item.domain || item.url}ØŸ`
+          `هل تريد حذف نتيجة فحص ${item.domain || item.url}؟`
         )
       );
 
@@ -852,7 +852,7 @@ export default function WebsiteSafety() {
       setSuccess(
         txt(
           "History item deleted.",
-          "ØªÙ… Ø­Ø°Ù Ù†ØªÙŠØ¬Ø© Ø§Ù„ÙØ­Øµ."
+          "تم حذف نتيجة الفحص."
         )
       );
 
@@ -1158,7 +1158,7 @@ export default function WebsiteSafety() {
 
                 {txt(
                   "Website Protection",
-                  "Ø­Ù…Ø§ÙŠØ© Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹"
+                  "حماية المواقع"
                 )}
               </div>
 
@@ -1173,7 +1173,7 @@ export default function WebsiteSafety() {
               >
                 {txt(
                   "Website Safety",
-                  "Ø£Ù…Ø§Ù† Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹"
+                  "أمان المواقع"
                 )}
               </h1>
 
@@ -1189,7 +1189,7 @@ export default function WebsiteSafety() {
               >
                 {txt(
                   "Check suspicious links before you trust them, sign in, download files, or enter personal information.",
-                  "Ø§ÙØ­Øµ Ø§Ù„Ø±ÙˆØ§Ø¨Ø· Ø§Ù„Ù…Ø´Ø¨ÙˆÙ‡Ø© Ù‚Ø¨Ù„ ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„ Ø£Ùˆ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ù„ÙØ§Øª Ø£Ùˆ Ø¥Ø¯Ø®Ø§Ù„ Ø£ÙŠ Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø´Ø®ØµÙŠØ©."
+                  "افحص الروابط المشبوهة قبل تسجيل الدخول أو تحميل الملفات أو إدخال أي معلومات شخصية."
                 )}
               </p>
             </div>
@@ -1335,7 +1335,7 @@ export default function WebsiteSafety() {
             data-voice-region="Website Safety sections"
             aria-label={txt(
               "Website Safety sections",
-              "Ø£Ù‚Ø³Ø§Ù… Ø£Ù…Ø§Ù† Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹"
+              "أقسام أمان المواقع"
             )}
             className="
               mb-6
@@ -1359,7 +1359,7 @@ export default function WebsiteSafety() {
               }
               label={txt(
                 "Check URL",
-                "ÙØ­Øµ Ø±Ø§Ø¨Ø·"
+                "فحص رابط"
               )}
               icon={
                 Search
@@ -1378,7 +1378,7 @@ export default function WebsiteSafety() {
               }
               label={txt(
                 "Trusted Domains",
-                "Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚Ø©"
+                "المواقع الموثوقة"
               )}
               icon={
                 Lock
@@ -1400,7 +1400,7 @@ export default function WebsiteSafety() {
               }
               label={txt(
                 "History",
-                "Ø§Ù„Ø³Ø¬Ù„"
+                "السجل"
               )}
               icon={
                 History
@@ -1485,7 +1485,7 @@ export default function WebsiteSafety() {
                       >
                         {txt(
                           "Check a website",
-                          "Ø§ÙØ­Øµ Ù…ÙˆÙ‚Ø¹Ù‹Ø§"
+                          "افحص موقعًا"
                         )}
                       </h2>
 
@@ -1499,7 +1499,7 @@ export default function WebsiteSafety() {
                       >
                         {txt(
                           "Paste the full link or domain. AccessMate checks domain identity, suspicious patterns, phishing sources, and malware intelligence.",
-                          "Ø§Ù„ØµÙ‚ Ø§Ù„Ø±Ø§Ø¨Ø· Ø§Ù„ÙƒØ§Ù…Ù„ Ø£Ùˆ Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ†. ÙŠÙ‚ÙˆÙ… AccessMate Ø¨ÙØ­Øµ Ù‡ÙˆÙŠØ© Ø§Ù„Ù…ÙˆÙ‚Ø¹ ÙˆØ§Ù„Ø£Ù†Ù…Ø§Ø· Ø§Ù„Ù…Ø´Ø¨ÙˆÙ‡Ø© ÙˆÙ…ØµØ§Ø¯Ø± Ø§Ù„ØªØµÙŠØ¯ ÙˆØ§Ù„Ø¨Ø±Ù…Ø¬ÙŠØ§Øª Ø§Ù„Ø¶Ø§Ø±Ø©."
+                          "الصق الرابط الكامل أو الدومين. يقوم AccessMate بفحص هوية الموقع والأنماط المشبوهة ومصادر التصيد والبرمجيات الضارة."
                         )}
                       </p>
                     </div>
@@ -1509,7 +1509,7 @@ export default function WebsiteSafety() {
                 <form
                   aria-label={txt(
                     "Check website form",
-                    "Ù†Ù…ÙˆØ°Ø¬ ÙØ­Øµ Ø§Ù„Ù…ÙˆÙ‚Ø¹"
+                    "نموذج فحص الموقع"
                   )}
                   data-voice-region="Website scanner"
                   onSubmit={
@@ -1532,7 +1532,7 @@ export default function WebsiteSafety() {
                   >
                     {txt(
                       "Website URL",
-                      "Ø±Ø§Ø¨Ø· Ø§Ù„Ù…ÙˆÙ‚Ø¹"
+                      "رابط الموقع"
                     )}
                   </label>
 
@@ -1579,11 +1579,11 @@ export default function WebsiteSafety() {
                         id="website-safety-url"
                         aria-label={txt(
                           "Website URL to check",
-                          "Ø±Ø§Ø¨Ø· Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ù…Ø±Ø§Ø¯ ÙØ­ØµÙ‡"
+                          "رابط الموقع المراد فحصه"
                         )}
                         data-voice-label={txt(
                           "Website URL to check",
-                          "Ø±Ø§Ø¨Ø· Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ù…Ø±Ø§Ø¯ ÙØ­ØµÙ‡"
+                          "رابط الموقع المراد فحصه"
                         )}
                         value={url}
                         onChange={(event) =>
@@ -1617,7 +1617,7 @@ export default function WebsiteSafety() {
                           }
                           aria-label={txt(
                             "Clear URL",
-                            "Ù…Ø³Ø­ Ø§Ù„Ø±Ø§Ø¨Ø·"
+                            "مسح الرابط"
                           )}
                           className="
                             rounded-lg
@@ -1639,11 +1639,11 @@ export default function WebsiteSafety() {
                       type="submit"
                       aria-label={txt(
                         "Check Website",
-                        "ÙØ­Øµ Ø§Ù„Ù…ÙˆÙ‚Ø¹"
+                        "فحص الموقع"
                       )}
                       data-voice-label={txt(
                         "Check Website",
-                        "ÙØ­Øµ Ø§Ù„Ù…ÙˆÙ‚Ø¹"
+                        "فحص الموقع"
                       )}
                       disabled={
                         checking
@@ -1690,11 +1690,11 @@ export default function WebsiteSafety() {
                       {checking
                         ? txt(
                             "Checking...",
-                            "Ø¬Ø§Ø±ÙŠ Ø§Ù„ÙØ­Øµ..."
+                            "جاري الفحص..."
                           )
                         : txt(
                             "Check Website",
-                            "ÙØ­Øµ Ø§Ù„Ù…ÙˆÙ‚Ø¹"
+                            "فحص الموقع"
                           )}
                     </button>
                   </div>
@@ -1722,7 +1722,7 @@ export default function WebsiteSafety() {
                     <span>
                       {txt(
                         "A low-risk result means no major configured signal or known threat match was found. It is not a guarantee that a website is safe.",
-                        "Ø§Ù„Ù†ØªÙŠØ¬Ø© Ù…Ù†Ø®ÙØ¶Ø© Ø§Ù„Ø®Ø·ÙˆØ±Ø© ØªØ¹Ù†ÙŠ Ø¹Ø¯Ù… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ø¥Ø´Ø§Ø±Ø© Ø®Ø·Ø±Ø© ÙƒØ¨ÙŠØ±Ø© Ø£Ùˆ ØªÙ‡Ø¯ÙŠØ¯ Ù…Ø¹Ø±ÙˆÙ ÙÙŠ Ø§Ù„Ù…ØµØ§Ø¯Ø± Ø§Ù„Ù…ÙØ¹Ù„Ø©ØŒ Ù„ÙƒÙ†Ù‡Ø§ Ù„ÙŠØ³Øª Ø¶Ù…Ø§Ù†Ù‹Ø§ Ù…Ø·Ù„Ù‚Ù‹Ø§ Ù„Ø£Ù…Ø§Ù† Ø§Ù„Ù…ÙˆÙ‚Ø¹."
+                        "النتيجة منخفضة الخطورة تعني عدم العثور على إشارة خطرة كبيرة أو تهديد معروف في المصادر المفعلة، لكنها ليست ضمانًا مطلقًا لأمان الموقع."
                       )}
                     </span>
                   </div>
@@ -1838,7 +1838,7 @@ export default function WebsiteSafety() {
 
                               {txt(
                                 "Official domain",
-                                "Ø¯ÙˆÙ…ÙŠÙ† Ø±Ø³Ù…ÙŠ"
+                                "دومين رسمي"
                               )}
                             </span>
                           )}
@@ -1867,7 +1867,7 @@ export default function WebsiteSafety() {
 
                               {txt(
                                 "Trusted by you",
-                                "Ù…ÙˆØ«ÙˆÙ‚ Ø¨ÙˆØ§Ø³Ø·ØªÙƒ"
+                                "موثوق بواسطتك"
                               )}
                             </span>
                           )}
@@ -1937,7 +1937,7 @@ export default function WebsiteSafety() {
                             "
                             title={txt(
                               "Copy URL",
-                              "Ù†Ø³Ø® Ø§Ù„Ø±Ø§Ø¨Ø·"
+                              "نسخ الرابط"
                             )}
                           >
                             <Copy
@@ -1992,7 +1992,7 @@ export default function WebsiteSafety() {
                             >
                               {txt(
                                 "Risk score",
-                                "Ø¯Ø±Ø¬Ø© Ø§Ù„Ø®Ø·ÙˆØ±Ø©"
+                                "درجة الخطورة"
                               )}
                             </p>
 
@@ -2079,7 +2079,7 @@ export default function WebsiteSafety() {
                           <MetricRow
                             label={txt(
                               "Threat feeds",
-                              "Ù…ØµØ§Ø¯Ø± Ø§Ù„ØªÙ‡Ø¯ÙŠØ¯"
+                              "مصادر التهديد"
                             )}
                             value={
                               `${providerStats.clean}/${providerStats.total}`
@@ -2089,7 +2089,7 @@ export default function WebsiteSafety() {
                           <MetricRow
                             label={txt(
                               "Known matches",
-                              "ØªÙ‡Ø¯ÙŠØ¯Ø§Øª Ù…Ø¹Ø±ÙˆÙØ©"
+                              "تهديدات معروفة"
                             )}
                             value={
                               String(
@@ -2101,7 +2101,7 @@ export default function WebsiteSafety() {
                           <MetricRow
                             label={txt(
                               "Engine",
-                              "Ø§Ù„Ù…Ø­Ø±Ùƒ"
+                              "المحرك"
                             )}
                             value={
                               result.engine_version
@@ -2153,7 +2153,7 @@ export default function WebsiteSafety() {
 
                           {txt(
                             "Add to trusted domains",
-                            "Ø¥Ø¶Ø§ÙØ© Ø¥Ù„Ù‰ Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚Ø©"
+                            "إضافة إلى المواقع الموثوقة"
                           )}
                         </button>
                       )}
@@ -2190,7 +2190,7 @@ export default function WebsiteSafety() {
 
                         {txt(
                           "Check another URL",
-                          "ÙØ­Øµ Ø±Ø§Ø¨Ø· Ø¢Ø®Ø±"
+                          "فحص رابط آخر"
                         )}
                       </button>
                     </div>
@@ -2276,7 +2276,7 @@ export default function WebsiteSafety() {
                           >
                             {txt(
                               "Domain identity",
-                              "Ù‡ÙˆÙŠØ© Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ†"
+                              "هوية الدومين"
                             )}
                           </h3>
 
@@ -2288,7 +2288,7 @@ export default function WebsiteSafety() {
                           >
                             {txt(
                               "Official, trusted, and impersonation checks",
-                              "ÙØ­Øµ Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ† Ø§Ù„Ø±Ø³Ù…ÙŠ ÙˆØ§Ù„Ù…ÙˆØ«ÙˆÙ‚ ÙˆØ§Ù„Ø§Ù†ØªØ­Ø§Ù„"
+                              "فحص الدومين الرسمي والموثوق والانتحال"
                             )}
                           </p>
                         </div>
@@ -2302,7 +2302,7 @@ export default function WebsiteSafety() {
                         <DetailRow
                           label={txt(
                             "Domain",
-                            "Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ†"
+                            "الدومين"
                           )}
                           value={
                             result.domain
@@ -2313,7 +2313,7 @@ export default function WebsiteSafety() {
                         <DetailRow
                           label={txt(
                             "Registered domain",
-                            "Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ† Ø§Ù„Ù…Ø³Ø¬Ù„"
+                            "الدومين المسجل"
                           )}
                           value={
                             result.registrable_domain
@@ -2324,7 +2324,7 @@ export default function WebsiteSafety() {
                         <DetailRow
                           label={txt(
                             "Brand",
-                            "Ø§Ù„Ø¹Ù„Ø§Ù…Ø©"
+                            "العلامة"
                           )}
                           value={
                             result.official_domain
@@ -2336,7 +2336,7 @@ export default function WebsiteSafety() {
                         <DetailRow
                           label={txt(
                             "Official root",
-                            "Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ† Ø§Ù„Ø±Ø³Ù…ÙŠ"
+                            "الدومين الرسمي"
                           )}
                           value={
                             result.official_domain
@@ -2348,7 +2348,7 @@ export default function WebsiteSafety() {
                         <DetailRow
                           label={txt(
                             "Identity status",
-                            "Ø­Ø§Ù„Ø© Ø§Ù„Ù‡ÙˆÙŠØ©"
+                            "حالة الهوية"
                           )}
                           value={
                             result.official_domain
@@ -2395,7 +2395,7 @@ export default function WebsiteSafety() {
                           >
                             {txt(
                               "Recommended action",
-                              "Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ Ø§Ù„Ù…Ù‚ØªØ±Ø­"
+                              "الإجراء المقترح"
                             )}
                           </h3>
 
@@ -2407,7 +2407,7 @@ export default function WebsiteSafety() {
                           >
                             {txt(
                               "What AccessMate recommends you do next",
-                              "Ù…Ø§ Ø§Ù„Ø°ÙŠ ÙŠÙ†ØµØ­Ùƒ AccessMate Ø¨ÙØ¹Ù„Ù‡ Ø§Ù„Ø¢Ù†"
+                              "ما الذي ينصحك AccessMate بفعله الآن"
                             )}
                           </p>
                         </div>
@@ -2450,7 +2450,7 @@ export default function WebsiteSafety() {
                         >
                           {txt(
                             "Security signals",
-                            "Ø¥Ø´Ø§Ø±Ø§Øª Ø§Ù„Ø£Ù…Ø§Ù†"
+                            "إشارات الأمان"
                           )}
                         </h3>
 
@@ -2463,7 +2463,7 @@ export default function WebsiteSafety() {
                         >
                           {txt(
                             "Evidence used by the safety engine",
-                            "Ø§Ù„Ø£Ø¯Ù„Ø© Ø§Ù„ØªÙŠ Ø§Ø³ØªØ®Ø¯Ù…Ù‡Ø§ Ù…Ø­Ø±Ùƒ Ø§Ù„ÙØ­Øµ"
+                            "الأدلة التي استخدمها محرك الفحص"
                           )}
                         </p>
                       </div>
@@ -2584,11 +2584,11 @@ export default function WebsiteSafety() {
                         }
                         title={txt(
                           "No additional signals",
-                          "Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¥Ø´Ø§Ø±Ø§Øª Ø¥Ø¶Ø§ÙÙŠØ©"
+                          "لا توجد إشارات إضافية"
                         )}
                         description={txt(
                           "The URL did not produce additional local security signals.",
-                          "Ù„Ù… ÙŠÙ†ØªØ¬ Ø§Ù„Ø±Ø§Ø¨Ø· Ø¥Ø´Ø§Ø±Ø§Øª Ø£Ù…Ø§Ù† Ù…Ø­Ù„ÙŠØ© Ø¥Ø¶Ø§ÙÙŠØ©."
+                          "لم ينتج الرابط إشارات أمان محلية إضافية."
                         )}
                       />
                     )}
@@ -2632,11 +2632,11 @@ export default function WebsiteSafety() {
                       {editingTrustedId
                         ? txt(
                             "Edit trusted domain",
-                            "ØªØ¹Ø¯ÙŠÙ„ Ù…ÙˆÙ‚Ø¹ Ù…ÙˆØ«ÙˆÙ‚"
+                            "تعديل موقع موثوق"
                           )
                         : txt(
                             "Add trusted domain",
-                            "Ø¥Ø¶Ø§ÙØ© Ù…ÙˆÙ‚Ø¹ Ù…ÙˆØ«ÙˆÙ‚"
+                            "إضافة موقع موثوق"
                           )}
                     </h2>
 
@@ -2650,7 +2650,7 @@ export default function WebsiteSafety() {
                     >
                       {txt(
                         "Trusted status never overrides phishing or malware warnings.",
-                        "Ø­Ø§Ù„Ø© Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚ Ù„Ø§ ØªÙ„ØºÙŠ ØªØ­Ø°ÙŠØ±Ø§Øª Ø§Ù„ØªØµÙŠØ¯ Ø£Ùˆ Ø§Ù„Ø¨Ø±Ù…Ø¬ÙŠØ§Øª Ø§Ù„Ø¶Ø§Ø±Ø©."
+                        "حالة الموقع الموثوق لا تلغي تحذيرات التصيد أو البرمجيات الضارة."
                       )}
                     </p>
                   </div>
@@ -2688,7 +2688,7 @@ export default function WebsiteSafety() {
                   <InputField
                     label={txt(
                       "Website / Brand name",
-                      "Ø§Ø³Ù… Ø§Ù„Ù…ÙˆÙ‚Ø¹"
+                      "اسم الموقع"
                     )}
                     value={
                       trustedForm.brandName
@@ -2708,7 +2708,7 @@ export default function WebsiteSafety() {
                   <InputField
                     label={txt(
                       "Domain",
-                      "Ø§Ù„Ø¯ÙˆÙ…ÙŠÙ†"
+                      "الدومين"
                     )}
                     value={
                       trustedForm.officialDomain
@@ -2728,14 +2728,14 @@ export default function WebsiteSafety() {
                   <InputField
                     label={txt(
                       "Category",
-                      "Ø§Ù„ØªØµÙ†ÙŠÙ"
+                      "التصنيف"
                     )}
                     value={
                       trustedForm.category
                     }
                     placeholder={txt(
                       "Bank, work, personal...",
-                      "Ø¨Ù†ÙƒØŒ Ø¹Ù…Ù„ØŒ Ø´Ø®ØµÙŠ..."
+                      "بنك، عمل، شخصي..."
                     )}
                     onChange={(value) =>
                       setTrustedForm(
@@ -2793,11 +2793,11 @@ export default function WebsiteSafety() {
                     {editingTrustedId
                       ? txt(
                           "Save changes",
-                          "Ø­ÙØ¸ Ø§Ù„ØªØ¹Ø¯ÙŠÙ„Ø§Øª"
+                          "حفظ التعديلات"
                         )
                       : txt(
                           "Add trusted domain",
-                          "Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ù…ÙˆÙ‚Ø¹"
+                          "إضافة الموقع"
                         )}
                   </button>
                 </form>
@@ -2824,7 +2824,7 @@ export default function WebsiteSafety() {
                     >
                       {txt(
                         "Your trusted domains",
-                        "Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚Ø©"
+                        "المواقع الموثوقة"
                       )}
                     </h2>
 
@@ -2837,7 +2837,7 @@ export default function WebsiteSafety() {
                     >
                       {txt(
                         "Only domains saved by your account appear here.",
-                        "ØªØ¸Ù‡Ø± Ù‡Ù†Ø§ ÙÙ‚Ø· Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„ØªÙŠ Ø£Ø¶ÙØªÙ‡Ø§ Ø¥Ù„Ù‰ Ø­Ø³Ø§Ø¨Ùƒ."
+                        "تظهر هنا فقط المواقع التي أضفتها إلى حسابك."
                       )}
                     </p>
                   </div>
@@ -2860,7 +2860,7 @@ export default function WebsiteSafety() {
                     "
                     title={txt(
                       "Refresh",
-                      "ØªØ­Ø¯ÙŠØ«"
+                      "تحديث"
                     )}
                   >
                     <RefreshCw
@@ -3032,7 +3032,7 @@ export default function WebsiteSafety() {
 
                               {txt(
                                 "Edit",
-                                "ØªØ¹Ø¯ÙŠÙ„"
+                                "تعديل"
                               )}
                             </button>
 
@@ -3081,7 +3081,7 @@ export default function WebsiteSafety() {
 
                               {txt(
                                 "Remove",
-                                "Ø­Ø°Ù"
+                                "حذف"
                               )}
                             </button>
                           </div>
@@ -3096,11 +3096,11 @@ export default function WebsiteSafety() {
                     }
                     title={txt(
                       "No trusted domains yet",
-                      "Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…ÙˆØ§Ù‚Ø¹ Ù…ÙˆØ«ÙˆÙ‚Ø© Ø¨Ø¹Ø¯"
+                      "لا توجد مواقع موثوقة بعد"
                     )}
                     description={txt(
                       "Add websites you recognize and regularly use.",
-                      "Ø£Ø¶Ù Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„ØªÙŠ ØªØ¹Ø±ÙÙ‡Ø§ ÙˆØªØ³ØªØ®Ø¯Ù…Ù‡Ø§ Ø¨Ø§Ø³ØªÙ…Ø±Ø§Ø±."
+                      "أضف المواقع التي تعرفها وتستخدمها باستمرار."
                     )}
                   />
                 )}
@@ -3137,7 +3137,7 @@ export default function WebsiteSafety() {
                     >
                       {txt(
                         "Website check history",
-                        "Ø³Ø¬Ù„ ÙØ­Øµ Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹"
+                        "سجل فحص المواقع"
                       )}
                     </h2>
 
@@ -3150,7 +3150,7 @@ export default function WebsiteSafety() {
                     >
                       {txt(
                         "Previous checks saved to your account.",
-                        "Ø¹Ù…Ù„ÙŠØ§Øª Ø§Ù„ÙØ­Øµ Ø§Ù„Ø³Ø§Ø¨Ù‚Ø© Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø© ÙÙŠ Ø­Ø³Ø§Ø¨Ùƒ."
+                        "عمليات الفحص السابقة المحفوظة في حسابك."
                       )}
                     </p>
                   </div>
@@ -3185,7 +3185,7 @@ export default function WebsiteSafety() {
 
                     {txt(
                       "Refresh",
-                      "ØªØ­Ø¯ÙŠØ«"
+                      "تحديث"
                     )}
                   </button>
                 </div>
@@ -3327,7 +3327,7 @@ export default function WebsiteSafety() {
                                     >
                                       {txt(
                                         "Trusted",
-                                        "Ù…ÙˆØ«ÙˆÙ‚"
+                                        "موثوق"
                                       )}
                                     </span>
                                   )}
@@ -3377,7 +3377,7 @@ export default function WebsiteSafety() {
                                   <span>
                                     {txt(
                                       "Score",
-                                      "Ø§Ù„Ø¯Ø±Ø¬Ø©"
+                                      "الدرجة"
                                     )}
                                     :{" "}
                                     {item.risk_score
@@ -3441,7 +3441,7 @@ export default function WebsiteSafety() {
 
                               {txt(
                                 "Delete",
-                                "Ø­Ø°Ù"
+                                "حذف"
                               )}
                             </button>
                           </div>
@@ -3456,11 +3456,11 @@ export default function WebsiteSafety() {
                     }
                     title={txt(
                       "No website checks yet",
-                      "Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¹Ù…Ù„ÙŠØ§Øª ÙØ­Øµ Ø¨Ø¹Ø¯"
+                      "لا توجد عمليات فحص بعد"
                     )}
                     description={txt(
                       "Your future website checks will appear here.",
-                      "Ø³ØªØ¸Ù‡Ø± Ø¹Ù…Ù„ÙŠØ§Øª ÙØ­Øµ Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ù‡Ù†Ø§ Ø¨Ø¹Ø¯ Ø§Ø³ØªØ®Ø¯Ø§Ù…Ù‡Ø§."
+                      "ستظهر عمليات فحص المواقع هنا بعد استخدامها."
                     )}
                   />
                 )}
@@ -3502,7 +3502,7 @@ export default function WebsiteSafety() {
             <p>
               {txt(
                 "Website Safety is a decision-support feature. A domain can change or become compromised after a previous check, so important links should be checked again when needed.",
-                "Ù…ÙŠØ²Ø© Ø£Ù…Ø§Ù† Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ù‡ÙŠ Ø£Ø¯Ø§Ø© Ù…Ø³Ø§Ø¹Ø¯Ø© Ù„Ø§ØªØ®Ø§Ø° Ø§Ù„Ù‚Ø±Ø§Ø±. Ù‚Ø¯ ÙŠØªØºÙŠØ± Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø£Ùˆ ÙŠØªØ¹Ø±Ø¶ Ù„Ù„Ø§Ø®ØªØ±Ø§Ù‚ Ø¨Ø¹Ø¯ ÙØ­Øµ Ø³Ø§Ø¨Ù‚ØŒ Ù„Ø°Ù„Ùƒ ÙŠÙÙØ¶Ù‘Ù„ Ø¥Ø¹Ø§Ø¯Ø© ÙØ­Øµ Ø§Ù„Ø±ÙˆØ§Ø¨Ø· Ø§Ù„Ù…Ù‡Ù…Ø© Ø¹Ù†Ø¯ Ø§Ù„Ø­Ø§Ø¬Ø©."
+                "ميزة أمان المواقع هي أداة مساعدة لاتخاذ القرار. قد يتغير الموقع أو يتعرض للاختراق بعد فحص سابق، لذلك يُفضّل إعادة فحص الروابط المهمة عند الحاجة."
               )}
             </p>
           </div>
@@ -3821,11 +3821,11 @@ function ThreatProviderCard({
             >
               {matched
                 ? isArabic
-                  ? "ØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ ØªØ·Ø§Ø¨Ù‚"
+                  ? "تم العثور على تطابق"
                   : "Threat match"
                 : clean
                   ? isArabic
-                    ? "Ù„Ø§ ÙŠÙˆØ¬Ø¯ ØªØ·Ø§Ø¨Ù‚ Ù…Ø¹Ø±ÙˆÙ"
+                    ? "لا يوجد تطابق معروف"
                     : "No known match"
                   : source.status}
             </p>

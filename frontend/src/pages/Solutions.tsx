@@ -1,4 +1,4 @@
-﻿import {
+import {
   Accessibility,
   AudioLines,
   Brain,
@@ -16,44 +16,44 @@ const solutions = [
   [
     Accessibility,
     "Blind & Low Vision",
-    "Ø§Ù„Ø¹Ù…Ù‰ ÙˆØ¶Ø¹Ù Ø§Ù„Ø¨ØµØ±",
+    "العمى وضعف البصر",
     "Voice guidance, screen-reader-friendly structure, image description, OCR, and adaptable visual presentation.",
-    "Ø¥Ø±Ø´Ø§Ø¯ ØµÙˆØªÙŠ ÙˆØ¨Ù†ÙŠØ© Ù…Ù†Ø§Ø³Ø¨Ø© Ù„Ù‚Ø§Ø±Ø¦Ø§Øª Ø§Ù„Ø´Ø§Ø´Ø© ÙˆÙˆØµÙ Ø§Ù„ØµÙˆØ± ÙˆØ§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„Ù†Øµ ÙˆØ¹Ø±Ø¶ Ø¨ØµØ±ÙŠ Ù…ØªÙƒÙŠÙ.",
+    "إرشاد صوتي وبنية مناسبة لقارئات الشاشة ووصف الصور واستخراج النص وعرض بصري متكيف.",
   ],
   [
     AudioLines,
     "Hearing & Speech",
-    "Ø§Ù„Ø³Ù…Ø¹ ÙˆØ§Ù„ÙƒÙ„Ø§Ù…",
+    "السمع والكلام",
     "Text-first alternatives, visual feedback, captions, and non-voice interaction paths.",
-    "Ø¨Ø¯Ø§Ø¦Ù„ Ù†ØµÙŠØ© ÙˆØªØºØ°ÙŠØ© Ø±Ø§Ø¬Ø¹Ø© Ù…Ø±Ø¦ÙŠØ© ÙˆØªØ³Ù…ÙŠØ§Øª ÙˆÙ…Ø³Ø§Ø±Ø§Øª ØªÙØ§Ø¹Ù„ Ù„Ø§ ØªØ¹ØªÙ…Ø¯ Ø¹Ù„Ù‰ Ø§Ù„ØµÙˆØª.",
+    "بدائل نصية وتغذية راجعة مرئية وتسميات ومسارات تفاعل لا تعتمد على الصوت.",
   ],
   [
     Brain,
     "Reading & Understanding",
-    "Ø§Ù„Ù‚Ø±Ø§Ø¡Ø© ÙˆØ§Ù„ÙÙ‡Ù…",
+    "القراءة والفهم",
     "Simplified explanations, structured content, and optional read-aloud support.",
-    "Ø´Ø±Ø­ Ù…Ø¨Ø³Ø· ÙˆÙ…Ø­ØªÙˆÙ‰ Ù…Ù†Ø¸Ù… ÙˆØ®ÙŠØ§Ø± Ø§Ù„Ù‚Ø±Ø§Ø¡Ø© Ø§Ù„ØµÙˆØªÙŠØ©.",
+    "شرح مبسط ومحتوى منظم وخيار القراءة الصوتية.",
   ],
   [
     ShieldCheck,
     "Safe Browsing",
-    "Ø§Ù„ØªØµÙØ­ Ø§Ù„Ø¢Ù…Ù†",
+    "التصفح الآمن",
     "URL safety checks, trusted domains, and community threat intelligence.",
-    "ÙØ­Øµ Ø£Ù…Ø§Ù† Ø§Ù„Ø±ÙˆØ§Ø¨Ø· ÙˆØ§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚Ø© ÙˆÙ…ØµØ§Ø¯Ø± Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„ØªÙ‡Ø¯ÙŠØ¯Ø§Øª.",
+    "فحص أمان الروابط والمواقع الموثوقة ومصادر معلومات التهديدات.",
   ],
   [
     HandHeart,
     "Caregiver Support",
-    "Ø¯Ø¹Ù… Ù…Ù‚Ø¯Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ©",
+    "دعم مقدم الرعاية",
     "Caregiver profiles, alerts, daily needs, and future Telegram-connected support flows.",
-    "Ù…Ù„ÙØ§Øª Ù…Ù‚Ø¯Ù…ÙŠ Ø§Ù„Ø±Ø¹Ø§ÙŠØ© ÙˆØ§Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª ÙˆØ§Ù„Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ø§Ù„ÙŠÙˆÙ…ÙŠØ© ÙˆØªØ¯ÙÙ‚Ø§Øª Ø§Ù„Ø¯Ø¹Ù… Ø§Ù„Ù…Ø±ØªØ¨Ø·Ø© Ø¨ØªÙ„ÙŠØ¬Ø±Ø§Ù….",
+    "ملفات مقدمي الرعاية والتنبيهات والاحتياجات اليومية وتدفقات الدعم المرتبطة بتليجرام.",
   ],
   [
     Eye,
     "Vision Intelligence",
-    "Ø°ÙƒØ§Ø¡ Ø§Ù„Ø±Ø¤ÙŠØ©",
+    "ذكاء الرؤية",
     "OCR, image description, and AI-assisted understanding of visual content.",
-    "Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„Ù†Øµ ÙˆÙˆØµÙ Ø§Ù„ØµÙˆØ± ÙˆÙÙ‡Ù… Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ø§Ù„Ù…Ø±Ø¦ÙŠ Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ.",
+    "استخراج النص ووصف الصور وفهم المحتوى المرئي بالذكاء الاصطناعي.",
   ],
 ];
 
@@ -174,7 +174,7 @@ export default function Solutions() {
               "
             >
               <Sparkles className="h-[14px] w-[14px]" />
-              {isArabic ? "Ø§Ù„Ø­Ù„ÙˆÙ„" : "Solutions"}
+              {isArabic ? "الحلول" : "Solutions"}
             </div>
 
             {/* Hero */}
@@ -191,7 +191,7 @@ export default function Solutions() {
                   xl:text-[68px]
                 "
               >
-                {isArabic ? "Ù…Ù†ØµØ© ÙˆØ§Ø­Ø¯Ø©." : "One platform."}
+                {isArabic ? "منصة واحدة." : "One platform."}
 
                 <br />
 
@@ -205,7 +205,7 @@ export default function Solutions() {
                     text-transparent
                   "
                 >
-                  {isArabic ? "Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ù…Ø®ØªÙ„ÙØ©." : "Different needs."}
+                  {isArabic ? "احتياجات مختلفة." : "Different needs."}
                 </span>
               </h1>
 
@@ -221,7 +221,7 @@ export default function Solutions() {
                 "
               >
                 {isArabic
-                  ? "ÙŠÙ…ÙƒÙ† Ù„Ù€ AccessMate Ø§Ù„Ø¬Ù…Ø¹ Ø¨ÙŠÙ† Ø£ÙƒØ«Ø± Ù…Ù† Ù†ÙˆØ¹ Ù…Ù† Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯Ø© Ø¨Ø¯Ù„ ÙØ±Ø¶ ÙˆØ¶Ø¹ ÙˆØ§Ø­Ø¯ Ø¹Ù„Ù‰ ÙƒÙ„ Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…ÙŠÙ†."
+                  ? "يمكن لـ AccessMate الجمع بين أكثر من نوع من المساعدة بدل فرض وضع واحد على كل المستخدمين."
                   : "AccessMate can combine multiple assistance modes instead of forcing every user into a single accessibility mode."}
               </p>
             </div>
@@ -380,7 +380,7 @@ export default function Solutions() {
                 "
               >
                 {isArabic
-                  ? "Ø§Ù„ÙÙƒØ±Ø© Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ© Ù‡ÙŠ Ø£Ù† ØªØªÙƒÙŠÙ Ø§Ù„Ù…Ù†ØµØ© Ù…Ø¹ Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… Ø§Ù„Ù…Ø®ØªÙ„ÙØ© Ø¯Ø§Ø®Ù„ ØªØ¬Ø±Ø¨Ø© ÙˆØ§Ø­Ø¯Ø© Ù…ØªÙ†Ø§Ø³Ù‚Ø©."
+                  ? "الفكرة الأساسية هي أن تتكيف المنصة مع احتياجات المستخدم المختلفة داخل تجربة واحدة متناسقة."
                   : "The core idea is simple: one consistent platform that adapts around different accessibility needs."}
               </p>
 

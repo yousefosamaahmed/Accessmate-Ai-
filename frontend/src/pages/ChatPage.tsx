@@ -4226,6 +4226,7 @@ const ChatPage:
 
                                   <div
                                     dir="auto"
+                                    data-no-translate="true"
                                     className="chat-assistant-markdown"
                                   >
                                     <ReactMarkdown
@@ -4283,6 +4284,7 @@ const ChatPage:
 
                                 <p
                                   dir="auto"
+                                  data-no-translate="true"
                                   className="
                                     chat-user-text
                                     whitespace-pre-wrap

@@ -1,4 +1,4 @@
-﻿import {
+import {
   AudioLines,
   BellRing,
   Eye,
@@ -17,58 +17,58 @@ const items = [
   [
     Eye,
     "Vision Support",
-    "Ø¯Ø¹Ù… Ø§Ù„Ø±Ø¤ÙŠØ©",
+    "دعم الرؤية",
     "AI image understanding, OCR, and accessible descriptions.",
-    "ÙÙ‡Ù… Ø§Ù„ØµÙˆØ± ÙˆØ§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„Ù†ØµÙˆØµ ÙˆØ§Ù„ÙˆØµÙ Ø§Ù„Ù…ØªØ§Ø­ Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ.",
+    "فهم الصور واستخراج النصوص والوصف المتاح بالذكاء الاصطناعي.",
   ],
   [
     AudioLines,
     "Voice Assistance",
-    "Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯Ø© Ø§Ù„ØµÙˆØªÙŠØ©",
+    "المساعدة الصوتية",
     "Speech input, text-to-speech, and adaptive voice guidance.",
-    "Ø¥Ø¯Ø®Ø§Ù„ ØµÙˆØªÙŠ ÙˆØªØ­ÙˆÙŠÙ„ Ø§Ù„Ù†Øµ Ø¥Ù„Ù‰ ÙƒÙ„Ø§Ù… ÙˆØ¥Ø±Ø´Ø§Ø¯ ØµÙˆØªÙŠ Ù…ØªÙƒÙŠÙ.",
+    "إدخال صوتي وتحويل النص إلى كلام وإرشاد صوتي متكيف.",
   ],
   [
     ShieldCheck,
     "Website Safety",
-    "Ø£Ù…Ø§Ù† Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹",
+    "أمان المواقع",
     "Suspicious URL checks, trusted domains, and threat intelligence.",
-    "ÙØ­Øµ Ø§Ù„Ø±ÙˆØ§Ø¨Ø· Ø§Ù„Ù…Ø´Ø¨ÙˆÙ‡Ø© ÙˆØ§Ù„Ù…ÙˆØ§Ù‚Ø¹ Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚Ø© ÙˆÙ…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„ØªÙ‡Ø¯ÙŠØ¯Ø§Øª.",
+    "فحص الروابط المشبوهة والمواقع الموثوقة ومعلومات التهديدات.",
   ],
   [
     FileText,
     "Document Intelligence",
-    "Ø°ÙƒØ§Ø¡ Ø§Ù„Ù…Ø³ØªÙ†Ø¯Ø§Øª",
+    "ذكاء المستندات",
     "Upload, understand, simplify, and ask questions about documents.",
-    "Ø§Ø±ÙØ¹ Ø§Ù„Ù…Ø³ØªÙ†Ø¯Ø§Øª ÙˆØ§ÙÙ‡Ù…Ù‡Ø§ ÙˆØ¨Ø³Ù‘Ø·Ù‡Ø§ ÙˆØ§Ø³Ø£Ù„ Ø¹Ù†Ù‡Ø§.",
+    "ارفع المستندات وافهمها وبسّطها واسأل عنها.",
   ],
   [
     BellRing,
     "Caregiver Alerts",
-    "ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ù…Ù‚Ø¯Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ©",
+    "تنبيهات مقدم الرعاية",
     "Support and emergency workflows for trusted caregivers.",
-    "Ø¥Ø´Ø¹Ø§Ø±Ø§Øª ÙˆÙ…Ù‡Ø§Ù… Ø¯Ø¹Ù… ÙˆØ·ÙˆØ§Ø±Ø¦ Ù„Ù…Ù‚Ø¯Ù…ÙŠ Ø§Ù„Ø±Ø¹Ø§ÙŠØ© Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚ÙŠÙ†.",
+    "إشعارات ومهام دعم وطوارئ لمقدمي الرعاية الموثوقين.",
   ],
   [
     Hand,
     "Sign Communication",
-    "Ø§Ù„ØªÙˆØ§ØµÙ„ Ø¨Ø§Ù„Ø¥Ø´Ø§Ø±Ø©",
+    "التواصل بالإشارة",
     "Live captions, speech playback, translation, and environmental sound awareness.",
-    "Ø£Ø³Ø§Ø³ Ù„Ø¯Ø¹Ù… Ø§Ù„ØªÙØ§Ø¹Ù„ Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù„ØºØ© Ø§Ù„Ø¥Ø´Ø§Ø±Ø©.",
+    "أساس لدعم التفاعل باستخدام لغة الإشارة.",
   ],
   [
     Languages,
     "Arabic & English",
-    "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© ÙˆØ§Ù„Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ©",
+    "العربية والإنجليزية",
     "A bilingual experience across the public interface.",
-    "ØªØ¬Ø±Ø¨Ø© Ø«Ù†Ø§Ø¦ÙŠØ© Ø§Ù„Ù„ØºØ© Ø¹Ø¨Ø± Ø§Ù„ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„Ø¹Ø§Ù…Ø©.",
+    "تجربة ثنائية اللغة عبر الواجهة العامة.",
   ],
   [
     Sparkles,
     "Adaptive Experience",
-    "ØªØ¬Ø±Ø¨Ø© Ù…ØªÙƒÙŠÙØ©",
+    "تجربة متكيفة",
     "The interface can adapt around different accessibility needs.",
-    "ÙŠÙ…ÙƒÙ† Ù„Ù„ÙˆØ§Ø¬Ù‡Ø© Ø£Ù† ØªØªÙƒÙŠÙ Ù…Ø¹ Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ø¥Ù…ÙƒØ§Ù†ÙŠØ© Ø§Ù„ÙˆØµÙˆÙ„ Ø§Ù„Ù…Ø®ØªÙ„ÙØ©.",
+    "يمكن للواجهة أن تتكيف مع احتياجات إمكانية الوصول المختلفة.",
   ],
 ];
 
@@ -189,7 +189,7 @@ export default function Features() {
               "
             >
               <Sparkles className="h-[14px] w-[14px]" />
-              {isArabic ? "Ø§Ù„Ù…Ù…ÙŠØ²Ø§Øª" : "Features"}
+              {isArabic ? "المميزات" : "Features"}
             </div>
 
             {/* Hero */}
@@ -206,7 +206,7 @@ export default function Features() {
                   xl:text-[68px]
                 "
               >
-                {isArabic ? "Ø¥Ù…ÙƒØ§Ù†ÙŠØ© Ø§Ù„ÙˆØµÙˆÙ„ØŒ" : "Accessibility,"}
+                {isArabic ? "إمكانية الوصول،" : "Accessibility,"}
 
                 <br />
 
@@ -220,7 +220,7 @@ export default function Features() {
                     text-transparent
                   "
                 >
-                  {isArabic ? "Ù…Ø¯Ù…Ø¬Ø© ÙÙŠ Ø§Ù„Ù…Ù†ØµØ©." : "built into the platform."}
+                  {isArabic ? "مدمجة في المنصة." : "built into the platform."}
                 </span>
               </h1>
 
@@ -236,8 +236,8 @@ export default function Features() {
                 "
               >
                 {isArabic
-                  ? "Ø£Ø¯ÙˆØ§Øª Ù…ØµÙ…Ù…Ø© Ù„Ø¯Ø¹Ù… Ø§Ù„Ø±Ø¤ÙŠØ© ÙˆØ§Ù„ØµÙˆØª ÙˆØ§Ù„Ù‚Ø±Ø§Ø¡Ø© ÙˆØ§Ù„Ø£Ù…Ø§Ù† ÙˆØ§Ù„ØªÙˆØ§ØµÙ„ ÙÙŠ ØªØ¬Ø±Ø¨Ø© ÙˆØ§Ø­Ø¯Ø© Ù…ØªÙ†Ø§Ø³Ù‚Ø©."
-                  : "Tools for vision, voice, reading, safety, and communication â€” designed as one consistent experience."}
+                  ? "أدوات مصممة لدعم الرؤية والصوت والقراءة والأمان والتواصل في تجربة واحدة متناسقة."
+                  : "Tools for vision, voice, reading, safety, and communication — designed as one consistent experience."}
               </p>
             </div>
 
@@ -393,7 +393,7 @@ export default function Features() {
                 "
               >
                 {isArabic
-                  ? "ØªÙ… ØªØµÙ…ÙŠÙ… ÙƒÙ„ Ø£Ø¯Ø§Ø© Ù„ØªØ¹Ù…Ù„ Ø¶Ù…Ù† ØªØ¬Ø±Ø¨Ø© Ù…ÙˆØ­Ø¯Ø© ÙˆÙˆØ§Ø¶Ø­Ø© ÙˆÙ‚Ø§Ø¨Ù„Ø© Ù„Ù„ØªÙƒÙŠÙ."
+                  ? "تم تصميم كل أداة لتعمل ضمن تجربة موحدة وواضحة وقابلة للتكيف."
                   : "Every capability is designed to work as part of one clear, consistent, and adaptive experience."}
               </p>
 

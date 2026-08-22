@@ -1,4 +1,4 @@
-﻿
+
 import {
   type ChangeEvent,
   type FormEvent,
@@ -448,17 +448,17 @@ function detectImageTaskMode(
     /\bwhat is written\b/,
     /\bwhat does (the|this) (image|photo|picture) say\b/,
     /\btranscribe (the )?(image|text)\b/,
-    /Ø§Ø³ØªØ®Ø±Ø¬ Ø§Ù„Ù†Øµ/,
-    /Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„Ù†Øµ/,
-    /Ø§Ø³ØªØ®Ø±Ø¬ Ø§Ù„ÙƒÙ„Ø§Ù…/,
-    /Ø§Ù‚Ø±Ø£ Ø§Ù„Ù†Øµ/,
-    /Ø§Ù‚Ø±Ø§ Ø§Ù„Ù†Øµ/,
-    /Ø§Ù‚Ø±Ø£ Ø§Ù„Ù…ÙƒØªÙˆØ¨/,
-    /Ø§Ù‚Ø±Ø§ Ø§Ù„Ù…ÙƒØªÙˆØ¨/,
-    /Ù…ÙƒØªÙˆØ¨ Ø§ÙŠÙ‡/,
-    /Ù…ÙƒØªÙˆØ¨ Ø¥ÙŠÙ‡/,
-    /Ø§Ù„Ù†Øµ Ø§Ù„Ù…ÙˆØ¬ÙˆØ¯/,
-    /Ø§Ù„ÙƒÙ„Ø§Ù… Ø§Ù„Ù…ÙˆØ¬ÙˆØ¯/,
+    /استخرج النص/,
+    /استخراج النص/,
+    /استخرج الكلام/,
+    /اقرأ النص/,
+    /اقرا النص/,
+    /اقرأ المكتوب/,
+    /اقرا المكتوب/,
+    /مكتوب ايه/,
+    /مكتوب إيه/,
+    /النص الموجود/,
+    /الكلام الموجود/,
   ];
 
 
@@ -467,14 +467,14 @@ function detectImageTaskMode(
     /\bdescribe (the|this) (image|photo|picture)\b/,
     /\bwhat is in (the|this) (image|photo|picture)\b/,
     /\bwhat do you see\b/,
-    /Ø§ÙˆØµÙ Ø§Ù„ØµÙˆØ±Ø©/,
-    /Ø§ÙˆØµÙ Ø§Ù„ØµÙˆØ±Ù‡/,
-    /ÙˆØµÙ Ø§Ù„ØµÙˆØ±Ø©/,
-    /ÙˆØµÙ Ø§Ù„ØµÙˆØ±Ù‡/,
-    /Ø§Ø´Ø±Ø­ Ø§Ù„ØµÙˆØ±Ø©/,
-    /Ø§Ø´Ø±Ø­ Ø§Ù„ØµÙˆØ±Ù‡/,
-    /Ø§ÙŠÙ‡ ÙÙŠ Ø§Ù„ØµÙˆØ±Ø©/,
-    /Ø§ÙŠÙ‡ ÙÙŠ Ø§Ù„ØµÙˆØ±Ù‡/,
+    /اوصف الصورة/,
+    /اوصف الصوره/,
+    /وصف الصورة/,
+    /وصف الصوره/,
+    /اشرح الصورة/,
+    /اشرح الصوره/,
+    /ايه في الصورة/,
+    /ايه في الصوره/,
   ];
 
 
@@ -482,9 +482,9 @@ function detectImageTaskMode(
     /\bexplain\b/,
     /\banaly[sz]e\b/,
     /\bunderstand\b/,
-    /Ø§Ø´Ø±Ø­/,
-    /Ø­Ù„Ù„/,
-    /ÙØ³Ø±/,
+    /اشرح/,
+    /حلل/,
+    /فسر/,
   ];
 
 
@@ -818,10 +818,10 @@ function normalizeDocumentQuestion(
     "analyse file",
     "analyze this document",
     "analyse this document",
-    "Ø­Ù„Ù„ Ø§Ù„Ù…Ù„Ù",
-    "Ø­Ù„Ù„ Ù‡Ø°Ø§ Ø§Ù„Ù…Ù„Ù",
-    "Ø­Ù„Ù„ Ø§Ù„Ù…Ø³ØªÙ†Ø¯",
-    "Ø­Ù„Ù„ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø³ØªÙ†Ø¯",
+    "حلل الملف",
+    "حلل هذا الملف",
+    "حلل المستند",
+    "حلل هذا المستند",
   ];
 
 
@@ -1043,7 +1043,7 @@ function getGreeting(
   ) {
     return language ===
       "ar"
-      ? "ØµØ¨Ø§Ø­ Ø§Ù„Ø®ÙŠØ±"
+      ? "صباح الخير"
       : "Good morning";
   }
 
@@ -1053,14 +1053,14 @@ function getGreeting(
   ) {
     return language ===
       "ar"
-      ? "Ù…Ø³Ø§Ø¡ Ø§Ù„Ø®ÙŠØ±"
+      ? "مساء الخير"
       : "Good afternoon";
   }
 
 
   return language ===
     "ar"
-    ? "Ù…Ø³Ø§Ø¡ Ø§Ù„Ø®ÙŠØ±"
+    ? "مساء الخير"
     : "Good evening";
 }
 
@@ -1448,7 +1448,7 @@ export default function Dashboard() {
 
   const heroQuestion =
     isArabicDashboard
-      ? "ÙƒÙŠÙ ÙŠÙ…ÙƒÙ†Ù†ÙŠ Ù…Ø³Ø§Ø¹Ø¯ØªÙƒØŸ"
+      ? "كيف يمكنني مساعدتك؟"
       : "How can I help you today?";
 
 
@@ -2336,7 +2336,7 @@ export default function Dashboard() {
 
 
   /* =======================================================
-     IMAGE â€” FAST DIRECT ROUTING
+     IMAGE — FAST DIRECT ROUTING
 
      - OCR request      -> /ocr/extract only
      - Describe request -> /vision/describe only
@@ -2687,7 +2687,7 @@ export default function Dashboard() {
 
 
   /* =======================================================
-     DOCUMENT ASK â€” REAL RAG / SMART SUMMARY
+     DOCUMENT ASK — REAL RAG / SMART SUMMARY
      ======================================================= */
 
   async function askDocument(
@@ -2766,15 +2766,15 @@ export default function Dashboard() {
      REAL PIPELINE:
 
      Document already uploaded by /files/upload
-          â†“
+          ↓
      /documents/me/{id}/prepare
-          â†“
+          ↓
      extract + chunk + embed
-          â†“
+          ↓
      /documents/me/{id}/ask
-          â†“
+          ↓
      mode:auto
-          â†“
+          ↓
      summary or vector RAG
      ======================================================= */
 
@@ -2824,13 +2824,13 @@ export default function Dashboard() {
      * Decide the actual user question.
      *
      * Empty prompt:
-     *   â†’ full summary
+     *   → full summary
      *
      * "Analyze this file":
-     *   â†’ full summary + analysis
+     *   → full summary + analysis
      *
      * Specific question:
-     *   â†’ sent unchanged and Smart Router chooses RAG
+     *   → sent unchanged and Smart Router chooses RAG
      */
     const question =
       normalizeDocumentQuestion(
@@ -3038,17 +3038,17 @@ export default function Dashboard() {
      SEND FROM DASHBOARD
 
      FILE:
-       â†“
+       ↓
      /files/upload
-       â†“
+       ↓
      document_id
-       â†“
+       ↓
      conversation
-       â†“
+       ↓
      user message
-       â†“
+       ↓
      navigate immediately
-       â†“
+       ↓
      background processing
      ======================================================= */
 
@@ -3173,7 +3173,7 @@ export default function Dashboard() {
 
 
       /* ---------------------------------------------------
-         FILE â†’ LIBRARY
+         FILE → LIBRARY
 
          For images this runs at the SAME TIME as Vision/OCR.
          Documents/audio keep the existing behavior.
@@ -5029,7 +5029,7 @@ export default function Dashboard() {
                                       text-[#52565F]
                                     "
                                   >
-                                    â€¢
+                                    •
                                   </span>
 
                                   <span
@@ -5296,7 +5296,7 @@ export default function Dashboard() {
                 }
                 data-voice-region={
                   isArabicDashboard
-                    ? "ØªØ±Ø­ÙŠØ¨ Ù„ÙˆØ­Ø© Ø§Ù„ØªØ­ÙƒÙ…"
+                    ? "ترحيب لوحة التحكم"
                     : "Dashboard greeting"
                 }
                 className="

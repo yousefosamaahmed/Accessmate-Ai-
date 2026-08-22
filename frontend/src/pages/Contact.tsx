@@ -1,4 +1,4 @@
-﻿import {
+import {
   Mail,
   MessageCircle,
   Send,
@@ -137,7 +137,7 @@ export default function Contact() {
                 "
               >
                 <Sparkles className="h-[14px] w-[14px]" />
-                {isArabic ? "ØªÙˆØ§ØµÙ„ Ù…Ø¹Ù†Ø§" : "Contact"}
+                {isArabic ? "تواصل معنا" : "Contact"}
               </div>
 
               <h1
@@ -154,7 +154,7 @@ export default function Contact() {
                   xl:text-[66px]
                 "
               >
-                {isArabic ? "Ø§Ø¨Ø¯Ø£ Ù…Ø­Ø§Ø¯Ø«Ø©" : "Start a conversation"}
+                {isArabic ? "ابدأ محادثة" : "Start a conversation"}
 
                 <br />
 
@@ -168,7 +168,7 @@ export default function Contact() {
                     text-transparent
                   "
                 >
-                  {isArabic ? "Ù…Ø¹Ù†Ø§." : "with us."}
+                  {isArabic ? "معنا." : "with us."}
                 </span>
               </h1>
 
@@ -184,7 +184,7 @@ export default function Contact() {
                 "
               >
                 {isArabic
-                  ? "Ù‡Ø°Ù‡ Ø§Ù„ØµÙØ­Ø© Ø¬Ø§Ù‡Ø²Ø© Ø¨ØµØ±ÙŠÙ‹Ø§ Ø§Ù„Ø¢Ù†ØŒ ÙˆÙŠÙ…ÙƒÙ† Ù„Ø§Ø­Ù‚Ù‹Ø§ Ø±Ø¨Ø· Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø¨Ø¨Ø±ÙŠØ¯ Ø£Ùˆ API ØªÙˆØ§ØµÙ„ Ø­Ù‚ÙŠÙ‚ÙŠ."
+                  ? "هذه الصفحة جاهزة بصريًا الآن، ويمكن لاحقًا ربط النموذج ببريد أو API تواصل حقيقي."
                   : "This page is visually ready now. The form can later be connected to a real email or contact API."}
               </p>
 
@@ -230,13 +230,13 @@ export default function Contact() {
                   <div>
                     <p className="text-[14px] font-semibold text-[#EDF5F8]">
                       {isArabic
-                        ? "Ø¯Ø¹Ù… ÙˆØ§Ø³ØªÙØ³Ø§Ø±Ø§Øª Ø§Ù„Ù…Ø´Ø±ÙˆØ¹"
+                        ? "دعم واستفسارات المشروع"
                         : "Project support and inquiries"}
                     </p>
 
                     <p className="mt-1 text-[11px] leading-5 text-[#81929D]">
                       {isArabic
-                        ? "Ù„Ù„Ø§Ø³ØªÙØ³Ø§Ø±Ø§Øª Ø§Ù„Ø¹Ø§Ù…Ø© ÙˆØ§Ù„Ø¯Ø¹Ù… Ø§Ù„Ù…Ø±ØªØ¨Ø· Ø¨Ø§Ù„Ù…Ù†ØµØ©."
+                        ? "للاستفسارات العامة والدعم المرتبط بالمنصة."
                         : "For general questions and product-related support."}
                     </p>
                   </div>
@@ -283,13 +283,13 @@ export default function Contact() {
                   <div>
                     <p className="text-[14px] font-semibold text-[#EDF5F8]">
                       {isArabic
-                        ? "Ø§Ù„Ø´Ø±Ø§ÙƒØ§Øª ÙˆØ§Ù„ØªØ¹Ø§ÙˆÙ†"
+                        ? "الشراكات والتعاون"
                         : "Partnerships and collaboration"}
                     </p>
 
                     <p className="mt-1 text-[11px] leading-5 text-[#81929D]">
                       {isArabic
-                        ? "Ù„Ù„ØªØ¹Ø§ÙˆÙ† ÙˆØ§Ù„Ø´Ø±Ø§ÙƒØ§Øª ÙˆÙØ±Øµ ØªØ·ÙˆÙŠØ± AccessMate AI."
+                        ? "للتعاون والشراكات وفرص تطوير AccessMate AI."
                         : "For partnerships, collaboration, and opportunities to grow AccessMate AI."}
                     </p>
                   </div>
@@ -339,7 +339,7 @@ export default function Contact() {
                       text-[#00D9F5]
                     "
                   >
-                    {isArabic ? "Ø£Ø±Ø³Ù„ Ø±Ø³Ø§Ù„Ø©" : "Send a message"}
+                    {isArabic ? "أرسل رسالة" : "Send a message"}
                   </p>
 
                   <h2
@@ -353,7 +353,7 @@ export default function Contact() {
                     "
                   >
                     {isArabic
-                      ? "ÙƒÙŠÙ ÙŠÙ…ÙƒÙ†Ù†Ø§ Ù…Ø³Ø§Ø¹Ø¯ØªÙƒØŸ"
+                      ? "كيف يمكننا مساعدتك؟"
                       : "How can we help?"}
                   </h2>
 
@@ -366,7 +366,7 @@ export default function Contact() {
                     "
                   >
                     {isArabic
-                      ? "Ø§Ù…Ù„Ø£ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ÙˆØ³Ø¬Ù„ Ø±Ø³Ø§Ù„ØªÙƒØŒ ÙˆØ³ÙŠØ¸Ù„ Ù…Ù†Ø·Ù‚ Ø§Ù„Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø­Ø§Ù„ÙŠ ÙƒÙ…Ø§ Ù‡Ùˆ."
+                      ? "املأ البيانات وسجل رسالتك، وسيظل منطق الإرسال الحالي كما هو."
                       : "Fill in the details below and submit your message using the current form flow."}
                   </p>
                 </div>
@@ -382,7 +382,7 @@ export default function Contact() {
                         text-[#A7B4BC]
                       "
                     >
-                      {isArabic ? "Ø§Ù„Ø§Ø³Ù…" : "Name"}
+                      {isArabic ? "الاسم" : "Name"}
                     </span>
 
                     <input
@@ -417,7 +417,7 @@ export default function Contact() {
                         text-[#A7B4BC]
                       "
                     >
-                      {isArabic ? "Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ" : "Email"}
+                      {isArabic ? "البريد الإلكتروني" : "Email"}
                     </span>
 
                     <input
@@ -454,7 +454,7 @@ export default function Contact() {
                       text-[#A7B4BC]
                     "
                   >
-                    {isArabic ? "Ø§Ù„Ø±Ø³Ø§Ù„Ø©" : "Message"}
+                    {isArabic ? "الرسالة" : "Message"}
                   </span>
 
                   <textarea
@@ -498,7 +498,7 @@ export default function Contact() {
                     "
                   >
                     {isArabic
-                      ? "ØªÙ… ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø±Ø³Ø§Ù„Ø© ÙÙŠ Ø§Ù„ÙˆØ§Ø¬Ù‡Ø©. Ù†Ø±Ø¨Ø· Ø§Ù„Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ Ù„Ø§Ø­Ù‚Ù‹Ø§."
+                      ? "تم تسجيل الرسالة في الواجهة. نربط الإرسال الحقيقي لاحقًا."
                       : "The form UI has accepted the message. We can connect real delivery later."}
                   </div>
                 )}
@@ -542,7 +542,7 @@ export default function Contact() {
                     "
                   />
 
-                  {isArabic ? "Ø¥Ø±Ø³Ø§Ù„" : "Send Message"}
+                  {isArabic ? "إرسال" : "Send Message"}
                 </button>
               </div>
             </form>

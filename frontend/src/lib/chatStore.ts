@@ -3,7 +3,7 @@ import type { ChatSession } from '../types/chat';
 
 const CHATS_KEY = "accessmate_chats";
 
-// ÙŠÙ…ÙƒÙ† Ø§Ø³ØªØ®Ø¯Ø§Ù…Ù‡Ø§ ÙƒÙ€ ÙƒØ§Ø´ Ø£Ùˆ Fallback
+// يمكن استخدامها كـ كاش أو Fallback
 export function loadChats(): ChatSession[] {
   try {
     const raw = localStorage.getItem(CHATS_KEY);

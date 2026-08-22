@@ -1,9 +1,9 @@
-﻿// src/lib/chatUtils.ts
-import type { ChatSession } from '../types/chat'; // ØªØ£ÙƒØ¯ Ù…Ù† ØªØµØ¯ÙŠØ± Ø§Ù„Ù€ Type Ù…Ù† Dashboard Ø£Ùˆ Ø¶Ø¹Ù‡ Ù‡Ù†Ø§
+// src/lib/chatUtils.ts
+import type { ChatSession } from '../types/chat'; // تأكد من تصدير الـ Type من Dashboard أو ضعه هنا
 
 const CHATS_KEY = "accessmate_chats";
 
-// Ø¯Ø§Ù„Ø© Ù„Ù‚Ø±Ø§Ø¡Ø© Ø§Ù„Ø´Ø§ØªØ§Øª
+// دالة لقراءة الشاتات
 export function loadChats(): ChatSession[] {
   try {
     const raw = localStorage.getItem(CHATS_KEY);
@@ -15,7 +15,7 @@ export function loadChats(): ChatSession[] {
   }
 }
 
-// Ø§Ù„Ø¯Ø§Ù„Ø© Ø§Ù„Ø³Ø­Ø±ÙŠØ©: ØªÙ‚ÙˆÙ… Ø¨Ø§Ù„ØªØ­Ø¯ÙŠØ«ØŒ Ø§Ù„Ø­ÙØ¸ØŒ ÙˆØ¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø¥Ø´Ø§Ø±Ø©
+// الدالة السحرية: تقوم بالتحديث، الحفظ، وإرسال الإشارة
 export function updateChatArchiveStatus(chatId: string, archived: boolean) {
   const currentChats = loadChats();
 
@@ -29,16 +29,16 @@ export function updateChatArchiveStatus(chatId: string, archived: boolean) {
       : chat
   );
 
-  // 1. ØªØ­Ø¯ÙŠØ« Ø§Ù„Ù€ LocalStorage
+  // 1. تحديث الـ LocalStorage
   localStorage.setItem(CHATS_KEY, JSON.stringify(nextChats));
 
-  // 2. Ø¥Ø±Ø³Ø§Ù„ Ø¥Ø´Ø§Ø±Ø© Ù„ÙƒÙ„ Ø§Ù„Ù…ÙƒÙˆÙ†Ø§Øª Ø§Ù„Ù…Ø´ØªØ±ÙƒØ© (Ø­ØªÙ‰ ÙŠØªÙ… Ø§Ù„ØªØ­Ø¯ÙŠØ« ÙÙˆØ±Ø§Ù‹)
+  // 2. إرسال إشارة لكل المكونات المشتركة (حتى يتم التحديث فوراً)
   window.dispatchEvent(new Event("accessmate-chats-updated"));
 
-  return nextChats; // Ù†Ø±Ø¬Ø¹ Ø§Ù„Ù…ØµÙÙˆÙØ© Ø§Ù„Ø¬Ø¯ÙŠØ¯Ø© Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù…Ù‡Ø§ ÙÙŠ Ø§Ù„Ù€ setState Ø§Ù„Ù…Ø­Ù„ÙŠ
+  return nextChats; // نرجع المصفوفة الجديدة لاستخدامها في الـ setState المحلي
 }
 
-// Ø¯Ø§Ù„Ø© Ø§Ù„Ø­Ø°Ù (Ù…Ø¹ Ø§Ù„ØªØ£ÙƒÙŠØ¯)
+// دالة الحذف (مع التأكيد)
 export function deleteChatPermanently(chatId: string): boolean {
   if (!window.confirm("Are you sure you want to permanently delete this chat?")) {
     return false;

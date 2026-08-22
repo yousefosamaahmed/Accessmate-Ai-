@@ -1,4 +1,4 @@
-﻿import {
+import {
   HandHeart,
   ShieldCheck,
   Sparkles,
@@ -12,29 +12,29 @@ const values = [
   {
     icon: Sparkles,
     en: "Adaptive by design",
-    ar: "Ù…ØªÙƒÙŠÙ Ù…Ù† Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©",
+    ar: "متكيف من البداية",
     textEn:
       "Accessibility is built into the experience from the first interaction.",
     textAr:
-      "Ø¥Ù…ÙƒØ§Ù†ÙŠØ© Ø§Ù„ÙˆØµÙˆÙ„ Ø¬Ø²Ø¡ Ø£Ø³Ø§Ø³ÙŠ Ù…Ù† Ø§Ù„ØªØ¬Ø±Ø¨Ø© Ù…Ù†Ø° Ø£ÙˆÙ„ ØªÙØ§Ø¹Ù„.",
+      "إمكانية الوصول جزء أساسي من التجربة منذ أول تفاعل.",
   },
   {
     icon: ShieldCheck,
     en: "Safety-aware",
-    ar: "ÙŠØ±Ø§Ø¹ÙŠ Ø§Ù„Ø£Ù…Ø§Ù†",
+    ar: "يراعي الأمان",
     textEn:
       "Useful assistance should be dependable, clear, and designed with safety in mind.",
     textAr:
-      "Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯Ø© Ø§Ù„ÙØ¹Ø§Ù„Ø© ÙŠØ¬Ø¨ Ø£Ù† ØªÙƒÙˆÙ† Ù…ÙˆØ«ÙˆÙ‚Ø© ÙˆÙˆØ§Ø¶Ø­Ø© ÙˆÙ…ØµÙ…Ù…Ø© Ù…Ø¹ Ù…Ø±Ø§Ø¹Ø§Ø© Ø§Ù„Ø£Ù…Ø§Ù†.",
+      "المساعدة الفعالة يجب أن تكون موثوقة وواضحة ومصممة مع مراعاة الأمان.",
   },
   {
     icon: HandHeart,
     en: "Human-centered",
-    ar: "Ù…ØªÙ…Ø­ÙˆØ± Ø­ÙˆÙ„ Ø§Ù„Ø¥Ù†Ø³Ø§Ù†",
+    ar: "متمحور حول الإنسان",
     textEn:
       "Technology should reduce friction and adapt around real human needs.",
     textAr:
-      "ÙŠØ¬Ø¨ Ø£Ù† ØªÙ‚Ù„Ù„ Ø§Ù„ØªÙƒÙ†ÙˆÙ„ÙˆØ¬ÙŠØ§ Ø§Ù„ØªØ¹Ù‚ÙŠØ¯ ÙˆØ£Ù† ØªØªÙƒÙŠÙ Ù…Ø¹ Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ø§Ù„Ø¥Ù†Ø³Ø§Ù† Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠØ©.",
+      "يجب أن تقلل التكنولوجيا التعقيد وأن تتكيف مع احتياجات الإنسان الحقيقية.",
   },
 ];
 
@@ -156,7 +156,7 @@ export default function About() {
             >
               <Sparkles className="h-[14px] w-[14px]" />
 
-              {isArabic ? "Ù…Ù† Ù†Ø­Ù†" : "About AccessMate"}
+              {isArabic ? "من نحن" : "About AccessMate"}
             </div>
 
             {/* Heading */}
@@ -174,7 +174,7 @@ export default function About() {
                 "
               >
                 {isArabic
-                  ? "ÙŠØ¬Ø¨ Ø£Ù† ØªØªÙƒÙŠÙ Ø§Ù„ØªÙƒÙ†ÙˆÙ„ÙˆØ¬ÙŠØ§ Ù…Ø¹"
+                  ? "يجب أن تتكيف التكنولوجيا مع"
                   : "Technology should adapt to"}
 
                 <br />
@@ -189,7 +189,7 @@ export default function About() {
                     text-transparent
                   "
                 >
-                  {isArabic ? "Ø§Ù„Ø¥Ù†Ø³Ø§Ù†ØŒ Ù„Ø§ Ø§Ù„Ø¹ÙƒØ³." : "people, not the other way around."}
+                  {isArabic ? "الإنسان، لا العكس." : "people, not the other way around."}
                 </span>
               </h1>
 
@@ -205,7 +205,7 @@ export default function About() {
                 "
               >
                 {isArabic
-                  ? "AccessMate AI ÙŠØ¨Ù†ÙŠ ØªØ¬Ø±Ø¨Ø© Ø±Ù‚Ù…ÙŠØ© Ø£ÙƒØ«Ø± Ø´Ù…ÙˆÙ„Ù‹Ø§ Ù…Ù† Ø®Ù„Ø§Ù„ Ø£Ø¯ÙˆØ§Øª Ø°ÙƒÙŠØ© ØªØªÙƒÙŠÙ Ù…Ø¹ Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…ØŒ Ø¨Ø¯Ù„Ù‹Ø§ Ù…Ù† Ø¥Ø¬Ø¨Ø§Ø±Ù‡ Ø¹Ù„Ù‰ Ø§Ù„ØªÙƒÙŠÙ Ù…Ø¹ Ø§Ù„ØªÙ‚Ù†ÙŠØ©."
+                  ? "AccessMate AI يبني تجربة رقمية أكثر شمولًا من خلال أدوات ذكية تتكيف مع احتياجات المستخدم، بدلًا من إجباره على التكيف مع التقنية."
                   : "AccessMate AI creates a more inclusive digital experience through intelligent tools that adapt around the user instead of forcing the user to adapt to technology."}
               </p>
             </div>
@@ -260,7 +260,7 @@ export default function About() {
                       text-[#00D9F5]
                     "
                   >
-                    {isArabic ? "Ø±Ø¤ÙŠØªÙ†Ø§" : "Our Vision"}
+                    {isArabic ? "رؤيتنا" : "Our Vision"}
                   </p>
 
                   <h2
@@ -276,7 +276,7 @@ export default function About() {
                     "
                   >
                     {isArabic
-                      ? "ØªØ¬Ø±Ø¨Ø© ÙˆØ§Ø­Ø¯Ø© ØªØ¬Ù…Ø¹ Ø£Ø¯ÙˆØ§Øª Ø§Ù„ÙˆØµÙˆÙ„ Ø§Ù„Ø°ÙƒÙŠØ© Ø­ÙˆÙ„ Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…."
+                      ? "تجربة واحدة تجمع أدوات الوصول الذكية حول احتياجات المستخدم."
                       : "One adaptive experience that brings intelligent accessibility tools around the user."}
                   </h2>
 
@@ -303,7 +303,7 @@ export default function About() {
                     "
                   >
                     {isArabic
-                      ? "AccessMate AI Ù…Ù†ØµØ© Ù…Ø³Ø§Ø¹Ø¯Ø© Ù…ØªÙƒÙŠÙØ© ØªÙ‡Ø¯Ù Ø¥Ù„Ù‰ Ø¬Ù…Ø¹ Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù‚Ø±Ø§Ø¡Ø© ÙˆØ§Ù„Ø±Ø¤ÙŠØ© ÙˆØ§Ù„ØµÙˆØª ÙˆØ§Ù„Ø£Ù…Ø§Ù† ÙˆØ§Ù„ØªÙˆØ§ØµÙ„ ÙÙŠ ØªØ¬Ø±Ø¨Ø© ÙˆØ§Ø­Ø¯Ø© ÙŠÙ…ÙƒÙ† ØªØ®ØµÙŠØµÙ‡Ø§ Ø­Ø³Ø¨ Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…."
+                      ? "AccessMate AI منصة مساعدة متكيفة تهدف إلى جمع أدوات القراءة والرؤية والصوت والأمان والتواصل في تجربة واحدة يمكن تخصيصها حسب احتياجات المستخدم."
                       : "AccessMate AI is an adaptive assistance platform designed to bring reading, vision, voice, safety, and communication tools into one experience that can be tailored around the user."}
                   </p>
 
@@ -318,7 +318,7 @@ export default function About() {
                     "
                   >
                     {isArabic
-                      ? "Ø§Ù„ÙÙƒØ±Ø© Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ© Ù„ÙŠØ³Øª Ø¥Ø¶Ø§ÙØ© Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª ÙˆØµÙˆÙ„ Ø´ÙƒÙ„ÙŠØ©ØŒ Ø¨Ù„ Ø¬Ø¹Ù„ Ø¥Ù…ÙƒØ§Ù†ÙŠØ© Ø§Ù„ÙˆØµÙˆÙ„ Ø¬Ø²Ø¡Ù‹Ø§ Ù…Ù† Ø¨Ù†ÙŠØ© Ø§Ù„Ù…Ù†ØªØ¬ Ù…Ù† Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©."
+                      ? "الفكرة الأساسية ليست إضافة إعدادات وصول شكلية، بل جعل إمكانية الوصول جزءًا من بنية المنتج من البداية."
                       : "The goal is not to bolt accessibility settings onto the product. Accessibility is intended to be part of the product architecture from the start."}
                   </p>
                 </div>
@@ -429,8 +429,8 @@ export default function About() {
                 "
               >
                 {isArabic
-                  ? "AccessMate AI â€” ØªØ¬Ø±Ø¨Ø© ÙˆØµÙˆÙ„ Ù…Ø¯Ø¹ÙˆÙ…Ø© Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠØŒ Ù…ØµÙ…Ù…Ø© Ù„ØªÙƒÙˆÙ† Ø£ÙƒØ«Ø± Ø¨Ø³Ø§Ø·Ø© ÙˆØ£Ù…Ø§Ù†Ù‹Ø§ ÙˆØ´Ù…ÙˆÙ„Ù‹Ø§."
-                  : "AccessMate AI â€” AI-powered accessibility designed to be simpler, safer, and more inclusive."}
+                  ? "AccessMate AI — تجربة وصول مدعومة بالذكاء الاصطناعي، مصممة لتكون أكثر بساطة وأمانًا وشمولًا."
+                  : "AccessMate AI — AI-powered accessibility designed to be simpler, safer, and more inclusive."}
               </p>
 
               <span

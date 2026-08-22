@@ -3736,7 +3736,13 @@ export default function HearingAssistant() {
                       }
                     `}
                   >
-                    {currentCaption}
+                    {(interimCaption || captions.length > 0) ? (
+                      <span data-no-translate="true">
+                        {currentCaption}
+                      </span>
+                    ) : (
+                      currentCaption
+                    )}
                   </div>
 
                   {(
@@ -3764,16 +3770,15 @@ export default function HearingAssistant() {
                         text-[#77DDFE]
                       "
                     >
-                      {latestFinal
-                        .translating
-                        ? "Translating…"
-                        : latestFinal
-                            .translationError
-                        ? "Translation unavailable"
-                        : latestFinal
-                            .translation
-                        ||
-                        ""}
+                      {latestFinal.translating ? (
+                        "Translating…"
+                      ) : latestFinal.translationError ? (
+                        "Translation unavailable"
+                      ) : (
+                        <span data-no-translate="true">
+                          {latestFinal.translation || ""}
+                        </span>
+                      )}
                     </div>
                   )}
 
@@ -4688,6 +4693,7 @@ export default function HearingAssistant() {
                             "
                           >
                             <p
+                              data-no-translate="true"
                               dir={
                                 language ===
                                   "ar"
@@ -4705,6 +4711,7 @@ export default function HearingAssistant() {
 
                             {item.translation && (
                               <p
+                                data-no-translate="true"
                                 dir={
                                   translationTarget ===
                                     "ar"

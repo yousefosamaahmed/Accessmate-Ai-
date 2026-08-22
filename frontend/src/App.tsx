@@ -12,6 +12,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import AppLayout from "./components/AppLayout";
+import GlobalLanguageController from "./components/GlobalLanguageController";
 
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
@@ -40,6 +41,7 @@ function App() {
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
+          <GlobalLanguageController />
           <div
             className="accessmate-global-app"
             style={{

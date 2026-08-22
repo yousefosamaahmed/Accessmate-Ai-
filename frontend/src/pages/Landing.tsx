@@ -1,4 +1,4 @@
-﻿import { useEffect } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -23,19 +23,19 @@ const stats = [
   {
     value: "10+",
     en: "Smart Features",
-    ar: "Ù…ÙŠØ²Ø© Ø°ÙƒÙŠØ©",
+    ar: "ميزة ذكية",
     icon: Sparkles,
   },
   {
     value: "AR / EN",
     en: "Bilingual Support",
-    ar: "Ø¯Ø¹Ù… Ù„ØºØªÙŠÙ†",
+    ar: "دعم لغتين",
     icon: Languages,
   },
   {
     value: "100%",
     en: "Accessible",
-    ar: "Ù‚Ø§Ø¨Ù„ Ù„Ù„ÙˆØµÙˆÙ„",
+    ar: "قابل للوصول",
     icon: ShieldCheck,
   },
 ];
@@ -43,30 +43,30 @@ const stats = [
 const featureCards = [
   {
     titleEn: "Vision Support",
-    titleAr: "Ø¯Ø¹Ù… Ø§Ù„Ø±Ø¤ÙŠØ©",
+    titleAr: "دعم الرؤية",
     textEn: "Understand the world with AI and live assist.",
-    textAr: "Ø§ÙÙ‡Ù… Ø§Ù„Ø¹Ø§Ù„Ù… Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ ÙˆØ§Ù„Ù…Ø³Ø§Ø¹Ø¯Ø© Ø§Ù„Ø°ÙƒÙŠØ©.",
+    textAr: "افهم العالم باستخدام الذكاء الاصطناعي والمساعدة الذكية.",
     icon: Eye,
   },
   {
     titleEn: "Voice Assistant",
-    titleAr: "Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯ Ø§Ù„ØµÙˆØªÙŠ",
+    titleAr: "المساعد الصوتي",
     textEn: "Speak, listen & get instant help.",
-    textAr: "ØªØ­Ø¯Ø« ÙˆØ§Ø³ØªÙ…Ø¹ ÙˆØ§Ø­ØµÙ„ Ø¹Ù„Ù‰ Ù…Ø³Ø§Ø¹Ø¯Ø© ÙÙˆØ±ÙŠØ©.",
+    textAr: "تحدث واستمع واحصل على مساعدة فورية.",
     icon: AudioLines,
   },
   {
     titleEn: "Web Safety",
-    titleAr: "Ø£Ù…Ø§Ù† Ø§Ù„Ù…ÙˆØ§Ù‚Ø¹",
+    titleAr: "أمان المواقع",
     textEn: "Browse safely with AI-powered protection.",
-    textAr: "ØªØµÙØ­ Ø¨Ø£Ù…Ø§Ù† Ù…Ø¹ Ø­Ù…Ø§ÙŠØ© Ù…Ø¯Ø¹ÙˆÙ…Ø© Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ.",
+    textAr: "تصفح بأمان مع حماية مدعومة بالذكاء الاصطناعي.",
     icon: ShieldCheck,
   },
   {
     titleEn: "Caregiver Alerts",
-    titleAr: "ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ù…Ù‚Ø¯Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ©",
+    titleAr: "تنبيهات مقدم الرعاية",
     textEn: "Real-time alerts to keep you safe.",
-    textAr: "ØªÙ†Ø¨ÙŠÙ‡Ø§Øª ÙÙˆØ±ÙŠØ© Ù„Ù…Ù‚Ø¯Ù…ÙŠ Ø§Ù„Ø±Ø¹Ø§ÙŠØ© Ù„Ù„Ø­ÙØ§Ø¸ Ø¹Ù„Ù‰ Ø³Ù„Ø§Ù…ØªÙƒ.",
+    textAr: "تنبيهات فورية لمقدمي الرعاية للحفاظ على سلامتك.",
     icon: BellRing,
   },
 ];
@@ -84,7 +84,7 @@ export default function Landing() {
 
     const utterance = new SpeechSynthesisUtterance(
       isArabic
-        ? "Ù…Ø±Ø­Ø¨Ù‹Ø§ Ø¨Ùƒ ÙÙŠ Ø£ÙƒØ³Ø³ Ù…ÙŠØª. Ø¥Ù…ÙƒØ§Ù†ÙŠØ© ÙˆØµÙˆÙ„ Ø¨Ù„Ø§ Ø­Ø¯ÙˆØ¯."
+        ? "مرحبًا بك في أكسس ميت. إمكانية وصول بلا حدود."
         : "Welcome to AccessMate AI. Accessibility without limits."
     );
 
@@ -250,7 +250,7 @@ export default function Landing() {
                 <Sparkles className="h-[15px] w-[15px]" />
 
                 {isArabic
-                  ? "Ø¥Ù…ÙƒØ§Ù†ÙŠØ© ÙˆØµÙˆÙ„ Ù…Ø¯Ø¹ÙˆÙ…Ø© Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ"
+                  ? "إمكانية وصول مدعومة بالذكاء الاصطناعي"
                   : "AI Powered Accessibility"}
               </div>
 
@@ -266,7 +266,7 @@ export default function Landing() {
                   lg:text-[clamp(52px,5.2vw,74px)]
                 "
               >
-                {isArabic ? "Ø¥Ù…ÙƒØ§Ù†ÙŠØ© ÙˆØµÙˆÙ„" : "Accessibility"}
+                {isArabic ? "إمكانية وصول" : "Accessibility"}
 
                 <br />
 
@@ -283,7 +283,7 @@ export default function Landing() {
                     textShadow: "0 0 30px rgba(0,195,235,0.10)",
                   }}
                 >
-                  {isArabic ? "Ø¨Ù„Ø§ Ø­Ø¯ÙˆØ¯" : "Without Limits"}
+                  {isArabic ? "بلا حدود" : "Without Limits"}
                 </span>
               </h1>
 
@@ -300,8 +300,8 @@ export default function Landing() {
                 "
               >
                 {isArabic
-                  ? "ÙŠØªÙƒÙŠÙ AccessMate AI Ù…Ø¹Ùƒ Ù„ÙŠØ¬Ø¹Ù„ Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª ÙˆØ§Ù„ØªÙˆØ§ØµÙ„ ÙˆØ§Ù„Ø¹Ø§Ù„Ù… Ø§Ù„Ø±Ù‚Ù…ÙŠ Ø£ÙƒØ«Ø± Ø¨Ø³Ø§Ø·Ø© ÙˆØ£Ù…Ø§Ù†Ù‹Ø§ ÙˆØ´Ù…ÙˆÙ„Ù‹Ø§."
-                  : "AccessMate AI adapts to you â€” making information, communication, and the digital world simple, safe, and inclusive."}
+                  ? "يتكيف AccessMate AI معك ليجعل المعلومات والتواصل والعالم الرقمي أكثر بساطة وأمانًا وشمولًا."
+                  : "AccessMate AI adapts to you — making information, communication, and the digital world simple, safe, and inclusive."}
               </p>
 
               <div
@@ -410,7 +410,7 @@ export default function Landing() {
                     active:translate-y-0
                   "
                 >
-                  {isArabic ? "ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„" : "Login"}
+                  {isArabic ? "تسجيل الدخول" : "Login"}
 
                   <ArrowRight
                     className={`
@@ -452,7 +452,7 @@ export default function Landing() {
                 >
                   <UserPlus className="h-[15px] w-[15px] text-[#00D9F5]" />
 
-                  {isArabic ? "Ø¥Ù†Ø´Ø§Ø¡ Ø­Ø³Ø§Ø¨" : "Create Account"}
+                  {isArabic ? "إنشاء حساب" : "Create Account"}
 
                   <ArrowRight
                     className={`
@@ -495,7 +495,7 @@ export default function Landing() {
                 >
                   <Handshake className="h-[15px] w-[15px] text-[#00D9F5]" />
 
-                  {isArabic ? "ÙƒÙ† Ø´Ø±ÙŠÙƒÙ‹Ø§ Ù…Ø¹Ù†Ø§" : "Partner With Us"}
+                  {isArabic ? "كن شريكًا معنا" : "Partner With Us"}
 
                   <ArrowRight
                     className={`
@@ -699,7 +699,7 @@ export default function Landing() {
                       drop-shadow-[0_0_14px_rgba(0,217,245,0.25)]
                     "
                   >
-                    â€œ
+                    “
                   </div>
 
                   <div>
@@ -713,8 +713,8 @@ export default function Landing() {
                       "
                     >
                       {isArabic
-                        ? "Â«ÙŠØ¬Ø¨ Ø£Ù† ØªØªÙƒÙŠÙ Ø§Ù„ØªÙƒÙ†ÙˆÙ„ÙˆØ¬ÙŠØ§ Ù…Ø¹ Ø§Ù„Ù†Ø§Ø³ØŒ ÙˆÙ„ÙŠØ³ Ø§Ù„Ø¹ÙƒØ³.Â»"
-                        : "â€œTechnology should adapt to people, not the other way around.â€"}
+                        ? "«يجب أن تتكيف التكنولوجيا مع الناس، وليس العكس.»"
+                        : "“Technology should adapt to people, not the other way around.”"}
                     </p>
 
                     <p

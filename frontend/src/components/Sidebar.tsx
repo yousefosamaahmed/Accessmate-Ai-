@@ -1,6 +1,7 @@
 // src/components/Sidebar.tsx
 
 import React, {
+  useEffect,
   useState,
 } from "react";
 
@@ -44,12 +45,20 @@ interface SidebarProps {
 }
 
 
+type UiLanguage =
+  | "en"
+  | "ar";
+
+
 /* =========================================================
    STORAGE
    ========================================================= */
 
 const SIDEBAR_COLLAPSED_KEY =
   "accessmate_sidebar_collapsed";
+
+const LANGUAGE_KEY =
+  "accessmate_language";
 
 
 /* =========================================================
@@ -86,6 +95,114 @@ function saveSidebarCollapsed(
 }
 
 
+function normalizeLanguage(
+  value: unknown
+):
+  | UiLanguage
+  | null {
+  if (
+    value ===
+      "ar" ||
+    value ===
+      "en"
+  ) {
+    return value;
+  }
+
+
+  if (
+    value &&
+    typeof value ===
+      "object"
+  ) {
+    const data =
+      value as {
+        language?: unknown;
+        preferredLanguage?: unknown;
+        lang?: unknown;
+      };
+
+
+    if (
+      data.language ===
+        "ar" ||
+      data.language ===
+        "en"
+    ) {
+      return data.language;
+    }
+
+
+    if (
+      data.preferredLanguage ===
+        "ar" ||
+      data.preferredLanguage ===
+        "en"
+    ) {
+      return data.preferredLanguage;
+    }
+
+
+    if (
+      data.lang ===
+        "ar" ||
+      data.lang ===
+        "en"
+    ) {
+      return data.lang;
+    }
+  }
+
+
+  return null;
+}
+
+
+function getInitialLanguage():
+  UiLanguage {
+  try {
+    const stored =
+      localStorage.getItem(
+        LANGUAGE_KEY
+      );
+
+
+    if (
+      stored ===
+      "ar"
+    ) {
+      return "ar";
+    }
+
+
+    if (
+      stored ===
+      "en"
+    ) {
+      return "en";
+    }
+  } catch {
+    // Ignore localStorage failures.
+  }
+
+
+  if (
+    typeof document !==
+      "undefined" &&
+    document.documentElement.lang
+      .toLowerCase()
+      .startsWith(
+        "ar"
+      )
+  ) {
+    return "ar";
+  }
+
+
+  return "en";
+}
+
+
 /* =========================================================
    COMPONENT
    ========================================================= */
@@ -109,6 +226,189 @@ export const Sidebar:
       useState(
         getInitialSidebarCollapsed
       );
+
+
+    const [
+      language,
+      setLanguage,
+    ] =
+      useState<UiLanguage>(
+        getInitialLanguage
+      );
+
+
+    const isArabic =
+      language ===
+      "ar";
+
+
+    function txt(
+      en: string,
+      ar: string
+    ) {
+      return isArabic
+        ? ar
+        : en;
+    }
+
+
+    /* =====================================================
+       LANGUAGE SYNC
+       ===================================================== */
+
+    useEffect(
+      () => {
+        function syncLanguage(
+          explicitLanguage?:
+            unknown
+        ) {
+          const fromEvent =
+            normalizeLanguage(
+              explicitLanguage
+            );
+
+
+          if (
+            fromEvent
+          ) {
+            setLanguage(
+              fromEvent
+            );
+
+            return;
+          }
+
+
+          try {
+            const stored =
+              normalizeLanguage(
+                localStorage.getItem(
+                  LANGUAGE_KEY
+                )
+              );
+
+
+            if (
+              stored
+            ) {
+              setLanguage(
+                stored
+              );
+
+              return;
+            }
+          } catch {
+            // Ignore storage failures.
+          }
+
+
+          if (
+            document.documentElement.lang
+              .toLowerCase()
+              .startsWith(
+                "ar"
+              )
+          ) {
+            setLanguage(
+              "ar"
+            );
+
+            return;
+          }
+
+
+          setLanguage(
+            "en"
+          );
+        }
+
+
+        function handleLanguageEvent(
+          event: Event
+        ) {
+          const customEvent =
+            event as
+              CustomEvent<unknown>;
+
+
+          syncLanguage(
+            customEvent.detail
+          );
+        }
+
+
+        function handleStorage(
+          event:
+            StorageEvent
+        ) {
+          if (
+            event.key ===
+            LANGUAGE_KEY
+          ) {
+            syncLanguage(
+              event.newValue
+            );
+          }
+        }
+
+
+        window.addEventListener(
+          "accessmate-public-language-change",
+          handleLanguageEvent
+        );
+
+
+        window.addEventListener(
+          "accessmate-language-change",
+          handleLanguageEvent
+        );
+
+
+        window.addEventListener(
+          "accessmate-settings-updated",
+          handleLanguageEvent
+        );
+
+
+        window.addEventListener(
+          "storage",
+          handleStorage
+        );
+
+
+        /*
+         * Initial synchronization.
+         */
+        syncLanguage();
+
+
+        return () => {
+          window.removeEventListener(
+            "accessmate-public-language-change",
+            handleLanguageEvent
+          );
+
+
+          window.removeEventListener(
+            "accessmate-language-change",
+            handleLanguageEvent
+          );
+
+
+          window.removeEventListener(
+            "accessmate-settings-updated",
+            handleLanguageEvent
+          );
+
+
+          window.removeEventListener(
+            "storage",
+            handleStorage
+          );
+        };
+      },
+      []
+    );
 
 
     /* =====================================================
@@ -278,8 +578,29 @@ export const Sidebar:
 
     return (
       <aside
-        data-voice-region="Main navigation sidebar"
-        aria-label="Main navigation sidebar"
+        data-voice-region={
+          txt(
+            "Main navigation sidebar",
+            "القائمة الجانبية الرئيسية"
+          )
+        }
+        aria-label={
+          txt(
+            "Main navigation sidebar",
+            "القائمة الجانبية الرئيسية"
+          )
+        }
+        lang={
+          language
+        }
+        dir={
+          isArabic
+            ? "rtl"
+            : "ltr"
+        }
+        data-language={
+          language
+        }
         className={`
           workspace-sidebar
           relative
@@ -364,8 +685,18 @@ export const Sidebar:
                   : "gap-3"
               }
             `}
-            aria-label="AccessMate AI dashboard"
-            data-voice-label="AccessMate AI dashboard"
+            aria-label={
+              txt(
+                "AccessMate AI dashboard",
+                "لوحة تحكم AccessMate AI"
+              )
+            }
+            data-voice-label={
+              txt(
+                "AccessMate AI dashboard",
+                "لوحة تحكم AccessMate AI"
+              )
+            }
           >
 
             <span
@@ -421,7 +752,7 @@ export const Sidebar:
               <span
                 className="
                   min-w-0
-                  text-left
+                  text-start
                 "
               >
 
@@ -449,7 +780,10 @@ export const Sidebar:
                     text-[#7C8992]
                   "
                 >
-                  Adaptive AI for Accessibility
+                  {txt(
+                    "Adaptive AI for Accessibility",
+                    "ذكاء اصطناعي تكيفي لإمكانية الوصول"
+                  )}
                 </span>
 
               </span>
@@ -481,15 +815,36 @@ export const Sidebar:
                 hover:bg-[#08202C]
                 hover:text-[#50CFF2]
               "
-              title="Collapse sidebar"
-              aria-label="Collapse sidebar"
-              data-voice-label="Collapse sidebar"
+              title={
+                txt(
+                  "Collapse sidebar",
+                  "طي القائمة الجانبية"
+                )
+              }
+              aria-label={
+                txt(
+                  "Collapse sidebar",
+                  "طي القائمة الجانبية"
+                )
+              }
+              data-voice-label={
+                txt(
+                  "Collapse sidebar",
+                  "طي القائمة الجانبية"
+                )
+              }
             >
               <PanelLeftClose
-                className="
+                className={`
                   h-[17px]
                   w-[17px]
-                "
+
+                  ${
+                    isArabic
+                      ? "scale-x-[-1]"
+                      : ""
+                  }
+                `}
               />
             </button>
           )}
@@ -499,7 +854,6 @@ export const Sidebar:
 
         {/* =================================================
             PRIMARY NAVIGATION
-            Legacy gesture feature removed; Hearing Assistant is active
             ================================================= */}
 
         <nav
@@ -515,8 +869,18 @@ export const Sidebar:
                 : "space-y-1.5 px-3.5"
             }
           `}
-          aria-label="Primary navigation"
-          data-voice-region="Primary navigation"
+          aria-label={
+            txt(
+              "Primary navigation",
+              "التنقل الرئيسي"
+            )
+          }
+          data-voice-region={
+            txt(
+              "Primary navigation",
+              "التنقل الرئيسي"
+            )
+          }
         >
 
           <SidebarNavButton
@@ -526,7 +890,12 @@ export const Sidebar:
             icon={
               Home
             }
-            label="Home"
+            label={
+              txt(
+                "Home",
+                "الرئيسية"
+              )
+            }
             onClick={() =>
               handleNavigate(
                 "/dashboard"
@@ -549,7 +918,12 @@ export const Sidebar:
             icon={
               MessageSquare
             }
-            label="Chats"
+            label={
+              txt(
+                "Chats",
+                "المحادثات"
+              )
+            }
             onClick={() =>
               handleNavigate(
                 "/chats"
@@ -572,7 +946,12 @@ export const Sidebar:
             icon={
               Ear
             }
-            label="Hearing Assistant"
+            label={
+              txt(
+                "Hearing Assistant",
+                "مساعد السمع"
+              )
+            }
             onClick={() =>
               handleNavigate(
                 "/hearing-assistant"
@@ -595,7 +974,12 @@ export const Sidebar:
             icon={
               HeartHandshake
             }
-            label="Care Center"
+            label={
+              txt(
+                "Care Center",
+                "مركز الرعاية"
+              )
+            }
             onClick={() =>
               handleNavigate(
                 "/caregiver"
@@ -618,7 +1002,12 @@ export const Sidebar:
             icon={
               History
             }
-            label="Alert History"
+            label={
+              txt(
+                "Alert History",
+                "سجل التنبيهات"
+              )
+            }
             onClick={() =>
               handleNavigate(
                 "/alert-history"
@@ -641,7 +1030,12 @@ export const Sidebar:
             icon={
               ShieldCheck
             }
-            label="Website Safety"
+            label={
+              txt(
+                "Website Safety",
+                "أمان المواقع"
+              )
+            }
             onClick={() =>
               handleNavigate(
                 "/website-safety"
@@ -664,7 +1058,12 @@ export const Sidebar:
             icon={
               Library
             }
-            label="Library"
+            label={
+              txt(
+                "Library",
+                "المكتبة"
+              )
+            }
             onClick={() =>
               handleNavigate(
                 "/library"
@@ -693,9 +1092,6 @@ export const Sidebar:
 
         {/* =================================================
             BOTTOM CONTROLS
-
-            Light/Dark mode removed.
-            Settings + Logout are icon-only and side-by-side.
             ================================================= */}
 
         <div
@@ -730,7 +1126,7 @@ export const Sidebar:
             `}
           >
 
-            {/* SETTINGS ICON */}
+            {/* SETTINGS */}
             <button
               type="button"
               onClick={() =>
@@ -777,9 +1173,24 @@ export const Sidebar:
                     `
                 }
               `}
-              title="Settings"
-              aria-label="Settings"
-              data-voice-label="Settings"
+              title={
+                txt(
+                  "Settings",
+                  "الإعدادات"
+                )
+              }
+              aria-label={
+                txt(
+                  "Settings",
+                  "الإعدادات"
+                )
+              }
+              data-voice-label={
+                txt(
+                  "Settings",
+                  "الإعدادات"
+                )
+              }
             >
               <Settings
                 className="
@@ -797,13 +1208,16 @@ export const Sidebar:
                     text-[#C7D1D7]
                   "
                 >
-                  Settings
+                  {txt(
+                    "Settings",
+                    "الإعدادات"
+                  )}
                 </span>
               )}
             </button>
 
 
-            {/* LOGOUT ICON */}
+            {/* LOGOUT */}
             <button
               type="button"
               onClick={
@@ -834,9 +1248,24 @@ export const Sidebar:
                     : "px-3.5"
                 }
               `}
-              title="Logout"
-              aria-label="Logout"
-              data-voice-label="Logout"
+              title={
+                txt(
+                  "Logout",
+                  "تسجيل الخروج"
+                )
+              }
+              aria-label={
+                txt(
+                  "Logout",
+                  "تسجيل الخروج"
+                )
+              }
+              data-voice-label={
+                txt(
+                  "Logout",
+                  "تسجيل الخروج"
+                )
+              }
             >
               <LogOut
                 className="
@@ -854,7 +1283,10 @@ export const Sidebar:
                     text-red-400
                   "
                 >
-                  Logout
+                  {txt(
+                    "Logout",
+                    "تسجيل الخروج"
+                  )}
                 </span>
               )}
             </button>
@@ -883,15 +1315,36 @@ export const Sidebar:
                   hover:bg-[#08202C]
                   hover:text-[#50CFF2]
                 "
-                title="Expand sidebar"
-                aria-label="Expand sidebar"
-                data-voice-label="Expand sidebar"
+                title={
+                  txt(
+                    "Expand sidebar",
+                    "توسيع القائمة الجانبية"
+                  )
+                }
+                aria-label={
+                  txt(
+                    "Expand sidebar",
+                    "توسيع القائمة الجانبية"
+                  )
+                }
+                data-voice-label={
+                  txt(
+                    "Expand sidebar",
+                    "توسيع القائمة الجانبية"
+                  )
+                }
               >
                 <PanelLeftOpen
-                  className="
+                  className={`
                     h-[17px]
                     w-[17px]
-                  "
+
+                    ${
+                      isArabic
+                        ? "scale-x-[-1]"
+                        : ""
+                    }
+                  `}
                 />
               </button>
             )}
@@ -984,6 +1437,7 @@ function SidebarNavButton({
         <span
           className="
             truncate
+            text-start
           "
         >
           {label}
@@ -994,7 +1448,7 @@ function SidebarNavButton({
       {!collapsed && (
         <span
           className="
-            ml-auto
+            ms-auto
             h-1.5
             w-1.5
             rounded-full

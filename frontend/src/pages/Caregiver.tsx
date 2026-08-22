@@ -1,4 +1,4 @@
-﻿// src/pages/Caregiver.tsx
+// src/pages/Caregiver.tsx
 
 import {
   type ComponentType,
@@ -326,7 +326,7 @@ function formatDate(
     Language
 ) {
   if (!value) {
-    return "â€”";
+    return "—";
   }
 
   try {
@@ -798,7 +798,7 @@ export default function Caregiver() {
         setMessage(
           txt(
             "Telegram is already connected.",
-            "ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù… Ù…ØªØµÙ„ Ø¨Ø§Ù„ÙØ¹Ù„."
+            "تيليجرام متصل بالفعل."
           )
         );
 
@@ -816,7 +816,7 @@ export default function Caregiver() {
         throw new Error(
           txt(
             "Telegram connection link was not returned by the backend.",
-            "Ù„Ù… ÙŠØªÙ… Ø¥Ø±Ø¬Ø§Ø¹ Ø±Ø§Ø¨Ø· Ø±Ø¨Ø· ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù… Ù…Ù† Ø§Ù„Ø®Ø§Ø¯Ù…."
+            "لم يتم إرجاع رابط ربط تيليجرام من الخادم."
           )
         );
       }
@@ -839,7 +839,7 @@ export default function Caregiver() {
       setMessage(
         txt(
           "Telegram opened. Press Start in the bot, then return here and click Check connection.",
-          "ØªÙ… ÙØªØ­ ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù…. Ø§Ø¶ØºØ· Start Ø¯Ø§Ø®Ù„ Ø§Ù„Ø¨ÙˆØªØŒ Ø«Ù… Ø§Ø±Ø¬Ø¹ Ù‡Ù†Ø§ ÙˆØ§Ø¶ØºØ· ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ø±Ø¨Ø·."
+          "تم فتح تيليجرام. اضغط Start داخل البوت، ثم ارجع هنا واضغط تحقق من الربط."
         )
       );
 
@@ -905,7 +905,7 @@ export default function Caregiver() {
         setMessage(
           txt(
             "Telegram connected successfully. Care alerts can now be delivered to your caregiver.",
-            "ØªÙ… Ø±Ø¨Ø· ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù… Ø¨Ù†Ø¬Ø§Ø­. ÙŠÙ…ÙƒÙ† Ø§Ù„Ø¢Ù† Ø¥Ø±Ø³Ø§Ù„ ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ø§Ù„Ø±Ø¹Ø§ÙŠØ© Ø¥Ù„Ù‰ Ù…Ù‚Ø¯Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ©."
+            "تم ربط تيليجرام بنجاح. يمكن الآن إرسال تنبيهات الرعاية إلى مقدم الرعاية."
           )
         );
 
@@ -913,7 +913,7 @@ export default function Caregiver() {
         setMessage(
           isArabic
             ? (
-                "Ù„Ù… ÙŠØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ø±Ø³Ø§Ù„Ø© Start Ø§Ù„Ø®Ø§ØµØ© Ø¨Ø§Ù„Ø±Ø¨Ø· Ø¨Ø¹Ø¯. Ø§ÙØªØ­ Ø±Ø§Ø¨Ø· ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù… ÙˆØ§Ø¶ØºØ· Start Ø«Ù… Ø­Ø§ÙˆÙ„ Ù…Ø±Ø© Ø£Ø®Ø±Ù‰."
+                "لم يتم العثور على رسالة Start الخاصة بالربط بعد. افتح رابط تيليجرام واضغط Start ثم حاول مرة أخرى."
               )
             : (
                 "The matching Start message has not been found yet. Open the Telegram link, press Start, then try again."
@@ -946,7 +946,7 @@ export default function Caregiver() {
       window.confirm(
         txt(
           "Disconnect Telegram alerts from this caregiver?",
-          "Ù‡Ù„ ØªØ±ÙŠØ¯ ÙØµÙ„ ØªÙ†Ø¨ÙŠÙ‡Ø§Øª ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù… Ø¹Ù† Ù…Ù‚Ø¯Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ©ØŸ"
+          "هل تريد فصل تنبيهات تيليجرام عن مقدم الرعاية؟"
         )
       );
 
@@ -996,7 +996,7 @@ export default function Caregiver() {
         payload.message ||
         txt(
           "Telegram disconnected successfully.",
-          "ØªÙ… ÙØµÙ„ ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù… Ø¨Ù†Ø¬Ø§Ø­."
+          "تم فصل تيليجرام بنجاح."
         )
       );
 
@@ -1110,7 +1110,7 @@ export default function Caregiver() {
 
       const sentence =
         isArabic
-          ? `ØªÙ… Ø§Ø®ØªÙŠØ§Ø± ${needName}`
+          ? `تم اختيار ${needName}`
           : `${needName} selected`;
 
 
@@ -1210,7 +1210,7 @@ export default function Caregiver() {
       setError(
         txt(
           "No active caregiver is available. Add or activate a caregiver from Settings.",
-          "Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ù…Ù‚Ø¯Ù… Ø±Ø¹Ø§ÙŠØ© Ù†Ø´Ø·. Ø£Ø¶Ù Ø£Ùˆ ÙØ¹Ù‘Ù„ Ù…Ù‚Ø¯Ù… Ø±Ø¹Ø§ÙŠØ© Ù…Ù† Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª."
+          "لا يوجد مقدم رعاية نشط. أضف أو فعّل مقدم رعاية من الإعدادات."
         )
       );
 
@@ -1224,7 +1224,7 @@ export default function Caregiver() {
       const confirmed =
         window.confirm(
           isArabic
-            ? `Ù‡Ù„ ØªØ±ÙŠØ¯ Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ "${action.name_ar}" Ø¥Ù„Ù‰ ${primaryCaregiver.full_name}ØŸ`
+            ? `هل تريد إرسال طلب "${action.name_ar}" إلى ${primaryCaregiver.full_name}؟`
             : `Send "${action.name_en}" request to ${primaryCaregiver.full_name}?`
         );
 
@@ -1289,7 +1289,7 @@ export default function Caregiver() {
       ) {
         const successText =
           isArabic
-            ? `ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ ${action.name_ar} Ø¥Ù„Ù‰ ${primaryCaregiver.full_name} Ø¨Ù†Ø¬Ø§Ø­.`
+            ? `تم إرسال طلب ${action.name_ar} إلى ${primaryCaregiver.full_name} بنجاح.`
             : `${action.name_en} request was sent to ${primaryCaregiver.full_name} successfully.`;
 
 
@@ -1310,7 +1310,7 @@ export default function Caregiver() {
           alert.error_message ||
           txt(
             "The alert was created but delivery failed.",
-            "ØªÙ… Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡ ÙˆÙ„ÙƒÙ† ÙØ´Ù„ Ø¥Ø±Ø³Ø§Ù„Ù‡."
+            "تم إنشاء التنبيه ولكن فشل إرساله."
           )
         );
 
@@ -1321,7 +1321,7 @@ export default function Caregiver() {
         setMessage(
           txt(
             "The care alert was created and is waiting for delivery.",
-            "ØªÙ… Ø¥Ù†Ø´Ø§Ø¡ ØªÙ†Ø¨ÙŠÙ‡ Ø§Ù„Ø±Ø¹Ø§ÙŠØ© ÙˆÙ‡Ùˆ ÙÙŠ Ø§Ù†ØªØ¸Ø§Ø± Ø§Ù„Ø¥Ø±Ø³Ø§Ù„."
+            "تم إنشاء تنبيه الرعاية وهو في انتظار الإرسال."
           )
         );
 
@@ -1329,7 +1329,7 @@ export default function Caregiver() {
         setMessage(
           txt(
             `Alert created with status: ${alert.status}.`,
-            `ØªÙ… Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡ Ø¨Ø§Ù„Ø­Ø§Ù„Ø©: ${alert.status}.`
+            `تم إنشاء التنبيه بالحالة: ${alert.status}.`
           )
         );
       }
@@ -1374,7 +1374,7 @@ export default function Caregiver() {
 
       const text =
         isArabic
-          ? `ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ ${action.name_ar} Ø¨Ù†Ø¬Ø§Ø­`
+          ? `تم إرسال طلب ${action.name_ar} بنجاح`
           : `${action.name_en} request sent successfully`;
 
 
@@ -1482,7 +1482,7 @@ export default function Caregiver() {
       setMessage(
         txt(
           "Alert acknowledged successfully.",
-          "ØªÙ… ØªØ£ÙƒÙŠØ¯ Ø§Ø³ØªÙ„Ø§Ù… Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡ Ø¨Ù†Ø¬Ø§Ø­."
+          "تم تأكيد استلام التنبيه بنجاح."
         )
       );
 
@@ -1526,7 +1526,7 @@ export default function Caregiver() {
       setMessage(
         txt(
           "Alert resolved successfully.",
-          "ØªÙ… Ø¥ØºÙ„Ø§Ù‚ Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡ Ø¨Ù†Ø¬Ø§Ø­."
+          "تم إغلاق التنبيه بنجاح."
         )
       );
 
@@ -1621,13 +1621,13 @@ export default function Caregiver() {
       data-voice-region={
         txt(
           "Care Center",
-          "Ù…Ø±ÙƒØ² Ø§Ù„Ø±Ø¹Ø§ÙŠØ©"
+          "مركز الرعاية"
         )
       }
       aria-label={
         txt(
           "Care Center",
-          "Ù…Ø±ÙƒØ² Ø§Ù„Ø±Ø¹Ø§ÙŠØ©"
+          "مركز الرعاية"
         )
       }
       className="
@@ -1696,7 +1696,7 @@ export default function Caregiver() {
 
                 {txt(
                   "AccessMate Care System",
-                  "Ù†Ø¸Ø§Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ© ÙÙŠ AccessMate"
+                  "نظام الرعاية في AccessMate"
                 )}
               </span>
 
@@ -1714,7 +1714,7 @@ export default function Caregiver() {
               >
                 {txt(
                   "Care Center",
-                  "Ù…Ø±ÙƒØ² Ø§Ù„Ø±Ø¹Ø§ÙŠØ©"
+                  "مركز الرعاية"
                 )}
               </h1>
 
@@ -1730,7 +1730,7 @@ export default function Caregiver() {
               >
                 {txt(
                   "Choose a picture to communicate a daily need. AccessMate can speak the selected need and notify your caregiver.",
-                  "Ø§Ø®ØªØ± ØµÙˆØ±Ø© Ù„Ù„ØªØ¹Ø¨ÙŠØ± Ø¹Ù† Ø§Ø­ØªÙŠØ§Ø¬Ùƒ Ø§Ù„ÙŠÙˆÙ…ÙŠ. ÙŠØ³ØªØ·ÙŠØ¹ AccessMate Ù†Ø·Ù‚ Ø§Ù„Ø§Ø­ØªÙŠØ§Ø¬ ÙˆØ¥Ø±Ø³Ø§Ù„ ØªÙ†Ø¨ÙŠÙ‡ Ø¥Ù„Ù‰ Ù…Ù‚Ø¯Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ©."
+                  "اختر صورة للتعبير عن احتياجك اليومي. يستطيع AccessMate نطق الاحتياج وإرسال تنبيه إلى مقدم الرعاية."
                 )}
               </p>
             </div>
@@ -1766,7 +1766,7 @@ export default function Caregiver() {
               data-voice-label={
                 txt(
                   "Refresh Care Center",
-                  "ØªØ­Ø¯ÙŠØ« Ù…Ø±ÙƒØ² Ø§Ù„Ø±Ø¹Ø§ÙŠØ©"
+                  "تحديث مركز الرعاية"
                 )
               }
             >
@@ -1785,7 +1785,7 @@ export default function Caregiver() {
 
               {txt(
                 "Refresh",
-                "ØªØ­Ø¯ÙŠØ«"
+                "تحديث"
               )}
             </button>
           </header>
@@ -1808,7 +1808,7 @@ export default function Caregiver() {
                 text={
                   txt(
                     "Loading Care Center...",
-                    "Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ù…Ø±ÙƒØ² Ø§Ù„Ø±Ø¹Ø§ÙŠØ©..."
+                    "جاري تحميل مركز الرعاية..."
                   )
                 }
               />
@@ -1856,7 +1856,7 @@ export default function Caregiver() {
               label={
                 txt(
                   "Primary Caregiver",
-                  "Ù…Ù‚Ø¯Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ© Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ"
+                  "مقدم الرعاية الأساسي"
                 )
               }
               value={
@@ -1864,7 +1864,7 @@ export default function Caregiver() {
                   ?.full_name ||
                 txt(
                   "Not configured",
-                  "ØºÙŠØ± Ù…Ø­Ø¯Ø¯"
+                  "غير محدد"
                 )
               }
             />
@@ -1946,13 +1946,13 @@ export default function Caregiver() {
                     title={
                       txt(
                         "Disconnect Telegram",
-                        "ÙØµÙ„ ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù…"
+                        "فصل تيليجرام"
                       )
                     }
                     aria-label={
                       txt(
                         "Disconnect Telegram",
-                        "ÙØµÙ„ ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù…"
+                        "فصل تيليجرام"
                       )
                     }
                   >
@@ -1995,11 +1995,11 @@ export default function Caregiver() {
                 {telegramConnected
                   ? txt(
                       "Connected",
-                      "Ù…ØªØµÙ„"
+                      "متصل"
                     )
                   : txt(
                       "Not connected",
-                      "ØºÙŠØ± Ù…ØªØµÙ„"
+                      "غير متصل"
                     )}
               </p>
             </div>
@@ -2012,7 +2012,7 @@ export default function Caregiver() {
               label={
                 txt(
                   "Active Alerts",
-                  "Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ø§Ù„Ù†Ø´Ø·Ø©"
+                  "التنبيهات النشطة"
                 )
               }
               value={
@@ -2030,7 +2030,7 @@ export default function Caregiver() {
               label={
                 txt(
                   "Resolved",
-                  "ØªÙ… Ø­Ù„Ù‡Ø§"
+                  "تم حلها"
                 )
               }
               value={
@@ -2061,7 +2061,7 @@ export default function Caregiver() {
               aria-label={
                 txt(
                   "Telegram caregiver connection",
-                  "Ø±Ø¨Ø· Ù…Ù‚Ø¯Ù… Ø§Ù„Ø±Ø¹Ø§ÙŠØ© Ø¨ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù…"
+                  "ربط مقدم الرعاية بتيليجرام"
                 )
               }
             >
@@ -2111,7 +2111,7 @@ export default function Caregiver() {
                     >
                       {txt(
                         "Connect Telegram Alerts",
-                        "Ø±Ø¨Ø· ØªÙ†Ø¨ÙŠÙ‡Ø§Øª ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù…"
+                        "ربط تنبيهات تيليجرام"
                       )}
                     </h2>
 
@@ -2126,7 +2126,7 @@ export default function Caregiver() {
                     >
                       {txt(
                         "Connect Telegram, press Start in the bot, then verify the connection here.",
-                        "Ø§Ø±Ø¨Ø· ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù… ÙˆØ§Ø¶ØºØ· Start Ø¯Ø§Ø®Ù„ Ø§Ù„Ø¨ÙˆØªØŒ Ø«Ù… ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ø±Ø¨Ø· Ù‡Ù†Ø§."
+                        "اربط تيليجرام واضغط Start داخل البوت، ثم تحقق من الربط هنا."
                       )}
                     </p>
                   </div>
@@ -2179,7 +2179,7 @@ export default function Caregiver() {
 
                     {txt(
                       "Connect Telegram",
-                      "Ø±Ø¨Ø· ØªÙŠÙ„ÙŠØ¬Ø±Ø§Ù…"
+                      "ربط تيليجرام"
                     )}
                   </button>
 
@@ -2222,7 +2222,7 @@ export default function Caregiver() {
 
                     {txt(
                       "Check connection",
-                      "ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ø±Ø¨Ø·"
+                      "تحقق من الربط"
                     )}
                   </button>
                 </div>
@@ -2251,7 +2251,7 @@ export default function Caregiver() {
               data-voice-region={
                 txt(
                   "Quick care needs",
-                  "Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª Ø§Ù„Ø±Ø¹Ø§ÙŠØ© Ø§Ù„Ø³Ø±ÙŠØ¹Ø©"
+                  "احتياجات الرعاية السريعة"
                 )
               }
               className="
@@ -2272,18 +2272,18 @@ export default function Caregiver() {
                 title={
                   txt(
                     "What do you need?",
-                    "Ù…Ø§Ø°Ø§ ØªØ­ØªØ§Ø¬ØŸ"
+                    "ماذا تحتاج؟"
                   )
                 }
                 description={
                   primaryCaregiver
                     ? txt(
                         `Choose a picture to send a request to ${primaryCaregiver.full_name}.`,
-                        `Ø§Ø®ØªØ± ØµÙˆØ±Ø© Ù„Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ Ø¥Ù„Ù‰ ${primaryCaregiver.full_name}.`
+                        `اختر صورة لإرسال طلب إلى ${primaryCaregiver.full_name}.`
                       )
                     : txt(
                         "Configure a caregiver from Settings first.",
-                        "Ù‚Ù… Ø¨Ø¥Ø¹Ø¯Ø§Ø¯ Ù…Ù‚Ø¯Ù… Ø±Ø¹Ø§ÙŠØ© Ù…Ù† Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø£ÙˆÙ„Ø§Ù‹."
+                        "قم بإعداد مقدم رعاية من الإعدادات أولاً."
                       )
                 }
               />
@@ -2521,7 +2521,7 @@ export default function Caregiver() {
                   text={
                     txt(
                       "No daily needs are available.",
-                      "Ù„Ø§ ØªÙˆØ¬Ø¯ Ø§Ø­ØªÙŠØ§Ø¬Ø§Øª ÙŠÙˆÙ…ÙŠØ© Ù…ØªØ§Ø­Ø©."
+                      "لا توجد احتياجات يومية متاحة."
                     )
                   }
                 />
@@ -2537,7 +2537,7 @@ export default function Caregiver() {
               data-voice-region={
                 txt(
                   "Active Alerts",
-                  "Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ø§Ù„Ù†Ø´Ø·Ø©"
+                  "التنبيهات النشطة"
                 )
               }
               className="
@@ -2597,7 +2597,7 @@ export default function Caregiver() {
                     >
                       {txt(
                         "Active Alerts",
-                        "Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ø§Ù„Ù†Ø´Ø·Ø©"
+                        "التنبيهات النشطة"
                       )}
                     </h2>
 
@@ -2611,7 +2611,7 @@ export default function Caregiver() {
                     >
                       {txt(
                         "Monitor ongoing alerts here.",
-                        "ØªØ§Ø¨Ø¹ Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ø§Ù„Ù†Ø´Ø·Ø© Ù‡Ù†Ø§."
+                        "تابع التنبيهات النشطة هنا."
                       )}
                     </p>
                   </div>
@@ -2635,7 +2635,7 @@ export default function Caregiver() {
                   aria-label={
                     txt(
                       "Alert options",
-                      "Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª"
+                      "خيارات التنبيهات"
                     )
                   }
                 >
@@ -2697,7 +2697,7 @@ export default function Caregiver() {
                     >
                       {txt(
                         "No active alerts",
-                        "Ù„Ø§ ØªÙˆØ¬Ø¯ ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ù†Ø´Ø·Ø©"
+                        "لا توجد تنبيهات نشطة"
                       )}
                     </p>
 
@@ -2711,7 +2711,7 @@ export default function Caregiver() {
                     >
                       {txt(
                         "You're all set!",
-                        "ÙƒÙ„ Ø´ÙŠØ¡ Ø¹Ù„Ù‰ Ù…Ø§ ÙŠØ±Ø§Ù…!"
+                        "كل شيء على ما يرام!"
                       )}
                     </p>
                   </div>
@@ -3080,7 +3080,7 @@ function ActiveAlertCard({
             }
             label={
               isArabic
-                ? "ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø§Ø³ØªÙ„Ø§Ù…"
+                ? "تأكيد الاستلام"
                 : "Acknowledge"
             }
             disabled={
@@ -3102,7 +3102,7 @@ function ActiveAlertCard({
             }
             label={
               isArabic
-                ? "ØªÙ… Ø§Ù„Ø­Ù„"
+                ? "تم الحل"
                 : "Resolve"
             }
             disabled={

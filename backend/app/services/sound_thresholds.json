@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-23T21:14:42.644593+00:00",
+  "source": "Selected by AccessMate evaluation. A calibrated configuration is only deployed when it outperforms the validated global baseline.",
+  "selected_mode": "global_0.22_with_alarm_beep_disambiguation",
+  "thresholds": {
+    "alarm": 0.22,
+    "siren": 0.22,
+    "doorbell": 0.22,
+    "baby_cry": 0.22,
+    "knock": 0.22,
+    "beep": 0.22
+  },
+  "disambiguation": {
+    "alarm_beep_min_alarm_score": 0.25,
+    "alarm_beep_min_ratio": 0.3
+  }
+}

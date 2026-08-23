@@ -1,1048 +1,613 @@
-# AccessMate AI
-
-> **An accessibility-first, multimodal AI platform for communication, digital independence, safer interaction, and caregiver support.**
-
-AccessMate AI is a full-stack assistive platform that combines conversational AI, speech recognition, live captions, OCR, computer vision, document intelligence, environmental sound awareness, website-safety assistance, caregiver workflows, and bilingual accessibility controls in one unified application.
-
-The product is designed around a simple principle:
-
-> **Accessibility tools should not only expose information — they should help users understand it, communicate, act on it, and request support when needed.**
-
----
-
-## Project Status
-
-| Item | Status |
-|---|---|
-| Core product implementation | ✅ Complete for the current scope |
-| Local end-to-end QA | ✅ Passed |
-| Arabic / English localization | ✅ Passed |
-| RTL / LTR | ✅ Passed |
-| Frontend production build | ✅ Passed |
-| Contextual text + voice chat | ✅ Passed |
-| Hearing Assistant | ✅ Passed |
-| YAMNet Sound Awareness V4 | ✅ Passed |
-| Confusion Matrix / model evaluation | ✅ Implemented |
-| Caregiver + Telegram sound alerts | ✅ Implemented |
-| Git local checkpoints | ✅ Created |
-| GitHub remote | ⏳ Pending deployment phase |
-| Production deployment | ⏳ Pending |
-| Live demo URL | ⏳ Pending |
-| Production API / Swagger URLs | ⏳ Pending |
-
-**Latest tagged baseline:** `v1.0.0`  
-**Current local state:** post-`v1.0.0` final pre-deployment build with contextual multilingual voice chat and Sound Awareness V4 improvements.
-
-> After production deployment, only the deployment-specific URLs, screenshots, infrastructure details, and final release tag need to be added to this README.
-
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Problem](#problem)
-- [Solution](#solution)
-- [Main Product Modules](#main-product-modules)
-- [AI Models, Algorithms, and Architectures](#ai-models-algorithms-and-architectures)
-- [AI Chat and Voice Chat](#ai-chat-and-voice-chat)
-- [Hearing Assistant](#hearing-assistant)
-- [Sound Awareness V4](#sound-awareness-v4)
-- [YAMNet Evaluation](#yamnet-evaluation)
-- [Care Center and Telegram Alerts](#care-center-and-telegram-alerts)
-- [Vision and OCR](#vision-and-ocr)
-- [Document Intelligence and RAG](#document-intelligence-and-rag)
-- [Website Safety](#website-safety)
-- [Accessibility and Localization](#accessibility-and-localization)
-- [Authentication and Security](#authentication-and-security)
-- [System Architecture](#system-architecture)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Backend API](#backend-api)
-- [Database](#database)
-- [Local Development](#local-development)
-- [Environment Configuration](#environment-configuration)
-- [Testing and Validation](#testing-and-validation)
-- [Git Milestones](#git-milestones)
-- [Known Limitations](#known-limitations)
-- [Deployment Checklist](#deployment-checklist)
-- [Future Roadmap](#future-roadmap)
-- [References](#references)
-
----
-
-# Overview
-
-AccessMate AI is an accessibility-first digital assistant intended to reduce dependence on fragmented assistive tools.
-
-Instead of requiring separate applications for chat, OCR, image description, document question answering, speech recognition, environmental sound awareness, website safety, and caregiver communication, AccessMate AI connects these capabilities through one authenticated workspace.
-
-The current system supports:
-
-- Context-aware AI chat.
-- Persistent conversation history.
-- Direct microphone-to-text chat.
-- Arabic and English speech recognition.
-- Language-aware AI responses.
-- Explicit response-language override.
-- Image description.
-- OCR for Arabic and English.
-- File and document management.
-- RAG-based document question answering.
-- Semantic vector search.
-- Live speech-to-text captions.
-- Live Arabic/English caption translation.
-- Type-to-Speech.
-- Environmental sound classification.
-- Live sound confidence and automatic sound switching.
-- Sound-event persistence.
-- Confusion Matrix and model-evaluation dashboard.
-- Caregiver management.
-- Telegram caregiver notifications.
-- Emergency escalation.
-- Alert history.
-- Website-safety analysis.
-- Trusted-domain management.
-- Arabic / English interface localization.
-- RTL / LTR layouts.
-- Accessibility-oriented settings and voice guidance.
-
----
-
-# Problem
-
-Digital accessibility is often fragmented.
-
-A user may need:
-
-- One tool to understand text.
-- Another to extract text from an image.
-- Another to describe an image.
-- Another to transcribe speech.
-- Another to interpret documents.
-- Another to recognize important environmental sounds.
-- Another to contact a caregiver.
-- Another to evaluate suspicious websites.
-
-This fragmentation creates additional cognitive and operational overhead for users who already experience barriers when interacting with digital systems.
-
----
-
-# Solution
-
-AccessMate AI combines specialized AI models, deterministic algorithms, retrieval systems, browser accessibility APIs, and caregiver automation into one platform.
-
-At a high level:
-
-```text
-User
- │
- ▼
-React + TypeScript Frontend
- │
- │ HTTPS / REST / JSON / multipart
- ▼
-FastAPI Backend
- │
- ├── Authentication
- ├── AI Chat
- ├── Speech-to-Text
- ├── Hearing Assistant
- ├── YAMNet Sound Awareness
- ├── OCR
- ├── Vision
- ├── Documents / RAG
- ├── Website Safety
- ├── Care Center
- ├── Telegram Notifications
- └── User Preferences / History
- │
- ▼
-PostgreSQL + pgvector
- │
- ├── Users / profiles
- ├── Conversations / messages
- ├── Documents / chunks / embeddings
- ├── Caregivers / alerts
- ├── Hearing sessions
- ├── Hearing captions
- └── Hearing sound events
-```
-
----
-
-# Main Product Modules
-
-## Active Modules
-
-1. Landing / Public Pages
-2. Authentication
-3. Dashboard
-4. AI Chat
-5. Chats Management
-6. Archive
-7. Library
-8. OCR
-9. Vision Assistance
-10. Website Safety
-11. Care Center
-12. Hearing Assistant
-13. Alert History
-14. Settings
-15. Account
-
-## Product Scope Change
-
-An earlier experimental **Sign Language Recognition** module was removed from the final runtime product.
-
-It was replaced by the **Hearing Assistant**, which now provides:
-
-- Live captions.
-- Live translation.
-- Type-to-Speech.
-- Environmental sound awareness.
-- Caregiver sound notifications.
-- Emergency escalation.
-
-Legacy sign-language research artifacts are not part of the current production runtime.
-
----
-
-# AI Models, Algorithms, and Architectures
-
-AccessMate AI does **not** depend on one model for every task. It uses specialized models and algorithms for different accessibility workflows.
-
-## Main AI Models
-
-| Model / Technology | Type | Used For |
-|---|---|---|
-| **Llama 3.3 70B via Groq** | Large Language Model | AI chat, contextual answers, simplification |
-| **Whisper-compatible STT** | Automatic Speech Recognition | Voice chat and backend speech transcription |
-| **Gemini Flash-Lite** | Multimodal / language model | Fast live caption translation and selected vision workflows |
-| **Configured Groq vision model** | Vision-language model fallback | Image understanding fallback |
-| **PaddleOCR PP-OCRv5** | OCR model / pipeline | Arabic and English text extraction |
-| **Multilingual MiniLM** | Sentence embedding model | Semantic document embeddings |
-| **YAMNet** | Pretrained environmental audio classifier | Sound Awareness |
-
-### Embedding Model
-
-Current document embeddings use:
-
-```text
-sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
-Dimension: 384
-Normalization: enabled
-Storage: PostgreSQL + pgvector
-Similarity: cosine distance
-```
-
-## Main Algorithms / Decision Logic
-
-| Algorithm / Mechanism | Used For |
-|---|---|
-| Self-Attention | Transformer-based language understanding |
-| Autoregressive generation | LLM response generation |
-| Speech decoding | Speech-to-text transcription |
-| Text detection + recognition | OCR |
-| Vector similarity search | Document retrieval |
-| Top-K retrieval | RAG evidence selection |
-| Transient-aware frame aggregation | YAMNet score processing |
-| Confidence thresholding | Sound acceptance / rejection |
-| Alarm-vs-Beep disambiguation | Reducing similar-class confusion |
-| Rolling audio inference | Live environmental sound monitoring |
-| Temporal stability logic | Preventing sound-label flicker |
-| Sound transition detection | Updating when the environmental sound changes |
-| Duplicate suppression | Preventing repeated caregiver alerts |
-| Cooldown logic | Notification-rate control |
-| URL heuristics + risk scoring | Website Safety |
-
-## Architectures / Pipelines
-
-| Architecture / Pipeline | Role |
-|---|---|
-| **Transformer** | Core architecture behind language / speech / vision models |
-| **RAG** | Retrieval-Augmented Generation for documents |
-| **OCR pipeline** | Detection → recognition → structured text |
-| **Live speech pipeline** | Microphone → transcription → language-aware AI response |
-| **Live Sound Awareness pipeline** | Microphone → YAMNet → stabilization → event → caregiver |
-| **Event-driven caregiver pipeline** | Stable event → DB → alert → Telegram |
-
-## Evaluation Methods
-
-The following are evaluation tools, not AI models:
-
-- Confusion Matrix.
-- Accuracy.
-- Precision.
-- Recall.
-- F1-score.
-- Cross-validation.
-- Latency measurement.
-
----
-
-# AI Chat and Voice Chat
-
-AccessMate AI provides persistent contextual conversations.
-
-## Text Chat
-
-Supported behavior includes:
-
-- Create and continue conversations.
-- Persistent messages.
-- Context-aware follow-up questions.
-- Detailed informational responses.
-- Arabic / English responses.
-- Explicit language instructions.
-
-Example:
-
-```text
-User: Explain neural networks.
-Assistant: [English answer]
-
-User: Give me more information.
-Assistant: [Continues the same topic using conversation context]
-
-User: Answer in Arabic.
-Assistant: [Responds fully in Arabic]
-```
-
-## Direct Voice Chat
-
-Microphone input is treated as **speech**, not as a normal uploaded audio attachment.
-
-The final behavior is:
-
-```text
+AccessMate AI
+
+<p align="center">
+  <strong>Multimodal accessibility platform for communication, digital independence, environmental awareness, and caregiver support.</strong>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61DAFB?logo=react&logoColor=111" alt="React">
+  <img src="https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Database-PostgreSQL%20%2B%20pgvector-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Audio-YAMNet-FF6F00?logo=tensorflow&logoColor=white" alt="YAMNet">
+</p>
+
+Overview
+
+AccessMate AI is an accessibility-first AI platform that brings multiple assistive workflows into one product.
+
+Instead of relying on a single AI model, AccessMate AI combines specialized models, retrieval systems, real-time audio processing, browser accessibility APIs, and caregiver automation to support different user needs.
+
+The current platform includes:
+
+Context-aware AI chat
+
+Direct voice-to-chat transcription
+
+Arabic and English interaction
+
+OCR and image understanding
+
+Document intelligence with RAG
+
+Live speech-to-text captions
+
+Live Arabic ↔ English translation
+
+Type-to-Speech
+
+Environmental sound awareness
+
+Live sound confidence and automatic sound switching
+
+Caregiver management
+
+Telegram caregiver notifications
+
+Website safety assistance
+
+Alert history
+
+Accessibility settings
+
+RTL / LTR localization
+
+Key Features
+
+AI Chat
+
+AccessMate AI provides persistent, context-aware conversations with support for Arabic and English.
+
+The chat can:
+
+Maintain conversation history
+
+Understand follow-up questions
+
+Generate detailed responses
+
+Respond in the language of the user's speech or text
+
+Respect explicit instructions such as “answer in Arabic” or “answer in English”
+
+Handle direct voice input without displaying the recording as a file attachment
+
+Voice Chat
+
+Voice input follows this flow:
+
 Microphone
    ↓
-Record
-   ↓
-Press Send
-   ↓
-Stop recording internally
+Speech recording
    ↓
 Speech-to-Text
    ↓
-Transcript becomes normal user message
+Normal user message
    ↓
 Conversation context
    ↓
 AI response
-```
 
-The `.webm` recording is not displayed as a user file attachment in the normal voice-chat flow.
+Arabic speech produces Arabic text and Arabic AI responses by default, while English speech produces English responses unless the user explicitly requests another language.
 
-## Language Behavior
+Hearing Assistant
 
-The chat pipeline is language-aware:
+The Hearing Assistant is one of the core accessibility modules in AccessMate AI.
 
-- Arabic voice → Arabic transcript → Arabic AI response.
-- English voice → English transcript → English AI response.
-- English prompt requesting Arabic → Arabic response.
-- Arabic prompt requesting English → English response.
-- Follow-up requests preserve conversation context.
+It includes:
 
-The same core behavior is implemented in both:
+Live Captions
 
-```text
-Dashboard
-ChatPage
-```
+Live speech-to-text
 
----
+Arabic and English
 
-# Hearing Assistant
+Browser Speech Recognition
 
-The Hearing Assistant is one of the main accessibility modules in AccessMate AI.
+Backend STT fallback
 
-It contains three major workflows:
+Fullscreen captions
 
-```text
-Conversation
-Sound Awareness
-Model Evaluation
-```
+Copy transcript
 
----
+Save transcript
 
-## Live Speech-to-Text
+Download transcript
 
-The application can display spoken content as live captions.
+Live Translation
 
-Supported workflows include:
+Supports:
 
-- Arabic speech.
-- English speech.
-- Automatic / selected language handling.
-- Browser Speech Recognition where available.
-- Backend STT fallback.
-- Fullscreen caption display.
-- Transcript copy.
-- Transcript save.
-- Transcript download.
-
-The backend STT service is provider-configurable and supports Groq / OpenAI-compatible speech transcription.
-
----
-
-## Arabic / English Translation
-
-Live caption translation is supported between:
-
-```text
 Arabic ↔ English
-```
 
-The current backend translation service uses a low-latency Gemini Flash-Lite configuration for short-form caption translation.
+for live caption workflows.
 
----
+Type-to-Speech
 
-## Type-to-Speech
+Users can type a response and have the browser speak it aloud using the Web Speech / Speech Synthesis API.
 
-Users can type a response and have the browser speak it aloud.
+Sound Awareness V4
 
-This provides a fast communication option during face-to-face interaction.
+Sound Awareness uses YAMNet, a pretrained environmental sound classifier, with custom AccessMate post-processing.
 
-The feature uses the browser Speech Synthesis API rather than requiring a separate server-side TTS model.
+Monitored Sounds
 
----
-
-# Sound Awareness V4
-
-Sound Awareness uses **Google YAMNet** as the pretrained environmental sound classifier.
-
-The current AccessMate mapping monitors six product-specific categories:
-
-```text
 Alarm
 Siren
 Doorbell
 Baby Cry
 Knocking
 Alert Beep
-```
 
-## Live Flow
+Live Detection Pipeline
 
-```text
 Microphone
    ↓
-1.2-second rolling audio window
+Rolling audio window
    ↓
-Refresh about every 0.6 seconds
+YAMNet
    ↓
-YAMNet frame-level predictions
+Frame-level predictions
    ↓
 AccessMate category mapping
    ↓
 Transient-aware score aggregation
    ↓
-Global confidence threshold
+Confidence threshold
    ↓
 Alarm / Beep disambiguation
    ↓
-Temporal stability logic
+Temporal stability
    ↓
-Current Sound + Confidence + Top Predictions
+Current sound + confidence
    ↓
-Sound Event
-   ├── Save to database
-   ├── Update UI
-   └── Notify caregiver / Telegram
-```
+Sound event
+   ├── UI update
+   ├── Database
+   └── Caregiver / Telegram alert
 
-## Live Detection Features
+Live Behavior
 
-Sound Awareness V4 includes:
-
-- Continuous listening.
-- Automatic current-sound updates.
-- Live confidence percentage.
-- Top live predictions.
-- Inference latency.
-- Automatic switching when the sound changes.
-- No manual stop/start required when moving between sound types.
-- Stable-event filtering.
-- Duplicate-alert suppression.
-- Same-class cooldown.
-- Event persistence.
-- Caregiver alert integration.
-- Telegram delivery.
-- Emergency escalation for high-priority sounds.
+The detected sound and confidence update automatically as the environment changes.
 
 Example:
 
-```text
 Siren
 Confidence: 96%
 
-↓ environment changes
+↓ sound changes
 
 Doorbell
 Confidence: 91%
 
-↓ environment changes
+↓ sound changes
 
 Knocking
 Confidence: 84%
-```
 
-The UI updates automatically as new audio windows are processed.
+No manual stop/start cycle is required when the sound changes.
 
----
+Runtime Optimizations
 
-## Model Warm-Up
+AccessMate adds several post-processing algorithms around YAMNet:
 
-YAMNet / TensorFlow has a significant one-time cold-start cost.
+Transient-aware frame aggregation
 
-Sound Awareness V4 therefore includes:
+Global validated confidence threshold
 
-```text
-POST /api/v1/hearing/sound-warmup
-```
+Alarm-vs-Beep disambiguation
 
-When the user opens the Sound Awareness tab, the model begins loading before monitoring starts.
+Rolling audio inference
 
-Frontend state:
+Temporal stabilization
 
-```text
-Warming YAMNet…
-↓
-YAMNet ready
-```
+Sound-transition detection
 
-This avoids forcing the first live audio window to absorb the complete model-load delay.
+Duplicate suppression
 
----
+Notification cooldown
 
-## AccessMate Sound Post-Processing
+Model warm-up before live monitoring
 
-The internal YAMNet weights were **not retrained**.
+The current validated global threshold is:
 
-Instead, AccessMate improves practical detection through post-processing.
+0.22
 
-### 1. Transient-Aware Aggregation
+YAMNet Evaluation
 
-Short sounds can be diluted when all frames are averaged.
+The project includes a dedicated sound-model evaluation pipeline and a Model Evaluation tab in the frontend.
 
-Transient scoring is applied to:
+Evaluation Set
 
-```text
-Doorbell
-Knocking
-Alert Beep
-```
-
-Sustained scoring is retained for:
-
-```text
-Alarm
-Siren
-Baby Cry
-```
-
-### 2. Validated Runtime Threshold
-
-The selected runtime uses:
-
-```text
-Global threshold = 0.22
-```
-
-for all six monitored categories.
-
-### 3. Alarm / Alert Beep Resolver
-
-A targeted rule reduces Alarm ↔ Beep confusion.
-
-Current validated resolver:
-
-```text
-Alarm score >= 0.25
-AND
-Alarm / Beep score ratio >= 0.30
-```
-
-when Beep initially wins.
-
-### 4. Temporal Stability
-
-Caregiver events are not generated from every single inference window.
-
-The UI remains responsive while event creation requires stable evidence or very high confidence.
-
-### 5. Cooldown / Duplicate Suppression
-
-The same continuous sound does not repeatedly spam the caregiver.
-
-A sound transition such as:
-
-```text
-Siren → Doorbell
-```
-
-is treated as a new event.
-
----
-
-# YAMNet Evaluation
-
-A dedicated **Model Evaluation** tab presents the Sound Awareness evaluation.
-
-The evaluation uses a labeled set of:
-
-```text
-60 audio samples
+60 labeled audio samples
 6 classes
 10 samples per class
-```
 
-Classes:
+Current Validated Results
 
-```text
-Alarm
-Siren
-Doorbell
-Baby Cry
-Knocking
-Alert Beep
-```
+Metric
 
-The evaluator uses the **same AccessMate inference service** used by the application.
+Initial
 
-Generated artifacts:
+Current
 
-```text
-backend/evaluation/yamnet/results.json
-frontend/src/data/yamnetEvaluation.ts
-backend/app/services/sound_thresholds.json
-```
+Accuracy
 
-## Current Selected Runtime Result
+66.67%
 
-| Metric | Initial Evaluation | Final V3 Runtime |
-|---|---:|---:|
-| Accuracy | 66.67% | **83.33%** |
-| Macro Precision | — | **98.15%** |
-| Macro Recall | 66.67% | **83.33%** |
-| Macro F1 | 73.49% | **89.85%** |
-| No Detection | 17 / 60 | **9 / 60** |
+83.33%
 
-### Improvement
+Macro Precision
 
-```text
-Accuracy: 66.67% → 83.33%
-Macro F1: 73.49% → 89.85%
-No Detection: 17/60 → 9/60
-```
+—
 
-## Runtime Selection
+98.15%
 
-The evaluator compared:
+Macro Recall
 
-```text
-Legacy baseline
-Current baseline with Alarm/Beep disambiguation
-Per-class cross-validated calibration
-```
+66.67%
 
-Final selected runtime:
+83.33%
 
-```text
-global_0.22_with_alarm_beep_disambiguation
-```
+Macro F1
 
-The per-class threshold experiment was **not deployed** because cross-validation produced a lower result than the selected global-threshold runtime.
+73.49%
 
-## Latency
+89.85%
 
-Measured local evaluation:
+No Detection
 
-| Measurement | Result |
-|---|---:|
-| Cold start | 27,292 ms |
-| Steady-state average | **42.9 ms** |
-| Steady-state median | **43.0 ms** |
-| Steady-state P95 | **67 ms** |
-| Steady-state range | **24–74 ms** |
+17 / 60
 
-The cold-start time represents one-time TensorFlow/YAMNet loading and is separated from normal inference latency.
+9 / 60
 
-## Confusion Matrix
+Inference Latency
 
-The Model Evaluation tab includes a confusion matrix with:
+Measurement
 
-- Actual classes on rows.
-- Predicted classes on columns.
-- Correct classifications on the diagonal.
-- Misclassifications off the diagonal.
-- Count / percentage views.
-- Per-class performance.
-- Current runtime configuration.
+Result
 
-> **Important:** the Confusion Matrix is based on labeled evaluation data. It does not change simply because a live microphone sound changes, because live sound does not have known ground-truth labels. Live sound confidence and diagnostics update separately.
+Cold start
 
-## Evaluation Caveat
+27,292 ms
 
-The current 60-sample evaluation is useful for project validation and comparison between AccessMate inference versions, but it is **not a large-scale clinical or production benchmark**.
+Steady-state average
 
-Metrics should therefore be reported as:
+42.9 ms
 
-> **Performance on the current labeled AccessMate evaluation set**
+Steady-state median
 
-and should not be generalized to every acoustic environment.
+43.0 ms
 
----
+P95
 
-# Care Center and Telegram Alerts
+67 ms
 
-Care Center provides trusted-caregiver management and assistive actions.
+Range
 
-A caregiver record can include:
+24–74 ms
 
-- Full name.
-- Relationship.
-- Phone.
-- Telegram chat ID.
-- WhatsApp number.
-- Primary-caregiver status.
-- Preferred communication channel.
-- Active / inactive status.
+The cold-start delay represents the one-time TensorFlow/YAMNet model load. Sound Awareness V4 warms the model before live monitoring to avoid placing that cost on the first real detection.
 
----
+Confusion Matrix
 
-## Sound-Based Caregiver Alerts
+The Model Evaluation view includes:
 
-Sound notifications are **not limited to emergencies**.
+Actual classes on rows
 
-Stable events from all six monitored classes can participate in the caregiver workflow.
+Predicted classes on columns
 
-Current severity mapping:
+Count and percentage views
 
-| Sound | Priority |
-|---|---|
-| Alarm | High |
-| Siren | High |
-| Baby Cry | Medium |
-| Alert Beep | Medium |
-| Doorbell | Low |
-| Knocking | Low |
+Correct classifications on the diagonal
 
-Example flow:
+Misclassifications off the diagonal
 
-```text
-Stable Doorbell
-   ↓
-Sound event saved
-   ↓
-Care alert created
-   ↓
-Telegram notification
-```
+Class-level performance
 
-High-priority sounds such as Alarm and Siren can also expose a separate emergency-escalation step.
+Current runtime configuration
 
-## Spam Protection
+The confusion matrix is based on labeled evaluation data. Live microphone confidence updates independently because live audio does not have known ground-truth labels.
 
-Notifications use:
+OCR and Vision
 
-- Stable-event checks.
-- Confidence requirements.
-- Duplicate suppression.
-- Same-class cooldown.
-- New event on meaningful sound transition.
+OCR
 
-Default caregiver sound cooldown:
+AccessMate AI uses PaddleOCR PP-OCRv5 for Arabic and English text extraction.
 
-```text
-30 seconds
-```
+Pipeline:
 
----
-
-# Vision and OCR
-
-AccessMate AI separates **text extraction** from **visual understanding**.
-
----
-
-## OCR
-
-The current OCR service uses:
-
-```text
-PaddleOCR
-PP-OCRv5
-Arabic + English
-CPU inference
-```
-
-OCR pipeline:
-
-```text
 Image
-↓
+   ↓
 Text detection
-↓
+   ↓
 Text recognition
-↓
-Text blocks
-↓
+   ↓
+Structured text
+   ↓
 Confidence
-↓
-Optional explanation / accessibility workflow
-```
+   ↓
+AI explanation / accessibility workflow
 
-OCR results can be used for:
+Vision Assistance
 
-- Reading visible text.
-- Simplification.
-- Explanation.
-- AI chat.
-- Voice-friendly output.
+Vision workflows analyze the visual context of an image rather than only reading text.
 
----
+AccessMate can combine:
 
-## Vision Assistance
-
-The Vision pipeline analyzes the complete visual context rather than only reading text.
-
-Current architecture supports:
-
-```text
-Gemini Flash-Lite primary
-↓ fallback if needed
-Configured Groq vision model
-```
-
-OCR and vision can be combined so the application can reason about:
-
-```text
-Visible text
+OCR text
 +
-Visual context
+Visual understanding
 =
 More useful accessibility description
-```
 
-Representative routes:
+Document Intelligence and RAG
 
-```text
-POST /api/v1/vision/assist
-POST /api/v1/vision/describe
-```
+AccessMate AI supports document question answering through Retrieval-Augmented Generation (RAG).
 
----
+RAG is an architecture, not a single model.
 
-# Document Intelligence and RAG
+Pipeline
 
-The Library supports user document management and document intelligence.
-
-## Processing Pipeline
-
-```text
-Upload
-↓
+Document
+   ↓
 Text extraction
-↓
+   ↓
 Chunking
-↓
-Embedding
-↓
+   ↓
+Multilingual MiniLM embeddings
+   ↓
 PostgreSQL + pgvector
-↓
-Semantic retrieval
-↓
-LLM answer
-```
+   ↓
 
-## RAG
-
-RAG stands for:
-
-```text
-Retrieval-Augmented Generation
-```
-
-RAG is an **architecture**, not a single AI model.
-
-AccessMate performs:
-
-```text
 User question
-↓
-Multilingual MiniLM embedding
-↓
-Cosine-distance vector search
-↓
-Top relevant document chunks
-↓
-Evidence context
-↓
-LLM
-↓
+   ↓
+Question embedding
+   ↓
+Vector similarity search
+   ↓
+Top relevant chunks
+   ↓
+LLM + retrieved context
+   ↓
 Grounded answer
-```
 
-The RAG prompt instructs the language model to answer using the retrieved document evidence and to state when the requested information cannot be found.
+Current embedding model:
 
-## Embeddings
-
-Current embedding implementation:
-
-```text
-Model:
 sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 
-Dimension:
-384
+Configuration:
 
-normalize_embeddings:
-True
+Embedding dimension: 384
+Normalized embeddings: Yes
+Vector storage: PostgreSQL + pgvector
 
-Storage:
-PostgreSQL + pgvector
-```
+Website Safety
 
----
-
-# Website Safety
-
-Website Safety is a **hybrid decision-support system**, not a standalone trained malicious-URL model.
+Website Safety is a hybrid risk-assessment feature.
 
 It combines:
 
-```text
 URL validation
 +
-Local URL/domain heuristics
+URL / domain heuristics
 +
 Threat signals
 +
 Risk scoring
 +
-User-friendly AI explanation
-```
+User-friendly explanation
 
-Features include:
+The feature includes:
 
-- URL checks.
-- Safety result.
-- Risk evidence.
-- Recommendations.
-- Check history.
-- Trusted domains.
-- Add / edit / delete trusted domains.
+URL checks
 
-> Website Safety is decision support and should not be treated as an absolute guarantee that a website is safe or malicious.
+Risk evidence
 
----
+Recommendations
 
-# Accessibility and Localization
+History
 
-Accessibility is a cross-cutting part of the application, not a single page.
+Trusted domains
 
-## Languages
+It is a decision-support feature and should not be treated as an absolute guarantee that a website is safe or malicious.
 
-The final interface supports:
+Care Center and Telegram Alerts
 
-```text
-English
-Arabic
-```
+AccessMate AI can store trusted caregiver information and create care alerts.
 
-with:
+Environmental sound notifications are not limited to emergencies.
 
-```text
-LTR
-RTL
-```
+Example Priority Policy
 
-The localization work covers the primary workspace and public pages.
+Sound
 
-## Interface Accessibility
+Priority
 
-Current capabilities include:
+Alarm
 
-- Larger readable text.
-- Arabic / English switching.
-- RTL / LTR synchronization.
-- Voice-friendly AI output.
-- Speech recognition.
-- Speech synthesis.
-- Fullscreen captions.
-- Accessible navigation.
-- Light / dark interface support.
-- Accessibility preferences.
-- Safer browsing assistance.
+High
 
----
+Siren
 
-# Authentication and Security
+High
 
-AccessMate AI uses authenticated protected routes.
+Baby Cry
 
-## Login Flow
+Medium
 
-```text
-Email + Password
-      ↓
-Email OTP Verification
-      ↓
-Access Token
-      ↓
-Protected Application
-```
+Alert Beep
 
-Representative functionality includes:
+Medium
 
-- Register.
-- Login.
-- Email OTP verification.
-- Current-user retrieval.
-- Password reset.
-- Protected profile/account operations.
-- Optional two-factor-related flows where configured.
+Doorbell
 
----
+Low
 
-## Secret Management
+Knocking
 
-Secrets must remain in environment variables.
+Low
 
-Never commit:
+Alert Flow
 
-- Database passwords.
-- JWT secrets.
-- Groq keys.
-- OpenAI keys.
-- Gemini keys.
-- SMTP credentials.
-- Telegram bot tokens.
-- Access tokens.
-- OTP values.
+Stable sound
+   ↓
+Sound event stored
+   ↓
+Care alert created
+   ↓
+Telegram notification
 
-The local `.env` file is excluded from Git.
+To avoid notification spam, the system uses:
 
----
+Stable-event checks
 
-# System Architecture
+Confidence rules
 
-```text
+Duplicate suppression
+
+Same-class cooldown
+
+New events on meaningful sound transitions
+
+AI Models and Algorithms
+
+AccessMate AI uses specialized models for specialized tasks.
+
+Models
+
+Model / Technology
+
+Type
+
+Role
+
+Llama 3.3 70B via Groq
+
+LLM
+
+Conversational AI
+
+Whisper-compatible STT
+
+ASR
+
+Speech-to-Text
+
+PaddleOCR PP-OCRv5
+
+OCR model / pipeline
+
+Text extraction
+
+Multilingual MiniLM
+
+Embedding model
+
+Semantic retrieval
+
+YAMNet
+
+Audio classifier
+
+Environmental sound awareness
+
+Configured vision models
+
+Multimodal AI
+
+Image understanding
+
+Gemini Flash-Lite
+
+Language / multimodal model
+
+Fast translation and selected workflows
+
+Algorithms / Decision Logic
+
+Algorithm / Mechanism
+
+Role
+
+Self-Attention
+
+Transformer language understanding
+
+Autoregressive generation
+
+LLM output generation
+
+Vector similarity search
+
+Semantic document retrieval
+
+Top-K retrieval
+
+RAG evidence selection
+
+Transient-aware frame aggregation
+
+YAMNet post-processing
+
+Confidence thresholding
+
+Sound acceptance
+
+Alarm-vs-Beep disambiguation
+
+Similar-class resolution
+
+Rolling audio inference
+
+Live monitoring
+
+Temporal stabilization
+
+Prediction stability
+
+Sound transition detection
+
+Automatic sound switching
+
+Duplicate suppression
+
+Alert spam prevention
+
+Cooldown logic
+
+Notification control
+
+URL heuristics + risk scoring
+
+Website Safety
+
+Important Terminology
+
+Model: a trained AI system, e.g. YAMNet or MiniLM
+
+Algorithm: computational decision logic, e.g. thresholding or vector similarity
+
+Architecture: e.g. RAG
+
+Evaluation method: e.g. Confusion Matrix
+
+Integration: e.g. Telegram
+
+System Architecture
+
 ┌──────────────────────────────────────────────┐
 │            React + TypeScript UI             │
 │                                              │
 │ Dashboard / Chat / Hearing / Care / Library │
-│ Vision / OCR / Safety / Settings            │
+│ OCR / Vision / Safety / Settings            │
 └─────────────────────┬────────────────────────┘
-                      │ REST / multipart
+                      │
+                      │ REST / JSON / multipart
                       ▼
 ┌──────────────────────────────────────────────┐
 │                FastAPI Backend               │
 │                                              │
-│ Auth                                         │
+│ Authentication                               │
 │ Conversations                                │
 │ LLM orchestration                            │
 │ Speech-to-Text                               │
@@ -1054,91 +619,92 @@ The local `.env` file is excluded from Git.
 │ Caregiver / Telegram                         │
 └─────────────────────┬────────────────────────┘
                       │
-        ┌─────────────┴───────────────┐
-        ▼                             ▼
-┌──────────────────┐         ┌──────────────────┐
-│ PostgreSQL       │         │ External AI /    │
-│ + pgvector       │         │ Communication    │
-│                  │         │                  │
-│ Users            │         │ Groq             │
-│ Messages         │         │ Gemini           │
-│ Documents        │         │ OpenAI-compatible│
-│ Embeddings       │         │ STT              │
-│ Care alerts      │         │ Telegram         │
-│ Hearing events   │         │ Email / SMTP     │
-└──────────────────┘         └──────────────────┘
-```
+          ┌───────────┴───────────┐
+          ▼                       ▼
+┌──────────────────────┐   ┌──────────────────────┐
+│ PostgreSQL + pgvector│   │ External Services    │
+│                      │   │                      │
+│ Users                │   │ Groq                 │
+│ Conversations        │   │ Gemini               │
+│ Documents            │   │ STT Provider         │
+│ Embeddings           │   │ Telegram             │
+│ Care Alerts          │   │ Email / SMTP         │
+│ Hearing Sessions     │   │                      │
+│ Sound Events         │   │                      │
+└──────────────────────┘   └──────────────────────┘
 
----
+Technology Stack
 
-# Technology Stack
+Frontend
 
-## Frontend
+React
 
-| Technology | Role |
-|---|---|
-| React 19 | UI |
-| TypeScript 6 | Type-safe frontend |
-| Vite 8 | Development + production bundling |
-| React Router | Client routing |
-| Axios | API requests |
-| Tailwind CSS 4 | Styling |
-| Framer Motion | Animation |
-| Lucide React | Icons |
-| React Markdown | Markdown rendering |
-| remark-gfm | GitHub-Flavored Markdown |
-| Web Speech API | Browser speech recognition / speech synthesis |
+TypeScript
 
-Final validated frontend build environment:
+Vite
 
-```text
-React              19.2.8
-React DOM          19.2.8
-TypeScript         6.0.3
-Vite               8.2.1
-React Router DOM   7.18.2
-Axios               1.19.0
-Framer Motion      13.0.0
-Lucide React        1.30.0
-Tailwind CSS        4.3.3
-React Markdown      10.1.0
-remark-gfm          4.0.1
-Node.js tested      24.19.0
-npm tested          11.17.0
-```
+React Router
 
-## Backend
+Axios
 
-| Technology | Role |
-|---|---|
-| Python | Backend runtime |
-| FastAPI | REST API |
-| Uvicorn | ASGI server |
-| SQLAlchemy | ORM |
-| PostgreSQL | Main relational database |
-| pgvector | Vector similarity storage/search |
-| Pydantic | Validation |
-| LiteLLM | Multi-provider LLM orchestration |
-| Sentence Transformers | Document embeddings |
-| PaddleOCR | OCR |
-| TensorFlow 2.21 | Audio ML runtime |
-| TensorFlow Hub 0.16.1 | YAMNet loading |
-| YAMNet | Environmental sound classification |
-| SciPy 1.17.1 | Audio resampling / scientific processing |
-| tf_keras 2.21.0 | TensorFlow/Keras compatibility |
-| ONNX Runtime 1.28.0 | Validated installed runtime dependency |
-| setuptools 81.0.0 | Validated TensorFlow Hub compatibility |
+Tailwind CSS
 
-> The validated environment intentionally preserved the TensorFlow / TensorFlow Hub dependency combination that was known to work during final local testing.
+Framer Motion
 
----
+Lucide React
 
-# Project Structure
+React Markdown
 
-Simplified repository layout:
+remark-gfm
 
-```text
-AccessMate Ai Project/
+Web Speech API
+
+Backend
+
+Python
+
+FastAPI
+
+Uvicorn
+
+SQLAlchemy
+
+Pydantic
+
+PostgreSQL
+
+pgvector
+
+LiteLLM
+
+Sentence Transformers
+
+PaddleOCR
+
+TensorFlow
+
+TensorFlow Hub
+
+YAMNet
+
+SciPy
+
+ONNX Runtime
+
+tf_keras
+
+Validated audio stack:
+
+TensorFlow       2.21.0
+TensorFlow Hub   0.16.1
+SciPy            1.17.1
+ONNX Runtime     1.28.0
+tf_keras         2.21.0
+setuptools       81.0.0
+
+Project Structure
+
+AccessMate-AI/
 │
 ├── backend/
 │   ├── app/
@@ -1155,7 +721,7 @@ AccessMate Ai Project/
 │   │   └── yamnet/
 │   │       ├── evaluate_yamnet.py
 │   │       ├── results.json
-│   │       └── dataset/          # local evaluation audio, subject to licensing
+│   │       └── dataset/
 │   │
 │   ├── sql/
 │   │   ├── 001_create_hearing_persistence.sql
@@ -1163,402 +729,178 @@ AccessMate Ai Project/
 │   │
 │   ├── requirements-lock.txt
 │   ├── requirements-dev.txt
-│   └── .env                      # local only / ignored
+│   └── .env
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── assets/
 │   │   ├── components/
 │   │   ├── contexts/
-│   │   ├── hooks/
 │   │   ├── data/
-│   │   │   └── yamnetEvaluation.ts
+│   │   ├── hooks/
 │   │   ├── lib/
 │   │   ├── pages/
 │   │   ├── services/
 │   │   ├── styles/
-│   │   ├── types/
-│   │   ├── App.tsx
-│   │   └── main.tsx
+│   │   └── types/
 │   │
 │   ├── package.json
 │   ├── package-lock.json
-│   ├── vite.config.ts
-│   └── index.html
+│   └── vite.config.ts
 │
-├── .gitattributes
 ├── .gitignore
+├── .gitattributes
 └── README.md
-```
 
----
+Backend API
 
-# Backend API
+Base prefix:
 
-Core routes are versioned under:
-
-```text
 /api/v1
-```
 
 Local Swagger:
 
-```text
 http://127.0.0.1:8000/docs
-```
 
-Local health:
+Local health endpoint:
 
-```text
 GET http://127.0.0.1:8000/api/v1/health
-```
 
----
+Representative Routes
 
-## Authentication
+Authentication
 
-Representative routes:
-
-```text
 POST /api/v1/auth/register
 POST /api/v1/auth/login
 POST /api/v1/auth/email-otp/verify-login
 GET  /api/v1/auth/me
 POST /api/v1/auth/password-reset/request
 POST /api/v1/auth/password-reset/confirm
-```
 
----
+AI
 
-## AI
-
-```text
 POST /api/v1/ai/chat
 POST /api/v1/ai/simple-explanation
-GET  /api/v1/ai-interactions
-```
 
----
+OCR
 
-## Conversations
-
-Representative routes:
-
-```text
-POST   /api/v1/conversations
-GET    /api/v1/conversations/{conversation_id}
-PATCH  /api/v1/conversations/{conversation_id}
-DELETE /api/v1/conversations/{conversation_id}
-
-GET    /api/v1/conversations/me
-POST   /api/v1/conversations/me
-
-GET    /api/v1/conversations/me/{conversation_id}/messages
-POST   /api/v1/conversations/me/{conversation_id}/messages
-```
-
----
-
-## Documents / Files
-
-Representative routes include:
-
-```text
-POST /api/v1/files/upload
-GET  /api/v1/documents/me
-POST /api/v1/documents/me
-POST /api/v1/documents/me/upload
-```
-
-Document workflows include:
-
-- Extraction.
-- Chunking.
-- Embedding.
-- Search.
-- Preparation.
-- RAG question answering.
-
----
-
-## OCR
-
-```text
 POST /api/v1/ocr/extract
 POST /api/v1/ocr/explain
-```
 
----
+Vision
 
-## Vision
-
-```text
 POST /api/v1/vision/assist
 POST /api/v1/vision/describe
-```
 
----
+Hearing Assistant
 
-## Hearing Assistant
-
-```text
 POST /api/v1/hearing/transcribe-chunk
 POST /api/v1/hearing/translate
-
 POST /api/v1/hearing/sound-warmup
 POST /api/v1/hearing/classify-sound
 POST /api/v1/hearing/sound-alert
-
 POST /api/v1/hearing/sessions
 GET  /api/v1/hearing/sessions
-GET  /api/v1/hearing/sessions/{session_id}
-DELETE /api/v1/hearing/sessions/{session_id}
-
 POST /api/v1/hearing/sound-events
 GET  /api/v1/hearing/sound-events
-```
 
-Sound events can be linked to Care Alerts.
+Caregivers
 
----
-
-## Caregivers / Alerts
-
-Representative routes:
-
-```text
 GET    /api/v1/caregivers
 POST   /api/v1/caregivers
-GET    /api/v1/caregivers/{id}
 PATCH  /api/v1/caregivers/{id}
 DELETE /api/v1/caregivers/{id}
 
 POST /api/v1/care-alerts
 GET  /api/v1/care-alerts
-GET  /api/v1/care-alerts/{id}
-```
 
-Care Alert lifecycle operations support sent, failed, acknowledged, and resolved states.
-
----
-
-## Website Safety
-
-Representative routes:
-
-```text
-POST /api/v1/website-safety/check
-GET  /api/v1/website-safety/history
-GET  /api/v1/website-safety/history/{check_id}
-
-GET    /api/v1/website-safety/trusted-domains
-POST   /api/v1/website-safety/trusted-domains
-PATCH  /api/v1/website-safety/trusted-domains/{domain_id}
-DELETE /api/v1/website-safety/trusted-domains/{domain_id}
-```
-
----
-
-# Database
-
-Primary database:
-
-```text
-PostgreSQL
-```
+Database
 
 Local validated development configuration:
 
-```text
 Database:  accessmate_ai
 Container: accessmate-postgres
 Port:      5432
 Image:     pgvector/pgvector:pg16
-```
 
-## Hearing Persistence Tables
+Hearing persistence tables:
 
-```text
 hearing_sessions
 hearing_captions
 hearing_sound_events
-```
 
 Migration:
 
-```text
 backend/sql/001_create_hearing_persistence.sql
-```
 
-Current project schema management uses SQLAlchemy plus explicit SQL migration scripts for the hearing persistence layer.
+Local Development
 
-Alembic is not currently required by the project.
+Prerequisites
 
----
-
-# Local Development
-
-## Prerequisites
-
-Recommended development environment:
-
-```text
 Python 3.11+
+
 Node.js
+
 npm
+
 Docker
-PostgreSQL 16 + pgvector
-```
 
----
+PostgreSQL 16 with pgvector
 
-## 1. Repository
+Clone
 
-After GitHub publication:
+git clone https://github.com/yousefosamaahmed/Accessmate-Ai-.git
+cd Accessmate-Ai-
 
-```bash
-git clone <GITHUB_REPOSITORY_URL>
-cd <REPOSITORY_DIRECTORY>
-```
+Backend
 
-Current local project:
-
-```powershell
-cd "D:\AccessMate Ai Project"
-```
-
----
-
-## 2. PostgreSQL
-
-Check Docker:
-
-```powershell
-docker ps
-```
-
-If the local container already exists:
-
-```powershell
-docker start accessmate-postgres
-```
-
----
-
-## 3. Backend
-
-```powershell
-cd "D:\AccessMate Ai Project\backend"
+cd backend
 
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 
 python -m pip install --upgrade pip
 python -m pip install -r requirements-lock.txt
-```
 
-Development dependencies:
-
-```powershell
-python -m pip install -r requirements-dev.txt
-```
-
-Validate dependencies:
-
-```powershell
-python -m pip check
-```
-
----
-
-## 4. Hearing Database Migration
-
-Apply:
-
-```text
-backend/sql/001_create_hearing_persistence.sql
-```
-
-to a new database before using hearing persistence.
-
----
-
-## 5. Run Backend
-
-```powershell
-cd "D:\AccessMate Ai Project\backend"
-.\.venv\Scripts\Activate.ps1
+Run:
 
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
 
-Development endpoints:
+Frontend
 
-```text
-API:     http://127.0.0.1:8000
-Swagger: http://127.0.0.1:8000/docs
-Health:  http://127.0.0.1:8000/api/v1/health
-```
-
----
-
-## 6. Frontend
-
-```powershell
-cd "D:\AccessMate Ai Project\frontend"
+cd frontend
 
 npm install
 npm run dev
-```
 
-Current local frontend:
+Local frontend:
 
-```text
 http://localhost:8080
-```
 
----
+Production Frontend Build
 
-## 7. Production Frontend Build
-
-```powershell
-cd "D:\AccessMate Ai Project\frontend"
 npm run build
-```
 
-Latest validated build:
+Latest validated local build:
 
-```text
-Vite:               8.2.1
+Vite:                8.2.1
 Modules transformed: 2489
-Build status:        PASS
-Build time:          ~4.28 s
-```
+Build status:         PASS
+Build time:           ~4.28 s
 
-Output:
-
-```text
-frontend/dist/
-```
-
----
-
-# Environment Configuration
+Environment Variables
 
 Create:
 
-```text
 backend/.env
-```
 
-Do **not** commit it.
+Do not commit secrets.
 
-Typical configuration keys include:
+Example variable names:
 
-```env
 DATABASE_URL=
 SECRET_KEY=
-FRONTEND_ORIGIN=http://localhost:8080
+
+FRONTEND_ORIGIN=
 
 AI_PROVIDER=
 AI_MODEL=
@@ -1578,378 +920,318 @@ VISION_MODEL=
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_BOT_USERNAME=
 
-# Email / OTP configuration
 SMTP_HOST=
 SMTP_PORT=
 SMTP_USER=
 SMTP_PASSWORD=
-```
 
-The exact required variables depend on which providers are enabled.
+Testing and Validation
 
-A public repository should contain a sanitized:
+The current local build has been manually validated across the main workflows.
 
-```text
-.env.example
-```
+Feature
 
-with variable names only and no credentials.
+Status
 
----
+Authentication + OTP
 
-# Testing and Validation
+✅
 
-## Manual End-to-End QA
+AI Chat
 
-The current local build has been manually validated across the main user flows.
+✅
 
-```text
-Authentication + OTP                 PASS
-Dashboard                            PASS
-AI Chat                              PASS
-Contextual follow-up                 PASS
-Voice → normal chat message          PASS
-Arabic voice → Arabic response       PASS
-English voice → English response     PASS
-Explicit language override           PASS
-Conversation persistence             PASS
-Pin / Archive / Unarchive            PASS
-Delete conversation                  PASS
-File upload                          PASS
-Vision                               PASS
-OCR                                  PASS
-Library                              PASS
-RAG / document workflows             PASS
-Website Safety                       PASS
-Care Center                          PASS
-Hearing Assistant                    PASS
-Live Speech-to-Text                  PASS
-Translation                          PASS
-Type-to-Speech                       PASS
-Sound Awareness V4                   PASS
-Live sound switching                 PASS
-Live confidence                      PASS
-YAMNet warm-up                       PASS
-Model Evaluation tab                 PASS
-Confusion Matrix                     PASS
-Sound event persistence              PASS
-All-sound caregiver alerts           PASS
-Telegram integration                 PASS
-Emergency escalation                 PASS
-Alert History                        PASS
-Settings                             PASS
-Account                              PASS
-Arabic / English UI                  PASS
-RTL / LTR                            PASS
-Frontend production build            PASS
-```
+Contextual follow-up
 
----
+✅
 
-## YAMNet Evaluation
+Direct Voice Chat
 
-Final selected local evaluation:
+✅
 
-```text
-Accuracy:         83.33%
-Macro Precision:  98.15%
-Macro Recall:     83.33%
-Macro F1:         89.85%
-No Detection:     9 / 60
+Arabic / English voice behavior
 
-Steady-state average latency: 42.9 ms
-Median latency:               43.0 ms
-P95 latency:                  67 ms
-```
+✅
 
----
+Conversation persistence
 
-## Python Dependencies
+✅
 
-Validated hearing/audio stack:
+Archive / Unarchive / Pin / Delete
 
-```text
-TensorFlow       2.21.0
-TensorFlow Hub   0.16.1
-ONNX Runtime     1.28.0
-SciPy            1.17.1
-tf_keras         2.21.0
-setuptools       81.0.0
-```
+✅
 
-Dependency validation:
+File upload
 
-```powershell
-python -m pip check
-```
+✅
 
-Expected validated result:
+OCR
 
-```text
-No broken requirements found.
-```
+✅
 
----
+Vision
 
-## Automated Tests
+✅
 
-`pytest` is included in development dependencies.
+Library
 
-Current project status:
+✅
 
-```text
-pytest runtime:                available
-comprehensive automated suite: not yet implemented
-manual end-to-end QA:          completed
-```
+RAG
 
-Future engineering work should add unit, API integration, regression, and browser E2E tests.
+✅
 
----
+Website Safety
 
-# Git Milestones
+✅
 
-## Stable Hearing Assistant Baseline
+Care Center
 
-```text
-Tag:    v0.1-hearing-baseline
-Commit: b0a2219
-```
+✅
 
-## Local v1.0.0 Baseline
+Hearing Assistant
 
-```text
-Tag:    v1.0.0
-Commit: 27ff4fa
-```
+✅
 
-Associated localization / QA milestones include:
+Live captions
 
-```text
-878fa2b  fix sidebar language sync
-6c97a42  fix complete frontend localization and encoding
-ec8e92e  add backend development test requirements
-27ff4fa  merge final frontend localization and QA fixes
-```
+✅
 
-## Post-v1.0 Local Enhancements
+Translation
 
-Additional local checkpoints were created after `v1.0.0` for:
+✅
 
-- Context-aware multilingual direct voice chat.
-- YAMNet evaluation infrastructure.
-- Sound Awareness accuracy optimization.
-- Alarm / Beep disambiguation.
-- Live Sound Awareness V4.
-- Caregiver notifications for stable environmental sounds.
+Type-to-Speech
 
-Final public tag / release number should be assigned after production deployment and smoke testing.
+✅
 
----
+Sound Awareness V4
 
-# Known Limitations
+✅
 
-## 1. Sound Evaluation Dataset Size
+Live sound switching
 
-The current YAMNet evaluation set contains 60 labeled clips.
+✅
 
-It is sufficient for internal version comparison but too small to claim broad real-world generalization.
+Live confidence
 
-Future work should add:
+✅
 
-- More speakers / environments.
-- Different microphones.
-- Different distances.
-- Background noise.
-- Indoor / outdoor conditions.
-- More samples per class.
+Model Evaluation
 
-## 2. YAMNet Cold Start
+✅
 
-TensorFlow / YAMNet loading can take multiple seconds on the development machine.
+Confusion Matrix
 
-V4 mitigates this through model warm-up.
+✅
 
-## 3. Automated Testing
+Sound-event persistence
 
-The project currently relies heavily on manual QA.
+✅
 
-## 4. Frontend Bundle Size
+Telegram caregiver alerts
 
-The production build has a large JavaScript chunk warning.
+✅
 
-Future optimization should use lazy loading / code splitting.
+Emergency escalation
 
-## 5. Database Migrations
+✅
 
-A future production engineering iteration should consider Alembic for systematic migration management.
+Alert History
 
-## 6. Browser Speech APIs
+✅
 
-Browser Speech Recognition / Speech Synthesis behavior can vary between browsers and platforms.
+Arabic / English UI
 
-Backend fallbacks reduce, but do not completely remove, platform dependence.
+✅
 
----
+RTL / LTR
 
-# Deployment Checklist
+✅
+
+Production frontend build
+
+✅
+
+Security
+
+Never commit:
+
+.env
+
+database passwords
+
+JWT secrets
+
+API keys
+
+Telegram bot tokens
+
+SMTP credentials
+
+OTP values
+
+access tokens
+
+The local .env file is ignored by Git.
+
+Before public pushes:
+
+git check-ignore backend/.env
+git ls-files backend/.env
+
+Known Limitations
+
+Sound Evaluation Dataset
+
+The current YAMNet evaluation uses 60 labeled clips. It is useful for internal comparison but is not a large-scale real-world benchmark.
+
+Future evaluation should include:
+
+more recordings,
+
+different devices,
+
+different environments,
+
+background noise,
+
+indoor / outdoor conditions,
+
+more samples per class.
+
+Model Cold Start
+
+TensorFlow/YAMNet has a one-time cold-start delay. V4 reduces the user impact through model warm-up.
+
+Automated Tests
+
+Manual end-to-end QA is complete, but a comprehensive automated test suite is still future work.
+
+Browser Speech APIs
+
+Browser Speech Recognition and Speech Synthesis behavior can vary between browsers and operating systems.
+
+Deployment
 
 Production deployment is the next project phase.
 
-Before public release:
+Planned production work:
 
-- [ ] Confirm clean Git working tree.
-- [ ] Run `python -m pip check`.
-- [ ] Run final YAMNet evaluation if sound code changed.
-- [ ] Run `npm run build`.
-- [ ] Re-run critical manual QA.
-- [ ] Verify `.env` is ignored.
-- [ ] Scan Git history for secrets.
-- [ ] Create / verify `.env.example`.
-- [ ] Create GitHub repository.
-- [ ] Add Git remote.
-- [ ] Push `main`.
-- [ ] Push tags.
-- [ ] Provision production PostgreSQL + pgvector.
-- [ ] Apply database migrations.
-- [ ] Configure production environment variables.
-- [ ] Deploy backend.
-- [ ] Deploy frontend.
-- [ ] Configure domain.
-- [ ] Enable HTTPS.
-- [ ] Restrict production CORS.
-- [ ] Verify microphone permission under HTTPS.
-- [ ] Verify email OTP.
-- [ ] Verify AI Chat.
-- [ ] Verify Vision + OCR.
-- [ ] Verify RAG.
-- [ ] Verify Sound Awareness.
-- [ ] Verify Telegram caregiver alerts.
-- [ ] Verify Website Safety.
-- [ ] Run production smoke test.
-- [ ] Add GitHub URL to this README.
-- [ ] Add live-demo URL.
-- [ ] Add production API / Swagger links.
-- [ ] Add final screenshots.
-- [ ] Create final public release tag.
+Production database
+↓
+Backend deployment
+↓
+Frontend deployment
+↓
+Environment variables
+↓
+HTTPS
+↓
+CORS
+↓
+Telegram / Email verification
+↓
+Production smoke test
+↓
+Live URLs and screenshots
 
----
+Production URLs
 
-# Deployment Information
+Live Application: TBD
+Production API:   TBD
+Swagger / OpenAPI:TBD
 
-To be completed immediately after deployment:
+Roadmap
 
-```text
-GitHub Repository:
-TBD
+Potential future improvements:
 
-Live Application:
-TBD
+Larger environmental-sound dataset
 
-Production API:
-TBD
+Fine-tuned downstream sound classifier
 
-Swagger / OpenAPI:
-TBD
+Additional sound categories
 
-Production Release:
-TBD
-```
+Improved Arabic dialect speech recognition
 
----
+Better live translation
 
-# Future Roadmap
+Mobile application
 
-Potential future work includes:
+PWA support
 
-- Larger Sound Awareness evaluation datasets.
-- Fine-tuned downstream audio classifier using YAMNet embeddings.
-- Additional environmental sound categories.
-- More robust Arabic dialect speech support.
-- Better live translation.
-- Native mobile application.
-- PWA optimization.
-- Wearable integration.
-- Smart-glasses workflows.
-- More advanced voice navigation.
-- Additional multimodal reasoning.
-- RAG source citations in the UI.
-- RAG retrieval evaluation.
-- Full automated test suite.
-- CI/CD.
-- Structured production observability.
-- Rate limiting.
-- Background jobs for long AI tasks.
-- Cloud object storage.
-- Alembic migrations.
-- Frontend code splitting.
-- Accessibility conformance audits.
+Wearable integration
 
----
+Smart-glasses workflows
 
-# Safety Notes
+More advanced voice navigation
+
+RAG source citations
+
+Full automated test suite
+
+CI/CD
+
+Production observability
+
+Rate limiting
+
+Background task workers
+
+Alembic migrations
+
+Frontend code splitting
+
+Accessibility conformance audits
+
+Safety
 
 AccessMate AI is an assistive decision-support platform.
 
 It should not be represented as:
 
-- A medical diagnostic device.
-- A guaranteed emergency-response service.
-- A guaranteed malicious-site detector.
-- A replacement for emergency services.
-- A replacement for professional care where professional care is required.
+a medical diagnostic device,
 
-Caregiver and Telegram alerts depend on network availability, valid configuration, and third-party service availability.
+a guaranteed emergency-response service,
 
----
+a guaranteed malicious-site detector,
 
-# References
+a replacement for emergency services,
+
+or a replacement for professional care where professional care is required.
+
+References
 
 Official documentation for major technologies used in the project:
 
-- FastAPI — https://fastapi.tiangolo.com/
-- FastAPI CORS — https://fastapi.tiangolo.com/tutorial/cors/
-- FastAPI Security — https://fastapi.tiangolo.com/tutorial/security/
-- React — https://react.dev/
-- Vite — https://vite.dev/
-- TypeScript — https://www.typescriptlang.org/docs/
-- React Router — https://reactrouter.com/
-- Tailwind CSS — https://tailwindcss.com/docs
-- SQLAlchemy — https://docs.sqlalchemy.org/
-- PostgreSQL — https://www.postgresql.org/docs/
-- pgvector — https://github.com/pgvector/pgvector
-- Sentence Transformers — https://www.sbert.net/
-- PaddleOCR — https://www.paddleocr.ai/
-- TensorFlow — https://www.tensorflow.org/
-- TensorFlow Hub — https://www.tensorflow.org/hub
-- YAMNet — https://www.tensorflow.org/hub/tutorials/yamnet
-- YAMNet / AudioSet tutorial — https://www.tensorflow.org/tutorials/audio/transfer_learning_audio
-- ONNX Runtime — https://onnxruntime.ai/docs/
-- LiteLLM — https://docs.litellm.ai/
-- Groq API — https://console.groq.com/docs
-- Gemini API — https://ai.google.dev/gemini-api/docs
-- OpenAI Speech-to-Text API — https://platform.openai.com/docs/guides/speech-to-text
-- Telegram Bot API — https://core.telegram.org/bots/api
-- Web Speech API — https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API
-- Git — https://git-scm.com/docs
-- scikit-learn model evaluation — https://scikit-learn.org/stable/modules/model_evaluation.html
+FastAPI
 
----
+React
 
-# Final Release Note
+TypeScript
 
-The current AccessMate AI codebase represents the **final local pre-deployment product build** for the current academic/project scope.
+Vite
 
-The remaining release work is operational rather than architectural:
+PostgreSQL
 
-```text
-GitHub publication
-Production infrastructure
-HTTPS / domain configuration
-Production smoke testing
-README deployment URLs
-Final screenshots
-Final public release tag
-```
+pgvector
 
-Once those items are complete, this README can be updated without changing the core technical documentation above.
+Sentence Transformers
+
+PaddleOCR
+
+TensorFlow
+
+TensorFlow Hub
+
+YAMNet
+
+ONNX Runtime
+
+Groq API
+
+Gemini API
+
+Telegram Bot API
+
+Web Speech API

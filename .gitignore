@@ -115,3 +115,5 @@ backend/research/karsl*/
 
 
 backend/account_routes.json
+
+backend/evaluation/yamnet/ESC-50-master.zip

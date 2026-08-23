@@ -221,6 +221,34 @@ type NavigationState = {
 };
 
 
+type HearingChunkResponse = {
+  sequence: number;
+
+  transcript: string;
+
+  language: string;
+
+  is_speech: boolean;
+
+  provider: string;
+
+  model: string;
+
+  latency_ms: number;
+};
+
+
+type SendMessageOptions = {
+  textOverride?: string;
+
+  languageOverride?:
+    | "ar"
+    | "en";
+
+  ignoreSelectedFile?: boolean;
+};
+
+
 /* =========================================================
    CONSTANTS
    ========================================================= */
@@ -231,6 +259,10 @@ const UUID_REGEX =
 
 const DOCUMENT_HISTORY_LIMIT =
   6;
+
+
+const GENERAL_CHAT_HISTORY_LIMIT =
+  10;
 
 
 /* =========================================================
@@ -265,6 +297,211 @@ function detectLanguage(
   )
     ? "ar"
     : "en";
+}
+
+
+function normalizeProviderLanguage(
+  value?: string | null
+): "ar" | "en" | null {
+  const normalized =
+    String(
+      value ??
+        ""
+    )
+      .trim()
+      .toLowerCase();
+
+
+  if (
+    normalized === "ar" ||
+    normalized.startsWith("ar-") ||
+    normalized.includes("arabic")
+  ) {
+    return "ar";
+  }
+
+
+  if (
+    normalized === "en" ||
+    normalized.startsWith("en-") ||
+    normalized.includes("english")
+  ) {
+    return "en";
+  }
+
+
+  return null;
+}
+
+
+function resolveMessageLanguage(
+  text: string,
+  providerLanguage?: string | null
+): "ar" | "en" {
+  /*
+   * For voice messages the speech provider knows the
+   * ORIGINAL spoken language. Trust that before looking at
+   * the transcript script because some Whisper-compatible
+   * providers can occasionally return an English rendering
+   * even when the detected source language is Arabic.
+   */
+  const provider =
+    normalizeProviderLanguage(
+      providerLanguage
+    );
+
+
+  if (provider) {
+    return provider;
+  }
+
+
+  return detectLanguage(
+    text
+  );
+}
+
+
+function findLastPatternIndex(
+  value: string,
+  patterns: RegExp[]
+) {
+  let bestIndex = -1;
+
+
+  for (const pattern of patterns) {
+    const flags =
+      pattern.flags.includes("g")
+        ? pattern.flags
+        : `${pattern.flags}g`;
+
+
+    const globalPattern =
+      new RegExp(
+        pattern.source,
+        flags
+      );
+
+
+    for (
+      const match of value.matchAll(
+        globalPattern
+      )
+    ) {
+      bestIndex =
+        Math.max(
+          bestIndex,
+          match.index ?? -1
+        );
+    }
+  }
+
+
+  return bestIndex;
+}
+
+
+function resolveRequestedResponseLanguage(
+  text: string,
+  fallbackLanguage?: "ar" | "en"
+): "ar" | "en" {
+  const normalized =
+    text
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+
+
+  const arabicOutputPatterns = [
+    /بالعربي(?:ة)?/,
+    /باللغة العربية/,
+    /رد(?: عليا| عليّ| لي)? بالعربي(?:ة)?/,
+    /جاوب(?:ني)? بالعربي(?:ة)?/,
+    /قولي بالعربي(?:ة)?/,
+    /قول(?:ها|ه)? بالعربي(?:ة)?/,
+    /اكتب(?:ها)? بالعربي(?:ة)?/,
+    /اشرح(?:ها|ه)? بالعربي(?:ة)?/,
+    /حو(?:ل|ّل)(?:ها|ه)? (?:إلى|الى|ل) ?العربي(?:ة)?/,
+    /ترجم(?:ها|ه)? (?:إلى|الى|ل) ?العربي(?:ة)?/,
+    /\bin arabic\b/i,
+    /\barabic please\b/i,
+    /\banswer in arabic\b/i,
+    /\brespond in arabic\b/i,
+    /\breply in arabic\b/i,
+    /\bexplain (?:it )?in arabic\b/i,
+    /\btranslate (?:it )?(?:to|into) arabic\b/i,
+  ];
+
+
+  const englishOutputPatterns = [
+    /بالانجليزي/,
+    /بالإنجليزي/,
+    /بالانجليزية/,
+    /بالإنجليزية/,
+    /باللغة الانجليزية/,
+    /باللغة الإنجليزية/,
+    /رد(?: عليا| عليّ| لي)? بالانجليزي/,
+    /رد(?: عليا| عليّ| لي)? بالإنجليزي/,
+    /جاوب(?:ني)? بالانجليزي/,
+    /جاوب(?:ني)? بالإنجليزي/,
+    /قولي بالانجليزي/,
+    /قولي بالإنجليزي/,
+    /اكتب(?:ها)? بالانجليزي/,
+    /اكتب(?:ها)? بالإنجليزي/,
+    /اشرح(?:ها|ه)? بالانجليزي/,
+    /اشرح(?:ها|ه)? بالإنجليزي/,
+    /\bin english\b/i,
+    /\benglish please\b/i,
+    /\banswer in english\b/i,
+    /\brespond in english\b/i,
+    /\breply in english\b/i,
+    /\bexplain (?:it )?in english\b/i,
+    /\btranslate (?:it )?(?:to|into) english\b/i,
+  ];
+
+
+  const arabicInstructionIndex =
+    findLastPatternIndex(
+      normalized,
+      arabicOutputPatterns
+    );
+
+
+  const englishInstructionIndex =
+    findLastPatternIndex(
+      normalized,
+      englishOutputPatterns
+    );
+
+
+  if (
+    arabicInstructionIndex >= 0 ||
+    englishInstructionIndex >= 0
+  ) {
+    return arabicInstructionIndex >
+      englishInstructionIndex
+      ? "ar"
+      : "en";
+  }
+
+
+  /*
+   * Default rule requested for AccessMate Chat:
+   * current message controls the response language.
+   * Arabic text wins for normal Arabic/English code-switching
+   * (for example: "اشرح AI بالتفصيل").
+   */
+  if (/[\u0600-\u06FF]/.test(text)) {
+    return "ar";
+  }
+
+
+  if (/[A-Za-z]/.test(text)) {
+    return "en";
+  }
+
+
+  return fallbackLanguage ?? "en";
 }
 
 
@@ -319,6 +556,88 @@ function normalizeDocumentQuestion(
 
 
   return value;
+}
+
+
+/* =========================================================
+   GENERAL CHAT HISTORY
+   ========================================================= */
+
+function buildRecentGeneralHistory(
+  messages: Message[]
+): DocumentConversationTurn[] {
+  return messages
+    .filter(
+      (message) =>
+        (
+          message.role === "user" ||
+          message.role === "assistant"
+        ) &&
+        Boolean(
+          message.content?.trim()
+        )
+    )
+    .map(
+      (message) => ({
+        role: message.role,
+
+        /*
+         * Keep enough context for follow-up questions while
+         * preventing one very long answer from dominating the
+         * next request.
+         */
+        content:
+          message.content
+            .trim()
+            .slice(0, 1800),
+      })
+    )
+    .slice(
+      -GENERAL_CHAT_HISTORY_LIMIT
+    );
+}
+
+
+function buildGeneralChatPrompt(
+  currentMessage: string,
+  history: DocumentConversationTurn[],
+  outputLanguage: "ar" | "en"
+) {
+  if (!history.length) {
+    return currentMessage;
+  }
+
+
+  const historyText =
+    history
+      .map(
+        (turn) =>
+          `${turn.role === "user" ? "USER" : "ASSISTANT"}: ${turn.content}`
+      )
+      .join("\n\n");
+
+
+  const languageName =
+    outputLanguage === "ar"
+      ? "Arabic"
+      : "English";
+
+
+  return `
+<conversation_history>
+${historyText}
+</conversation_history>
+
+<current_user_message>
+${currentMessage}
+</current_user_message>
+
+Continue the SAME conversation.
+Use the conversation history only to understand references and follow-up requests such as "tell me more", "give me more information", "اشرح أكتر", or "اديني معلومات أكتر".
+Answer the CURRENT user message, not the history.
+The response language for this turn is ${languageName}.
+For informational questions, give a clear and detailed explanation rather than an overly short answer.
+`.trim();
 }
 
 
@@ -1153,6 +1472,13 @@ const ChatPage:
       useState(0);
 
 
+    const [
+      isTranscribing,
+      setIsTranscribing,
+    ] =
+      useState(false);
+
+
     /* =====================================================
        REFS
        ===================================================== */
@@ -1183,6 +1509,14 @@ const ChatPage:
 
     const audioChunksRef =
       useRef<Blob[]>([]);
+
+
+    const recordingResolveRef =
+      useRef<
+        ((
+          file: File | null
+        ) => void) | null
+      >(null);
 
 
     const recordingTimerRef =
@@ -1673,6 +2007,18 @@ const ChatPage:
 
 
         if (
+          recordingResolveRef.current
+        ) {
+          recordingResolveRef.current(
+            null
+          );
+
+          recordingResolveRef.current =
+            null;
+        }
+
+
+        if (
           recordingTimerRef.current
         ) {
           clearInterval(
@@ -2000,22 +2346,46 @@ const ChatPage:
       text: string,
       language:
         | "ar"
-        | "en"
+        | "en",
+      recentHistory:
+        DocumentConversationTurn[] = []
     ) {
+      const responseLanguage =
+        resolveRequestedResponseLanguage(
+          text,
+          language
+        );
+
+
+      const contextualMessage =
+        buildGeneralChatPrompt(
+          text,
+          recentHistory,
+          responseLanguage
+        );
+
+
       const response =
         await api.post(
           "/ai/chat",
           {
             message:
-              text,
+              contextualMessage,
 
             prompt:
-              text,
+              contextualMessage,
 
             question:
               text,
 
-            language,
+            language:
+              responseLanguage,
+
+            explanation_level:
+              "detailed",
+
+            voice_friendly:
+              true,
           }
         );
 
@@ -2518,6 +2888,78 @@ const ChatPage:
        AUDIO
        ===================================================== */
 
+    async function transcribeRecordedVoice(
+      file: File
+    ) {
+      const formData =
+        new FormData();
+
+
+      formData.append(
+        "audio_file",
+        file
+      );
+
+
+      /*
+       * Important: do not force the UI language here.
+       * The speech provider should detect whether the user
+       * spoke Arabic or English.
+       */
+      formData.append(
+        "language",
+        "auto"
+      );
+
+
+      formData.append(
+        "sequence",
+        "0"
+      );
+
+
+      const response =
+        await api.post(
+          "/hearing/transcribe-chunk",
+          formData
+        );
+
+
+      const result =
+        unwrapResponse<HearingChunkResponse>(
+          response
+        );
+
+
+      const transcript =
+        String(
+          result?.transcript ??
+            ""
+        ).trim();
+
+
+      if (
+        !result?.is_speech ||
+        !transcript
+      ) {
+        throw new Error(
+          "I couldn't detect clear speech in that recording. Please try again."
+        );
+      }
+
+
+      return {
+        transcript,
+
+        language:
+          resolveMessageLanguage(
+            transcript,
+            result.language
+          ),
+      };
+    }
+
+
     async function callAudioService(
       file: File,
       taskText: string
@@ -2831,13 +3273,20 @@ const ChatPage:
        SEND
        ===================================================== */
 
-    async function handleSend() {
+    async function sendMessage(
+      options: SendMessageOptions = {}
+    ) {
       const text =
-        input.trim();
+        (
+          options.textOverride ??
+          input
+        ).trim();
 
 
       const currentFile =
-        selectedFile;
+        options.ignoreSelectedFile
+          ? null
+          : selectedFile;
 
 
       if (
@@ -2847,8 +3296,7 @@ const ChatPage:
         ) ||
         loading ||
         externalProcessing ||
-        sendingRef.current ||
-        isRecording
+        sendingRef.current
       ) {
         return;
       }
@@ -2894,11 +3342,21 @@ const ChatPage:
         );
 
 
+      const recentGeneralHistory =
+        buildRecentGeneralHistory(
+          messages
+        );
+
+
       const language =
-        detectLanguage(
-          text ||
-            currentFile?.name ||
-            ""
+        resolveRequestedResponseLanguage(
+          text,
+          options.languageOverride ??
+            detectLanguage(
+              text ||
+                currentFile?.name ||
+                ""
+            )
         );
 
 
@@ -3234,7 +3692,8 @@ const ChatPage:
           answer =
             await callTextAI(
               text,
-              language
+              language,
+              recentGeneralHistory
             );
         }
 
@@ -3332,6 +3791,122 @@ const ChatPage:
           50
         );
       }
+    }
+
+
+    async function handleSend() {
+      /*
+       * ChatGPT-like voice send:
+       *
+       * While the microphone is still recording, the Send
+       * button finalizes the recording, transcribes it, and
+       * sends the transcript as a normal text message.
+       *
+       * The WebM file is never added to selectedFile, never
+       * uploaded to the Library, and never shown as an
+       * attachment bubble.
+       */
+      if (
+        isRecording
+      ) {
+        if (
+          loading ||
+          externalProcessing ||
+          historyLoading ||
+          isTranscribing ||
+          sendingRef.current
+        ) {
+          return;
+        }
+
+
+        setIsTranscribing(
+          true
+        );
+
+
+        try {
+          const audioFile =
+            await stopRecordingAndGetFile();
+
+
+          if (
+            !audioFile ||
+            audioFile.size ===
+              0
+          ) {
+            throw new Error(
+              "The voice recording was empty. Please try again."
+            );
+          }
+
+
+          const {
+            transcript,
+            language,
+          } =
+            await transcribeRecordedVoice(
+              audioFile
+            );
+
+
+          /*
+           * Do NOT place the transcript in the composer.
+           * Send it directly as the user's message so the
+           * conversation looks exactly like a typed message.
+           */
+          await sendMessage(
+            {
+              textOverride:
+                transcript,
+
+              languageOverride:
+                language,
+
+              ignoreSelectedFile:
+                true,
+            }
+          );
+        } catch (error) {
+          console.error(
+            "Voice message failed:",
+            error
+          );
+
+
+          setMessages(
+            (current) => [
+              ...current,
+              {
+                id:
+                  createTemporaryId(),
+
+                role:
+                  "assistant",
+
+                content:
+                  getApiError(
+                    error
+                  ),
+
+                timestamp:
+                  new Date()
+                    .toISOString(),
+              },
+            ]
+          );
+        } finally {
+          setIsTranscribing(
+            false
+          );
+        }
+
+
+        return;
+      }
+
+
+      await sendMessage();
     }
 
 
@@ -3510,26 +4085,35 @@ const ChatPage:
               );
 
 
-            if (
+            const audioFile =
               blob.size >
-              0
+                0
+                ? new File(
+                    [
+                      blob,
+                    ],
+                    `voice-recording-${Date.now()}.webm`,
+                    {
+                      type:
+                        "audio/webm",
+                    }
+                  )
+                : null;
+
+
+            /*
+             * Resolve the pending Send action. The recording
+             * is intentionally NOT assigned to selectedFile.
+             */
+            if (
+              recordingResolveRef.current
             ) {
-              const audioFile =
-                new File(
-                  [
-                    blob,
-                  ],
-                  `voice-recording-${Date.now()}.webm`,
-                  {
-                    type:
-                      "audio/webm",
-                  }
-                );
-
-
-              setSelectedFile(
+              recordingResolveRef.current(
                 audioFile
               );
+
+              recordingResolveRef.current =
+                null;
             }
 
 
@@ -3558,14 +4142,6 @@ const ChatPage:
 
             setRecordingSeconds(
               0
-            );
-
-
-            window.setTimeout(
-              () => {
-                inputRef.current?.focus();
-              },
-              50
             );
           };
 
@@ -3643,23 +4219,61 @@ const ChatPage:
     }
 
 
-    function stopRecording() {
+    function stopRecordingAndGetFile():
+      Promise<File | null> {
       const recorder =
         mediaRecorderRef.current;
 
 
       if (
-        !recorder
+        !recorder ||
+        recorder.state ===
+          "inactive"
       ) {
-        return;
+        return Promise.resolve(
+          null
+        );
       }
 
 
+      return new Promise(
+        (resolve) => {
+          recordingResolveRef.current =
+            resolve;
+
+          recorder.stop();
+        }
+      );
+    }
+
+
+    function cancelRecording() {
+      const recorder =
+        mediaRecorderRef.current;
+
+
+      /*
+       * No pending resolver means onstop simply discards
+       * the captured audio.
+       */
+      recordingResolveRef.current =
+        null;
+
+
       if (
+        recorder &&
         recorder.state !==
-        "inactive"
+          "inactive"
       ) {
         recorder.stop();
+      } else {
+        setIsRecording(
+          false
+        );
+
+        setRecordingSeconds(
+          0
+        );
       }
     }
 
@@ -3668,7 +4282,7 @@ const ChatPage:
       if (
         isRecording
       ) {
-        stopRecording();
+        cancelRecording();
       } else {
         void startRecording();
       }
@@ -3710,7 +4324,8 @@ const ChatPage:
 
     const assistantWorking =
       loading ||
-      externalProcessing;
+      externalProcessing ||
+      isTranscribing;
 
 
     function formatMessageTime(
@@ -4478,7 +5093,7 @@ const ChatPage:
                       </span>
 
                       <span className="text-red-200/60">
-                        • Click mic to stop
+                        • Press Send to transcribe & send
                       </span>
                     </div>
                   </div>
@@ -4605,10 +5220,12 @@ const ChatPage:
                     }
                     onKeyDown={handleKeyPress}
                     placeholder={
-                      externalProcessing
+                      isTranscribing
+                        ? "Transcribing voice message..."
+                        : externalProcessing
                         ? "AccessMate is processing your request..."
                         : isRecording
-                        ? "Recording voice..."
+                        ? "Recording voice... Press Send when finished."
                         : selectedFile
                         ? "What do you want AccessMate to do with this file?"
                         : activeContextKind ===
@@ -4620,6 +5237,7 @@ const ChatPage:
                       loading ||
                       externalProcessing ||
                       isRecording ||
+                      isTranscribing ||
                       historyLoading
                     }
                     className="
@@ -4656,11 +5274,12 @@ const ChatPage:
                       disabled={
                         loading ||
                         externalProcessing ||
+                        isTranscribing ||
                         historyLoading
                       }
                       title={
                         isRecording
-                          ? "Stop recording"
+                          ? "Cancel recording"
                           : "Start recording"
                       }
                       className={`relative flex h-9 w-9 items-center justify-center rounded-[9px] transition disabled:cursor-not-allowed disabled:opacity-40 ${
@@ -4684,13 +5303,11 @@ const ChatPage:
                         />
                       )}
 
-                      <Mic
-                        className={`h-4 w-4 ${
-                          isRecording
-                            ? "animate-pulse"
-                            : ""
-                        }`}
-                      />
+                      {isRecording ? (
+                        <X className="h-4 w-4" />
+                      ) : (
+                        <Mic className="h-4 w-4" />
+                      )}
                     </button>
 
 
@@ -4703,8 +5320,9 @@ const ChatPage:
                         loading ||
                         externalProcessing ||
                         historyLoading ||
-                        isRecording ||
+                        isTranscribing ||
                         (
+                          !isRecording &&
                           !input.trim() &&
                           !selectedFile
                         )
@@ -4726,7 +5344,11 @@ const ChatPage:
                         disabled:cursor-not-allowed
                         disabled:opacity-45
                       "
-                      title="Send"
+                      title={
+                        isRecording
+                          ? "Send voice message"
+                          : "Send"
+                      }
                     >
                       <Send className="h-4 w-4" />
                     </button>

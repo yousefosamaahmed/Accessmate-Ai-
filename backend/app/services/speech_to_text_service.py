@@ -219,6 +219,21 @@ class SpeechToTextService:
             if normalized_language:
                 kwargs["language"] = normalized_language
 
+                # Keep transcription in the spoken language.
+                # This is especially useful for the Arabic retry
+                # performed by HearingService when an automatic
+                # pass is rendered in English.
+                if normalized_language == "ar":
+                    kwargs["prompt"] = (
+                        "اكتب الكلام المنطوق بالعربية كما هو، "
+                        "ولا تترجمه إلى الإنجليزية."
+                    )
+                elif normalized_language == "en":
+                    kwargs["prompt"] = (
+                        "Transcribe the spoken English as spoken. "
+                        "Do not translate it."
+                    )
+
             if response_format == "verbose_json":
                 kwargs["timestamp_granularities"] = ["segment"]
 

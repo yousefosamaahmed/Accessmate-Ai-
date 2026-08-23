@@ -1,0 +1,2234 @@
+{
+  "schema_version": 2,
+  "status": "evaluated",
+  "model": "YAMNet AudioSet",
+  "model_source": "https://tfhub.dev/google/yamnet/1",
+  "evaluation_scope": "AccessMate monitored environmental sound categories",
+  "evaluated_at": "2026-08-23T21:14:42.634092+00:00",
+  "threshold": 0.22,
+  "total_samples": 60,
+  "target_classes": [
+    "alarm",
+    "siren",
+    "doorbell",
+    "baby_cry",
+    "knock",
+    "beep"
+  ],
+  "labels": [
+    "alarm",
+    "siren",
+    "doorbell",
+    "baby_cry",
+    "knock",
+    "beep",
+    "no_detection"
+  ],
+  "display_labels": {
+    "alarm": "Alarm",
+    "siren": "Siren",
+    "doorbell": "Doorbell",
+    "baby_cry": "Baby Cry",
+    "knock": "Knocking",
+    "beep": "Alert Beep",
+    "no_detection": "No Detection"
+  },
+  "class_sample_counts": {
+    "alarm": 10,
+    "siren": 10,
+    "doorbell": 10,
+    "baby_cry": 10,
+    "knock": 10,
+    "beep": 10
+  },
+  "optimized_thresholds": {
+    "alarm": 0.46,
+    "siren": 0.43,
+    "doorbell": 0.29,
+    "baby_cry": 0.06,
+    "knock": 0.11,
+    "beep": 0.08
+  },
+  "selected_runtime_thresholds": {
+    "alarm": 0.22,
+    "siren": 0.22,
+    "doorbell": 0.22,
+    "baby_cry": 0.22,
+    "knock": 0.22,
+    "beep": 0.22
+  },
+  "selected_runtime_mode": "global_0.22_with_alarm_beep_disambiguation",
+  "alarm_beep_disambiguation": {
+    "enabled": true,
+    "min_alarm_score": 0.25,
+    "min_alarm_to_beep_ratio": 0.3
+  },
+  "cross_validation_folds": 5,
+  "metrics": {
+    "accuracy": 0.833333,
+    "macro_precision": 0.981481,
+    "macro_recall": 0.833333,
+    "macro_f1": 0.898463,
+    "correct_predictions": 50,
+    "no_detection_count": 9,
+    "no_detection_rate": 0.15
+  },
+  "per_class": {
+    "alarm": {
+      "display_label": "Alarm",
+      "support": 10,
+      "predicted_support": 8,
+      "true_positive": 8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.888889
+    },
+    "siren": {
+      "display_label": "Siren",
+      "support": 10,
+      "predicted_support": 10,
+      "true_positive": 10,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "doorbell": {
+      "display_label": "Doorbell",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 9,
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.947368
+    },
+    "baby_cry": {
+      "display_label": "Baby Cry",
+      "support": 10,
+      "predicted_support": 8,
+      "true_positive": 8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.888889
+    },
+    "knock": {
+      "display_label": "Knocking",
+      "support": 10,
+      "predicted_support": 7,
+      "true_positive": 7,
+      "precision": 1.0,
+      "recall": 0.7,
+      "f1": 0.823529
+    },
+    "beep": {
+      "display_label": "Alert Beep",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 8,
+      "precision": 0.888889,
+      "recall": 0.8,
+      "f1": 0.842105
+    }
+  },
+  "confusion_matrix": [
+    [
+      8,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      9,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      8,
+      0,
+      0,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      7,
+      0,
+      3
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "normalized_confusion_matrix": [
+    [
+      0.8,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.1,
+      0.1
+    ],
+    [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.9,
+      0.0,
+      0.0,
+      0.0,
+      0.1
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.8,
+      0.0,
+      0.0,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.7,
+      0.0,
+      0.3
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.8,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "legacy_baseline_metrics": {
+    "accuracy": 0.8,
+    "macro_precision": 0.954545,
+    "macro_recall": 0.8,
+    "macro_f1": 0.861949,
+    "correct_predictions": 48,
+    "no_detection_count": 9,
+    "no_detection_rate": 0.15
+  },
+  "legacy_baseline_per_class": {
+    "alarm": {
+      "display_label": "Alarm",
+      "support": 10,
+      "predicted_support": 6,
+      "true_positive": 6,
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75
+    },
+    "siren": {
+      "display_label": "Siren",
+      "support": 10,
+      "predicted_support": 10,
+      "true_positive": 10,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "doorbell": {
+      "display_label": "Doorbell",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 9,
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.947368
+    },
+    "baby_cry": {
+      "display_label": "Baby Cry",
+      "support": 10,
+      "predicted_support": 8,
+      "true_positive": 8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.888889
+    },
+    "knock": {
+      "display_label": "Knocking",
+      "support": 10,
+      "predicted_support": 7,
+      "true_positive": 7,
+      "precision": 1.0,
+      "recall": 0.7,
+      "f1": 0.823529
+    },
+    "beep": {
+      "display_label": "Alert Beep",
+      "support": 10,
+      "predicted_support": 11,
+      "true_positive": 8,
+      "precision": 0.727273,
+      "recall": 0.8,
+      "f1": 0.761905
+    }
+  },
+  "legacy_baseline_confusion_matrix": [
+    [
+      6,
+      0,
+      0,
+      0,
+      0,
+      3,
+      1
+    ],
+    [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      9,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      8,
+      0,
+      0,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      7,
+      0,
+      3
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "legacy_baseline_normalized_confusion_matrix": [
+    [
+      0.6,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.3,
+      0.1
+    ],
+    [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.9,
+      0.0,
+      0.0,
+      0.0,
+      0.1
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.8,
+      0.0,
+      0.0,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.7,
+      0.0,
+      0.3
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.8,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "baseline_metrics": {
+    "accuracy": 0.833333,
+    "macro_precision": 0.981481,
+    "macro_recall": 0.833333,
+    "macro_f1": 0.898463,
+    "correct_predictions": 50,
+    "no_detection_count": 9,
+    "no_detection_rate": 0.15
+  },
+  "baseline_per_class": {
+    "alarm": {
+      "display_label": "Alarm",
+      "support": 10,
+      "predicted_support": 8,
+      "true_positive": 8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.888889
+    },
+    "siren": {
+      "display_label": "Siren",
+      "support": 10,
+      "predicted_support": 10,
+      "true_positive": 10,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "doorbell": {
+      "display_label": "Doorbell",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 9,
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.947368
+    },
+    "baby_cry": {
+      "display_label": "Baby Cry",
+      "support": 10,
+      "predicted_support": 8,
+      "true_positive": 8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.888889
+    },
+    "knock": {
+      "display_label": "Knocking",
+      "support": 10,
+      "predicted_support": 7,
+      "true_positive": 7,
+      "precision": 1.0,
+      "recall": 0.7,
+      "f1": 0.823529
+    },
+    "beep": {
+      "display_label": "Alert Beep",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 8,
+      "precision": 0.888889,
+      "recall": 0.8,
+      "f1": 0.842105
+    }
+  },
+  "baseline_confusion_matrix": [
+    [
+      8,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      9,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      8,
+      0,
+      0,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      7,
+      0,
+      3
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "baseline_normalized_confusion_matrix": [
+    [
+      0.8,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.1,
+      0.1
+    ],
+    [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.9,
+      0.0,
+      0.0,
+      0.0,
+      0.1
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.8,
+      0.0,
+      0.0,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.7,
+      0.0,
+      0.3
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.8,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "calibrated_cv_metrics": {
+    "accuracy": 0.816667,
+    "macro_precision": 0.981481,
+    "macro_recall": 0.816667,
+    "macro_f1": 0.889692,
+    "correct_predictions": 49,
+    "no_detection_count": 10,
+    "no_detection_rate": 0.166667
+  },
+  "calibrated_cv_per_class": {
+    "alarm": {
+      "display_label": "Alarm",
+      "support": 10,
+      "predicted_support": 7,
+      "true_positive": 7,
+      "precision": 1.0,
+      "recall": 0.7,
+      "f1": 0.823529
+    },
+    "siren": {
+      "display_label": "Siren",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 9,
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.947368
+    },
+    "doorbell": {
+      "display_label": "Doorbell",
+      "support": 10,
+      "predicted_support": 8,
+      "true_positive": 8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.888889
+    },
+    "baby_cry": {
+      "display_label": "Baby Cry",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 9,
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.947368
+    },
+    "knock": {
+      "display_label": "Knocking",
+      "support": 10,
+      "predicted_support": 8,
+      "true_positive": 8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.888889
+    },
+    "beep": {
+      "display_label": "Alert Beep",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 8,
+      "precision": 0.888889,
+      "recall": 0.8,
+      "f1": 0.842105
+    }
+  },
+  "calibrated_cv_confusion_matrix": [
+    [
+      7,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2
+    ],
+    [
+      0,
+      9,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      8,
+      0,
+      0,
+      0,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      9,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      8,
+      0,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "calibrated_cv_normalized_confusion_matrix": [
+    [
+      0.7,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.1,
+      0.2
+    ],
+    [
+      0.0,
+      0.9,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.1
+    ],
+    [
+      0.0,
+      0.0,
+      0.8,
+      0.0,
+      0.0,
+      0.0,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.9,
+      0.0,
+      0.0,
+      0.1
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.8,
+      0.0,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.8,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "runtime_calibration_metrics": {
+    "accuracy": 0.933333,
+    "macro_precision": 0.983333,
+    "macro_recall": 0.933333,
+    "macro_f1": 0.956043,
+    "correct_predictions": 56,
+    "no_detection_count": 3,
+    "no_detection_rate": 0.05
+  },
+  "runtime_calibration_per_class": {
+    "alarm": {
+      "display_label": "Alarm",
+      "support": 10,
+      "predicted_support": 8,
+      "true_positive": 8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.888889
+    },
+    "siren": {
+      "display_label": "Siren",
+      "support": 10,
+      "predicted_support": 10,
+      "true_positive": 10,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "doorbell": {
+      "display_label": "Doorbell",
+      "support": 10,
+      "predicted_support": 9,
+      "true_positive": 9,
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.947368
+    },
+    "baby_cry": {
+      "display_label": "Baby Cry",
+      "support": 10,
+      "predicted_support": 10,
+      "true_positive": 10,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "knock": {
+      "display_label": "Knocking",
+      "support": 10,
+      "predicted_support": 10,
+      "true_positive": 10,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "beep": {
+      "display_label": "Alert Beep",
+      "support": 10,
+      "predicted_support": 10,
+      "true_positive": 9,
+      "precision": 0.9,
+      "recall": 0.9,
+      "f1": 0.9
+    }
+  },
+  "runtime_calibration_confusion_matrix": [
+    [
+      8,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      9,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      10,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      10,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      9,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "runtime_calibration_normalized_confusion_matrix": [
+    [
+      0.8,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.1,
+      0.1
+    ],
+    [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.9,
+      0.0,
+      0.0,
+      0.0,
+      0.1
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.9,
+      0.1
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "fold_thresholds": [
+    {
+      "alarm": 0.5,
+      "siren": 0.5,
+      "doorbell": 0.31,
+      "baby_cry": 0.06,
+      "knock": 0.11,
+      "beep": 0.08
+    },
+    {
+      "alarm": 0.46,
+      "siren": 0.43,
+      "doorbell": 0.29,
+      "baby_cry": 0.06,
+      "knock": 0.11,
+      "beep": 0.08
+    },
+    {
+      "alarm": 0.46,
+      "siren": 0.43,
+      "doorbell": 0.29,
+      "baby_cry": 0.09,
+      "knock": 0.11,
+      "beep": 0.08
+    },
+    {
+      "alarm": 0.4,
+      "siren": 0.43,
+      "doorbell": 0.29,
+      "baby_cry": 0.06,
+      "knock": 0.11,
+      "beep": 0.28
+    },
+    {
+      "alarm": 0.46,
+      "siren": 0.43,
+      "doorbell": 0.29,
+      "baby_cry": 0.06,
+      "knock": 0.15,
+      "beep": 0.08
+    }
+  ],
+  "samples": [
+    {
+      "file": "alarm/1-13613-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 0,
+      "confidence": 0.468735,
+      "latency_ms": 27292,
+      "monitored_scores": {
+        "alarm": 0.468735,
+        "siren": 0.051548,
+        "doorbell": 2.6e-05,
+        "baby_cry": 0.0,
+        "knock": 0.004706,
+        "beep": 0.051189
+      },
+      "legacy_prediction": "alarm",
+      "baseline_prediction": "alarm",
+      "runtime_prediction": "alarm",
+      "runtime_correct": true
+    },
+    {
+      "file": "alarm/1-14262-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 1,
+      "confidence": 0.40372,
+      "latency_ms": 45,
+      "monitored_scores": {
+        "alarm": 0.40372,
+        "siren": 0.053276,
+        "doorbell": 0.018756,
+        "baby_cry": 7.8e-05,
+        "knock": 5.2e-05,
+        "beep": 0.203804
+      },
+      "legacy_prediction": "alarm",
+      "baseline_prediction": "alarm",
+      "runtime_prediction": "alarm",
+      "runtime_correct": true
+    },
+    {
+      "file": "alarm/1-34853-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 2,
+      "confidence": 0.946213,
+      "latency_ms": 39,
+      "monitored_scores": {
+        "alarm": 0.946213,
+        "siren": 0.023853,
+        "doorbell": 0.000178,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.071383
+      },
+      "legacy_prediction": "alarm",
+      "baseline_prediction": "alarm",
+      "runtime_prediction": "alarm",
+      "runtime_correct": true
+    },
+    {
+      "file": "alarm/1-67033-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 3,
+      "confidence": 0.656535,
+      "latency_ms": 38,
+      "monitored_scores": {
+        "alarm": 0.076711,
+        "siren": 0.000231,
+        "doorbell": 0.001367,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.656535
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": false
+    },
+    {
+      "file": "alarm/1-72195-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 4,
+      "confidence": 0.61708,
+      "latency_ms": 41,
+      "monitored_scores": {
+        "alarm": 0.61708,
+        "siren": 0.004263,
+        "doorbell": 0.001819,
+        "baby_cry": 5e-06,
+        "knock": 0.0,
+        "beep": 0.499095
+      },
+      "legacy_prediction": "alarm",
+      "baseline_prediction": "alarm",
+      "runtime_prediction": "alarm",
+      "runtime_correct": true
+    },
+    {
+      "file": "alarm/1-72195-B-37.wav",
+      "true_label": "alarm",
+      "class_index": 5,
+      "confidence": 0.737269,
+      "latency_ms": 41,
+      "monitored_scores": {
+        "alarm": 0.737269,
+        "siren": 0.002907,
+        "doorbell": 0.001108,
+        "baby_cry": 3e-06,
+        "knock": 0.0,
+        "beep": 0.346939
+      },
+      "legacy_prediction": "alarm",
+      "baseline_prediction": "alarm",
+      "runtime_prediction": "alarm",
+      "runtime_correct": true
+    },
+    {
+      "file": "alarm/1-74517-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 6,
+      "confidence": 0.940765,
+      "latency_ms": 37,
+      "monitored_scores": {
+        "alarm": 0.940765,
+        "siren": 0.002827,
+        "doorbell": 0.00206,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.057094
+      },
+      "legacy_prediction": "alarm",
+      "baseline_prediction": "alarm",
+      "runtime_prediction": "alarm",
+      "runtime_correct": true
+    },
+    {
+      "file": "alarm/1-96890-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 7,
+      "confidence": 0.435037,
+      "latency_ms": 39,
+      "monitored_scores": {
+        "alarm": 0.435037,
+        "siren": 0.007975,
+        "doorbell": 0.100538,
+        "baby_cry": 2.5e-05,
+        "knock": 7.1e-05,
+        "beep": 0.611753
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "alarm",
+      "runtime_prediction": "alarm",
+      "runtime_correct": true
+    },
+    {
+      "file": "alarm/2-102435-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 8,
+      "confidence": 0.014907,
+      "latency_ms": 42,
+      "monitored_scores": {
+        "alarm": 0.009981,
+        "siren": 0.000792,
+        "doorbell": 0.000229,
+        "baby_cry": 5e-06,
+        "knock": 0.000192,
+        "beep": 0.014907
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "alarm/2-104475-A-37.wav",
+      "true_label": "alarm",
+      "class_index": 9,
+      "confidence": 0.281111,
+      "latency_ms": 41,
+      "monitored_scores": {
+        "alarm": 0.281111,
+        "siren": 0.004374,
+        "doorbell": 0.350079,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.887441
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "alarm",
+      "runtime_prediction": "alarm",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/1-31482-A-42.wav",
+      "true_label": "siren",
+      "class_index": 0,
+      "confidence": 0.437894,
+      "latency_ms": 44,
+      "monitored_scores": {
+        "alarm": 0.397388,
+        "siren": 0.437894,
+        "doorbell": 0.0,
+        "baby_cry": 0.000101,
+        "knock": 0.0,
+        "beep": 1.3e-05
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/1-31482-B-42.wav",
+      "true_label": "siren",
+      "class_index": 1,
+      "confidence": 0.662346,
+      "latency_ms": 41,
+      "monitored_scores": {
+        "alarm": 0.572839,
+        "siren": 0.662346,
+        "doorbell": 0.0,
+        "baby_cry": 1e-06,
+        "knock": 0.0,
+        "beep": 1.1e-05
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/1-54084-A-42.wav",
+      "true_label": "siren",
+      "class_index": 2,
+      "confidence": 0.606879,
+      "latency_ms": 44,
+      "monitored_scores": {
+        "alarm": 0.592862,
+        "siren": 0.606879,
+        "doorbell": 2e-06,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.007526
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/1-76831-A-42.wav",
+      "true_label": "siren",
+      "class_index": 3,
+      "confidence": 0.881095,
+      "latency_ms": 54,
+      "monitored_scores": {
+        "alarm": 0.870832,
+        "siren": 0.881095,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 4.8e-05
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/1-76831-B-42.wav",
+      "true_label": "siren",
+      "class_index": 4,
+      "confidence": 0.962202,
+      "latency_ms": 54,
+      "monitored_scores": {
+        "alarm": 0.955565,
+        "siren": 0.962202,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.0
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/1-76831-C-42.wav",
+      "true_label": "siren",
+      "class_index": 5,
+      "confidence": 0.961566,
+      "latency_ms": 43,
+      "monitored_scores": {
+        "alarm": 0.957518,
+        "siren": 0.961566,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.0
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/1-76831-D-42.wav",
+      "true_label": "siren",
+      "class_index": 6,
+      "confidence": 0.960152,
+      "latency_ms": 41,
+      "monitored_scores": {
+        "alarm": 0.956999,
+        "siren": 0.960152,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.0
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/1-76831-E-42.wav",
+      "true_label": "siren",
+      "class_index": 7,
+      "confidence": 0.965793,
+      "latency_ms": 45,
+      "monitored_scores": {
+        "alarm": 0.959097,
+        "siren": 0.965793,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.0
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/2-43802-A-42.wav",
+      "true_label": "siren",
+      "class_index": 8,
+      "confidence": 0.552245,
+      "latency_ms": 42,
+      "monitored_scores": {
+        "alarm": 0.316316,
+        "siren": 0.552245,
+        "doorbell": 3e-06,
+        "baby_cry": 7.9e-05,
+        "knock": 0.0,
+        "beep": 0.000822
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "siren/2-43806-A-42.wav",
+      "true_label": "siren",
+      "class_index": 9,
+      "confidence": 0.802319,
+      "latency_ms": 43,
+      "monitored_scores": {
+        "alarm": 0.645359,
+        "siren": 0.802319,
+        "doorbell": 0.0,
+        "baby_cry": 0.002047,
+        "knock": 0.0,
+        "beep": 5.7e-05
+      },
+      "legacy_prediction": "siren",
+      "baseline_prediction": "siren",
+      "runtime_prediction": "siren",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_01.wav",
+      "true_label": "doorbell",
+      "class_index": 0,
+      "confidence": 0.8846,
+      "latency_ms": 33,
+      "monitored_scores": {
+        "alarm": 0.004189,
+        "siren": 3.4e-05,
+        "doorbell": 0.8846,
+        "baby_cry": 1e-06,
+        "knock": 0.0,
+        "beep": 0.007702
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_02.wav",
+      "true_label": "doorbell",
+      "class_index": 1,
+      "confidence": 0.44929,
+      "latency_ms": 24,
+      "monitored_scores": {
+        "alarm": 0.070781,
+        "siren": 0.008131,
+        "doorbell": 0.44929,
+        "baby_cry": 1.9e-05,
+        "knock": 0.0,
+        "beep": 0.040871
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_03.wav",
+      "true_label": "doorbell",
+      "class_index": 2,
+      "confidence": 0.01529,
+      "latency_ms": 24,
+      "monitored_scores": {
+        "alarm": 0.000241,
+        "siren": 7e-06,
+        "doorbell": 0.01529,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 1.5e-05
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "doorbell/doorbell_04.wav",
+      "true_label": "doorbell",
+      "class_index": 3,
+      "confidence": 0.941212,
+      "latency_ms": 28,
+      "monitored_scores": {
+        "alarm": 0.007572,
+        "siren": 0.000158,
+        "doorbell": 0.941212,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.000298
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_05.wav",
+      "true_label": "doorbell",
+      "class_index": 4,
+      "confidence": 0.310014,
+      "latency_ms": 25,
+      "monitored_scores": {
+        "alarm": 0.110368,
+        "siren": 0.048196,
+        "doorbell": 0.310014,
+        "baby_cry": 1e-06,
+        "knock": 0.0,
+        "beep": 0.009479
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_06.wav",
+      "true_label": "doorbell",
+      "class_index": 5,
+      "confidence": 0.290164,
+      "latency_ms": 24,
+      "monitored_scores": {
+        "alarm": 0.004183,
+        "siren": 0.001151,
+        "doorbell": 0.290164,
+        "baby_cry": 3e-06,
+        "knock": 0.0,
+        "beep": 0.001514
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_07.wav",
+      "true_label": "doorbell",
+      "class_index": 6,
+      "confidence": 0.458867,
+      "latency_ms": 27,
+      "monitored_scores": {
+        "alarm": 0.014932,
+        "siren": 6.4e-05,
+        "doorbell": 0.458867,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.005152
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_08.wav",
+      "true_label": "doorbell",
+      "class_index": 7,
+      "confidence": 0.599019,
+      "latency_ms": 25,
+      "monitored_scores": {
+        "alarm": 0.000333,
+        "siren": 3.7e-05,
+        "doorbell": 0.599019,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.000186
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_09.wav",
+      "true_label": "doorbell",
+      "class_index": 8,
+      "confidence": 0.353484,
+      "latency_ms": 26,
+      "monitored_scores": {
+        "alarm": 0.003633,
+        "siren": 0.000433,
+        "doorbell": 0.353484,
+        "baby_cry": 1.9e-05,
+        "knock": 9e-06,
+        "beep": 0.001246
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "doorbell/doorbell_10.wav",
+      "true_label": "doorbell",
+      "class_index": 9,
+      "confidence": 0.390164,
+      "latency_ms": 26,
+      "monitored_scores": {
+        "alarm": 0.008846,
+        "siren": 0.000545,
+        "doorbell": 0.390164,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.001717
+      },
+      "legacy_prediction": "doorbell",
+      "baseline_prediction": "doorbell",
+      "runtime_prediction": "doorbell",
+      "runtime_correct": true
+    },
+    {
+      "file": "baby_cry/1-187207-A-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 0,
+      "confidence": 0.094307,
+      "latency_ms": 48,
+      "monitored_scores": {
+        "alarm": 0.000408,
+        "siren": 0.000125,
+        "doorbell": 4e-06,
+        "baby_cry": 0.094307,
+        "knock": 8e-06,
+        "beep": 0.000576
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "baby_cry/1-211527-A-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 1,
+      "confidence": 0.56173,
+      "latency_ms": 42,
+      "monitored_scores": {
+        "alarm": 0.002539,
+        "siren": 0.000246,
+        "doorbell": 6e-06,
+        "baby_cry": 0.56173,
+        "knock": 0.0,
+        "beep": 0.001593
+      },
+      "legacy_prediction": "baby_cry",
+      "baseline_prediction": "baby_cry",
+      "runtime_prediction": "baby_cry",
+      "runtime_correct": true
+    },
+    {
+      "file": "baby_cry/1-211527-B-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 2,
+      "confidence": 0.06211,
+      "latency_ms": 49,
+      "monitored_scores": {
+        "alarm": 1.1e-05,
+        "siren": 0.0,
+        "doorbell": 0.0,
+        "baby_cry": 0.06211,
+        "knock": 0.0,
+        "beep": 1e-06
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "baby_cry/1-211527-C-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 3,
+      "confidence": 0.728019,
+      "latency_ms": 44,
+      "monitored_scores": {
+        "alarm": 0.001003,
+        "siren": 4.8e-05,
+        "doorbell": 0.0,
+        "baby_cry": 0.728019,
+        "knock": 0.0,
+        "beep": 4.8e-05
+      },
+      "legacy_prediction": "baby_cry",
+      "baseline_prediction": "baby_cry",
+      "runtime_prediction": "baby_cry",
+      "runtime_correct": true
+    },
+    {
+      "file": "baby_cry/1-22694-A-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 4,
+      "confidence": 0.77365,
+      "latency_ms": 44,
+      "monitored_scores": {
+        "alarm": 8e-06,
+        "siren": 1e-06,
+        "doorbell": 0.0,
+        "baby_cry": 0.77365,
+        "knock": 0.0,
+        "beep": 1e-06
+      },
+      "legacy_prediction": "baby_cry",
+      "baseline_prediction": "baby_cry",
+      "runtime_prediction": "baby_cry",
+      "runtime_correct": true
+    },
+    {
+      "file": "baby_cry/1-22694-B-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 5,
+      "confidence": 0.53048,
+      "latency_ms": 48,
+      "monitored_scores": {
+        "alarm": 0.000109,
+        "siren": 8e-06,
+        "doorbell": 2e-06,
+        "baby_cry": 0.53048,
+        "knock": 0.003756,
+        "beep": 7.9e-05
+      },
+      "legacy_prediction": "baby_cry",
+      "baseline_prediction": "baby_cry",
+      "runtime_prediction": "baby_cry",
+      "runtime_correct": true
+    },
+    {
+      "file": "baby_cry/1-60997-A-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 6,
+      "confidence": 0.794856,
+      "latency_ms": 50,
+      "monitored_scores": {
+        "alarm": 0.025523,
+        "siren": 0.004131,
+        "doorbell": 0.0,
+        "baby_cry": 0.794856,
+        "knock": 0.0,
+        "beep": 5e-06
+      },
+      "legacy_prediction": "baby_cry",
+      "baseline_prediction": "baby_cry",
+      "runtime_prediction": "baby_cry",
+      "runtime_correct": true
+    },
+    {
+      "file": "baby_cry/1-60997-B-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 7,
+      "confidence": 0.920208,
+      "latency_ms": 67,
+      "monitored_scores": {
+        "alarm": 1.7e-05,
+        "siren": 0.0,
+        "doorbell": 0.0,
+        "baby_cry": 0.920208,
+        "knock": 0.0,
+        "beep": 1e-06
+      },
+      "legacy_prediction": "baby_cry",
+      "baseline_prediction": "baby_cry",
+      "runtime_prediction": "baby_cry",
+      "runtime_correct": true
+    },
+    {
+      "file": "baby_cry/2-107351-A-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 8,
+      "confidence": 0.731896,
+      "latency_ms": 64,
+      "monitored_scores": {
+        "alarm": 0.001326,
+        "siren": 0.000906,
+        "doorbell": 0.0,
+        "baby_cry": 0.731896,
+        "knock": 0.0,
+        "beep": 0.000203
+      },
+      "legacy_prediction": "baby_cry",
+      "baseline_prediction": "baby_cry",
+      "runtime_prediction": "baby_cry",
+      "runtime_correct": true
+    },
+    {
+      "file": "baby_cry/2-107351-B-20.wav",
+      "true_label": "baby_cry",
+      "class_index": 9,
+      "confidence": 0.582198,
+      "latency_ms": 46,
+      "monitored_scores": {
+        "alarm": 4.7e-05,
+        "siren": 4e-06,
+        "doorbell": 0.0,
+        "baby_cry": 0.582198,
+        "knock": 0.0,
+        "beep": 0.0
+      },
+      "legacy_prediction": "baby_cry",
+      "baseline_prediction": "baby_cry",
+      "runtime_prediction": "baby_cry",
+      "runtime_correct": true
+    },
+    {
+      "file": "knock/1-101336-A-30.wav",
+      "true_label": "knock",
+      "class_index": 0,
+      "confidence": 0.528564,
+      "latency_ms": 46,
+      "monitored_scores": {
+        "alarm": 0.000244,
+        "siren": 6e-05,
+        "doorbell": 8e-06,
+        "baby_cry": 0.0,
+        "knock": 0.528564,
+        "beep": 0.000201
+      },
+      "legacy_prediction": "knock",
+      "baseline_prediction": "knock",
+      "runtime_prediction": "knock",
+      "runtime_correct": true
+    },
+    {
+      "file": "knock/1-103995-A-30.wav",
+      "true_label": "knock",
+      "class_index": 1,
+      "confidence": 0.15888,
+      "latency_ms": 47,
+      "monitored_scores": {
+        "alarm": 3e-05,
+        "siren": 3e-06,
+        "doorbell": 1e-06,
+        "baby_cry": 0.0,
+        "knock": 0.15888,
+        "beep": 5.2e-05
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "knock/1-103999-A-30.wav",
+      "true_label": "knock",
+      "class_index": 2,
+      "confidence": 0.360039,
+      "latency_ms": 46,
+      "monitored_scores": {
+        "alarm": 0.0,
+        "siren": 0.0,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 0.360039,
+        "beep": 0.0
+      },
+      "legacy_prediction": "knock",
+      "baseline_prediction": "knock",
+      "runtime_prediction": "knock",
+      "runtime_correct": true
+    },
+    {
+      "file": "knock/1-26188-A-30.wav",
+      "true_label": "knock",
+      "class_index": 3,
+      "confidence": 0.83288,
+      "latency_ms": 48,
+      "monitored_scores": {
+        "alarm": 0.000512,
+        "siren": 0.000232,
+        "doorbell": 2.1e-05,
+        "baby_cry": 0.000336,
+        "knock": 0.83288,
+        "beep": 0.000923
+      },
+      "legacy_prediction": "knock",
+      "baseline_prediction": "knock",
+      "runtime_prediction": "knock",
+      "runtime_correct": true
+    },
+    {
+      "file": "knock/1-52290-A-30.wav",
+      "true_label": "knock",
+      "class_index": 4,
+      "confidence": 0.110721,
+      "latency_ms": 49,
+      "monitored_scores": {
+        "alarm": 0.000355,
+        "siren": 3.4e-05,
+        "doorbell": 1e-05,
+        "baby_cry": 1e-06,
+        "knock": 0.110721,
+        "beep": 0.000295
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "knock/1-81001-A-30.wav",
+      "true_label": "knock",
+      "class_index": 5,
+      "confidence": 0.269011,
+      "latency_ms": 48,
+      "monitored_scores": {
+        "alarm": 4.7e-05,
+        "siren": 1.2e-05,
+        "doorbell": 4e-05,
+        "baby_cry": 3.3e-05,
+        "knock": 0.269011,
+        "beep": 0.000188
+      },
+      "legacy_prediction": "knock",
+      "baseline_prediction": "knock",
+      "runtime_prediction": "knock",
+      "runtime_correct": true
+    },
+    {
+      "file": "knock/1-81001-B-30.wav",
+      "true_label": "knock",
+      "class_index": 6,
+      "confidence": 0.235968,
+      "latency_ms": 52,
+      "monitored_scores": {
+        "alarm": 0.00038,
+        "siren": 0.000148,
+        "doorbell": 1e-06,
+        "baby_cry": 8e-06,
+        "knock": 0.235968,
+        "beep": 6.5e-05
+      },
+      "legacy_prediction": "knock",
+      "baseline_prediction": "knock",
+      "runtime_prediction": "knock",
+      "runtime_correct": true
+    },
+    {
+      "file": "knock/1-82817-A-30.wav",
+      "true_label": "knock",
+      "class_index": 7,
+      "confidence": 0.285528,
+      "latency_ms": 52,
+      "monitored_scores": {
+        "alarm": 1.9e-05,
+        "siren": 0.0,
+        "doorbell": 9e-06,
+        "baby_cry": 7e-06,
+        "knock": 0.285528,
+        "beep": 0.000341
+      },
+      "legacy_prediction": "knock",
+      "baseline_prediction": "knock",
+      "runtime_prediction": "knock",
+      "runtime_correct": true
+    },
+    {
+      "file": "knock/2-114254-A-30.wav",
+      "true_label": "knock",
+      "class_index": 8,
+      "confidence": 0.295969,
+      "latency_ms": 52,
+      "monitored_scores": {
+        "alarm": 0.0,
+        "siren": 0.0,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 0.295969,
+        "beep": 0.0
+      },
+      "legacy_prediction": "knock",
+      "baseline_prediction": "knock",
+      "runtime_prediction": "knock",
+      "runtime_correct": true
+    },
+    {
+      "file": "knock/2-118624-A-30.wav",
+      "true_label": "knock",
+      "class_index": 9,
+      "confidence": 0.121294,
+      "latency_ms": 56,
+      "monitored_scores": {
+        "alarm": 0.000693,
+        "siren": 0.000248,
+        "doorbell": 8.8e-05,
+        "baby_cry": 7.2e-05,
+        "knock": 0.121294,
+        "beep": 0.002406
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "beep/beep_01.wav",
+      "true_label": "beep",
+      "class_index": 0,
+      "confidence": 0.282796,
+      "latency_ms": 38,
+      "monitored_scores": {
+        "alarm": 0.01772,
+        "siren": 0.083908,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 0.00505,
+        "beep": 0.282796
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": true
+    },
+    {
+      "file": "beep/beep_02.wav",
+      "true_label": "beep",
+      "class_index": 1,
+      "confidence": 0.921973,
+      "latency_ms": 38,
+      "monitored_scores": {
+        "alarm": 0.00354,
+        "siren": 0.017052,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 9e-06,
+        "beep": 0.921973
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": true
+    },
+    {
+      "file": "beep/beep_03.wav",
+      "true_label": "beep",
+      "class_index": 2,
+      "confidence": 0.614433,
+      "latency_ms": 71,
+      "monitored_scores": {
+        "alarm": 0.068333,
+        "siren": 0.020548,
+        "doorbell": 0.0,
+        "baby_cry": 3.7e-05,
+        "knock": 0.000119,
+        "beep": 0.614433
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": true
+    },
+    {
+      "file": "beep/beep_04.wav",
+      "true_label": "beep",
+      "class_index": 3,
+      "confidence": 0.082714,
+      "latency_ms": 74,
+      "monitored_scores": {
+        "alarm": 0.011248,
+        "siren": 0.026171,
+        "doorbell": 0.0,
+        "baby_cry": 1e-06,
+        "knock": 0.0,
+        "beep": 0.082714
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "beep/beep_05.wav",
+      "true_label": "beep",
+      "class_index": 4,
+      "confidence": 0.500728,
+      "latency_ms": 61,
+      "monitored_scores": {
+        "alarm": 0.055093,
+        "siren": 0.052047,
+        "doorbell": 9e-06,
+        "baby_cry": 0.0,
+        "knock": 0.0,
+        "beep": 0.500728
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": true
+    },
+    {
+      "file": "beep/beep_06.wav",
+      "true_label": "beep",
+      "class_index": 5,
+      "confidence": 0.929142,
+      "latency_ms": 32,
+      "monitored_scores": {
+        "alarm": 0.005398,
+        "siren": 0.034841,
+        "doorbell": 0.0,
+        "baby_cry": 0.0,
+        "knock": 1.9e-05,
+        "beep": 0.929142
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": true
+    },
+    {
+      "file": "beep/beep_07.wav",
+      "true_label": "beep",
+      "class_index": 6,
+      "confidence": 0.317174,
+      "latency_ms": 37,
+      "monitored_scores": {
+        "alarm": 0.066939,
+        "siren": 0.028092,
+        "doorbell": 5e-06,
+        "baby_cry": 3e-05,
+        "knock": 0.0,
+        "beep": 0.317174
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": true
+    },
+    {
+      "file": "beep/beep_08.wav",
+      "true_label": "beep",
+      "class_index": 7,
+      "confidence": 0.00043,
+      "latency_ms": 36,
+      "monitored_scores": {
+        "alarm": 0.00043,
+        "siren": 0.000206,
+        "doorbell": 0.0,
+        "baby_cry": 8.1e-05,
+        "knock": 0.0,
+        "beep": 1e-05
+      },
+      "legacy_prediction": "no_detection",
+      "baseline_prediction": "no_detection",
+      "runtime_prediction": "no_detection",
+      "runtime_correct": false
+    },
+    {
+      "file": "beep/beep_09.wav",
+      "true_label": "beep",
+      "class_index": 8,
+      "confidence": 0.342823,
+      "latency_ms": 38,
+      "monitored_scores": {
+        "alarm": 0.005118,
+        "siren": 0.014467,
+        "doorbell": 0.0,
+        "baby_cry": 8e-06,
+        "knock": 0.000258,
+        "beep": 0.342823
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": true
+    },
+    {
+      "file": "beep/beep_10.wav",
+      "true_label": "beep",
+      "class_index": 9,
+      "confidence": 0.56665,
+      "latency_ms": 32,
+      "monitored_scores": {
+        "alarm": 0.024703,
+        "siren": 0.008602,
+        "doorbell": 3e-06,
+        "baby_cry": 5e-06,
+        "knock": 0.00078,
+        "beep": 0.56665
+      },
+      "legacy_prediction": "beep",
+      "baseline_prediction": "beep",
+      "runtime_prediction": "beep",
+      "runtime_correct": true
+    }
+  ],
+  "latency": {
+    "cold_start_ms": 27292,
+    "steady_state_average_ms": 42.898305,
+    "steady_state_median_ms": 43.0,
+    "steady_state_p95_ms": 67,
+    "steady_state_min_ms": 24,
+    "steady_state_max_ms": 74
+  }
+}

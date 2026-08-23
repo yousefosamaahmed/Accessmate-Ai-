@@ -9,6 +9,7 @@ from app.schemas.ai_schema import (
     SimpleExplanationRequest,
     SimpleExplanationResponse,
 )
+from app.services.language_service import LanguageService
 from app.services.llm_service import LLMService
 
 
@@ -27,18 +28,28 @@ def chat(
     current_user: User = Depends(get_current_user)
 ):
     service = LLMService()
+    language_service = LanguageService()
 
     try:
+        detected_language = language_service.detect_language(
+            request_data.message
+        )
+
+        response_language = language_service.choose_response_language(
+            user_preferred_language=request_data.language,
+            detected_language=detected_language,
+        )
+
         answer = service.accessibility_chat(
             message=request_data.message,
-            language=request_data.language,
+            language=response_language,
             explanation_level=request_data.explanation_level,
             voice_friendly=request_data.voice_friendly
         )
 
         return AIChatResponse(
             answer=answer,
-            language=request_data.language,
+            language=response_language,
             explanation_level=request_data.explanation_level,
             provider=settings.AI_PROVIDER,
             model=settings.AI_MODEL,

@@ -209,6 +209,26 @@ type ImageProcessingResult =
       error: unknown;
     };
 
+type HearingChunkResponse = {
+  sequence: number;
+  transcript: string;
+  language: string;
+  is_speech: boolean;
+  provider: string;
+  model: string;
+  latency_ms: number;
+};
+
+
+type ProcessRequestOptions = {
+  textOverride?: string;
+  languageOverride?:
+    | "ar"
+    | "en";
+  ignoreSelectedFile?: boolean;
+};
+
+
 
 /* =========================================================
    QUICK ACTIONS
@@ -272,6 +292,211 @@ function detectLanguage(
   )
     ? "ar"
     : "en";
+}
+
+
+function normalizeProviderLanguage(
+  value?: string | null
+): "ar" | "en" | null {
+  const normalized =
+    String(
+      value ??
+        ""
+    )
+      .trim()
+      .toLowerCase();
+
+
+  if (
+    normalized === "ar" ||
+    normalized.startsWith("ar-") ||
+    normalized.includes("arabic")
+  ) {
+    return "ar";
+  }
+
+
+  if (
+    normalized === "en" ||
+    normalized.startsWith("en-") ||
+    normalized.includes("english")
+  ) {
+    return "en";
+  }
+
+
+  return null;
+}
+
+
+function resolveMessageLanguage(
+  text: string,
+  providerLanguage?: string | null
+): "ar" | "en" {
+  /*
+   * For voice messages the speech provider knows the
+   * ORIGINAL spoken language. Trust that before looking at
+   * the transcript script because some Whisper-compatible
+   * providers can occasionally return an English rendering
+   * even when the detected source language is Arabic.
+   */
+  const provider =
+    normalizeProviderLanguage(
+      providerLanguage
+    );
+
+
+  if (provider) {
+    return provider;
+  }
+
+
+  return detectLanguage(
+    text
+  );
+}
+
+
+function findLastPatternIndex(
+  value: string,
+  patterns: RegExp[]
+) {
+  let bestIndex = -1;
+
+
+  for (const pattern of patterns) {
+    const flags =
+      pattern.flags.includes("g")
+        ? pattern.flags
+        : `${pattern.flags}g`;
+
+
+    const globalPattern =
+      new RegExp(
+        pattern.source,
+        flags
+      );
+
+
+    for (
+      const match of value.matchAll(
+        globalPattern
+      )
+    ) {
+      bestIndex =
+        Math.max(
+          bestIndex,
+          match.index ?? -1
+        );
+    }
+  }
+
+
+  return bestIndex;
+}
+
+
+function resolveRequestedResponseLanguage(
+  text: string,
+  fallbackLanguage?: "ar" | "en"
+): "ar" | "en" {
+  const normalized =
+    text
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+
+
+  const arabicOutputPatterns = [
+    /بالعربي(?:ة)?/,
+    /باللغة العربية/,
+    /رد(?: عليا| عليّ| لي)? بالعربي(?:ة)?/,
+    /جاوب(?:ني)? بالعربي(?:ة)?/,
+    /قولي بالعربي(?:ة)?/,
+    /قول(?:ها|ه)? بالعربي(?:ة)?/,
+    /اكتب(?:ها)? بالعربي(?:ة)?/,
+    /اشرح(?:ها|ه)? بالعربي(?:ة)?/,
+    /حو(?:ل|ّل)(?:ها|ه)? (?:إلى|الى|ل) ?العربي(?:ة)?/,
+    /ترجم(?:ها|ه)? (?:إلى|الى|ل) ?العربي(?:ة)?/,
+    /\bin arabic\b/i,
+    /\barabic please\b/i,
+    /\banswer in arabic\b/i,
+    /\brespond in arabic\b/i,
+    /\breply in arabic\b/i,
+    /\bexplain (?:it )?in arabic\b/i,
+    /\btranslate (?:it )?(?:to|into) arabic\b/i,
+  ];
+
+
+  const englishOutputPatterns = [
+    /بالانجليزي/,
+    /بالإنجليزي/,
+    /بالانجليزية/,
+    /بالإنجليزية/,
+    /باللغة الانجليزية/,
+    /باللغة الإنجليزية/,
+    /رد(?: عليا| عليّ| لي)? بالانجليزي/,
+    /رد(?: عليا| عليّ| لي)? بالإنجليزي/,
+    /جاوب(?:ني)? بالانجليزي/,
+    /جاوب(?:ني)? بالإنجليزي/,
+    /قولي بالانجليزي/,
+    /قولي بالإنجليزي/,
+    /اكتب(?:ها)? بالانجليزي/,
+    /اكتب(?:ها)? بالإنجليزي/,
+    /اشرح(?:ها|ه)? بالانجليزي/,
+    /اشرح(?:ها|ه)? بالإنجليزي/,
+    /\bin english\b/i,
+    /\benglish please\b/i,
+    /\banswer in english\b/i,
+    /\brespond in english\b/i,
+    /\breply in english\b/i,
+    /\bexplain (?:it )?in english\b/i,
+    /\btranslate (?:it )?(?:to|into) english\b/i,
+  ];
+
+
+  const arabicInstructionIndex =
+    findLastPatternIndex(
+      normalized,
+      arabicOutputPatterns
+    );
+
+
+  const englishInstructionIndex =
+    findLastPatternIndex(
+      normalized,
+      englishOutputPatterns
+    );
+
+
+  if (
+    arabicInstructionIndex >= 0 ||
+    englishInstructionIndex >= 0
+  ) {
+    return arabicInstructionIndex >
+      englishInstructionIndex
+      ? "ar"
+      : "en";
+  }
+
+
+  /*
+   * Default rule requested for AccessMate Chat:
+   * current message controls the response language.
+   * Arabic text wins for normal Arabic/English code-switching
+   * (for example: "اشرح AI بالتفصيل").
+   */
+  if (/[\u0600-\u06FF]/.test(text)) {
+    return "ar";
+  }
+
+
+  if (/[A-Za-z]/.test(text)) {
+    return "en";
+  }
+
+
+  return fallbackLanguage ?? "en";
 }
 
 
@@ -1149,6 +1374,12 @@ export default function Dashboard() {
 
 
   const [
+    isTranscribing,
+    setIsTranscribing,
+  ] = useState(false);
+
+
+  const [
     currentUser,
     setCurrentUser,
   ] =
@@ -1289,6 +1520,14 @@ export default function Dashboard() {
 
   const audioChunksRef =
     useRef<Blob[]>([]);
+
+
+  const recordingResolveRef =
+    useRef<
+      ((
+        file: File | null
+      ) => void) | null
+    >(null);
 
 
   const recordingTimerRef =
@@ -2312,6 +2551,13 @@ export default function Dashboard() {
       | "ar"
       | "en"
   ) {
+    const responseLanguage =
+      resolveRequestedResponseLanguage(
+        message,
+        language
+      );
+
+
     const response =
       await api.post(
         "/ai/chat",
@@ -2324,7 +2570,14 @@ export default function Dashboard() {
           question:
             message,
 
-          language,
+          language:
+            responseLanguage,
+
+          explanation_level:
+            "detailed",
+
+          voice_friendly:
+            true,
         }
       );
 
@@ -2557,6 +2810,73 @@ export default function Dashboard() {
   /* =======================================================
      AUDIO
      ======================================================= */
+
+  async function transcribeRecordedVoice(
+    file: File
+  ) {
+    const formData =
+      new FormData();
+
+
+    formData.append(
+      "audio_file",
+      file
+    );
+
+
+    formData.append(
+      "language",
+      "auto"
+    );
+
+
+    formData.append(
+      "sequence",
+      "0"
+    );
+
+
+    const response =
+      await api.post(
+        "/hearing/transcribe-chunk",
+        formData
+      );
+
+
+    const result =
+      unwrapResponse<HearingChunkResponse>(
+        response
+      );
+
+
+    const transcript =
+      String(
+        result?.transcript ??
+          ""
+      ).trim();
+
+
+    if (
+      !result?.is_speech ||
+      !transcript
+    ) {
+      throw new Error(
+        "I couldn't detect clear speech in that recording. Please try again."
+      );
+    }
+
+
+    return {
+      transcript,
+
+      language:
+        resolveMessageLanguage(
+          transcript,
+          result.language
+        ),
+    };
+  }
+
 
   async function callAudioService(
     file: File,
@@ -3052,13 +3372,21 @@ export default function Dashboard() {
      background processing
      ======================================================= */
 
-  async function processRequest() {
+  async function processRequest(
+    options:
+      ProcessRequestOptions = {}
+  ) {
     const text =
-      input.trim();
+      (
+        options.textOverride ??
+        input
+      ).trim();
 
 
     const currentFile =
-      selectedFile;
+      options.ignoreSelectedFile
+        ? null
+        : selectedFile;
 
 
     if (
@@ -3071,13 +3399,6 @@ export default function Dashboard() {
 
     if (
       sendingRef.current
-    ) {
-      return;
-    }
-
-
-    if (
-      isRecording
     ) {
       return;
     }
@@ -3096,10 +3417,14 @@ export default function Dashboard() {
 
 
     const language =
-      detectLanguage(
-        text ||
-          currentFile?.name ||
-          ""
+      resolveRequestedResponseLanguage(
+        text,
+        options.languageOverride ??
+          detectLanguage(
+            text ||
+              currentFile?.name ||
+              ""
+          )
       );
 
 
@@ -3335,8 +3660,95 @@ export default function Dashboard() {
 
 
   /* =======================================================
-     FORM
+     SEND / FORM
      ======================================================= */
+
+  async function handleSend() {
+    if (
+      isRecording
+    ) {
+      if (
+        loading ||
+        isTranscribing ||
+        sendingRef.current
+      ) {
+        return;
+      }
+
+
+      setIsTranscribing(
+        true
+      );
+
+
+      setError("");
+
+
+      try {
+        const audioFile =
+          await stopRecordingAndGetFile();
+
+
+        if (
+          !audioFile ||
+          audioFile.size ===
+            0
+        ) {
+          throw new Error(
+            "The voice recording was empty. Please try again."
+          );
+        }
+
+
+        const {
+          transcript,
+          language,
+        } =
+          await transcribeRecordedVoice(
+            audioFile
+          );
+
+
+        await processRequest(
+          {
+            textOverride:
+              transcript,
+
+            languageOverride:
+              language,
+
+            ignoreSelectedFile:
+              true,
+          }
+        );
+      } catch (
+        voiceError
+      ) {
+        console.error(
+          "Dashboard voice message failed:",
+          voiceError
+        );
+
+
+        setError(
+          getApiError(
+            voiceError
+          )
+        );
+      } finally {
+        setIsTranscribing(
+          false
+        );
+      }
+
+
+      return;
+    }
+
+
+    await processRequest();
+  }
+
 
   async function handleSubmit(
     event: FormEvent
@@ -3344,7 +3756,7 @@ export default function Dashboard() {
     event.preventDefault();
 
 
-    await processRequest();
+    await handleSend();
   }
 
 
@@ -3360,7 +3772,7 @@ export default function Dashboard() {
       event.preventDefault();
 
 
-      await processRequest();
+      await handleSend();
     }
   }
 
@@ -3558,26 +3970,31 @@ export default function Dashboard() {
             );
 
 
-          if (
+          const audioFile =
             blob.size >
-            0
+              0
+              ? new File(
+                  [
+                    blob,
+                  ],
+                  `voice-recording-${Date.now()}.webm`,
+                  {
+                    type:
+                      "audio/webm",
+                  }
+                )
+              : null;
+
+
+          if (
+            recordingResolveRef.current
           ) {
-            const audioFile =
-              new File(
-                [
-                  blob,
-                ],
-                `voice-recording-${Date.now()}.webm`,
-                {
-                  type:
-                    "audio/webm",
-                }
-              );
-
-
-            setSelectedFile(
+            recordingResolveRef.current(
               audioFile
             );
+
+            recordingResolveRef.current =
+              null;
           }
 
 
@@ -3709,21 +4126,57 @@ export default function Dashboard() {
   }
 
 
-  function stopRecording() {
+  function stopRecordingAndGetFile():
+    Promise<File | null> {
     const recorder =
       mediaRecorderRef.current;
 
 
-    if (!recorder) {
-      return;
+    if (
+      !recorder ||
+      recorder.state ===
+        "inactive"
+    ) {
+      return Promise.resolve(
+        null
+      );
     }
 
 
+    return new Promise(
+      (resolve) => {
+        recordingResolveRef.current =
+          resolve;
+
+        recorder.stop();
+      }
+    );
+  }
+
+
+  function cancelRecording() {
+    const recorder =
+      mediaRecorderRef.current;
+
+
+    recordingResolveRef.current =
+      null;
+
+
     if (
+      recorder &&
       recorder.state !==
-      "inactive"
+        "inactive"
     ) {
       recorder.stop();
+    } else {
+      setIsRecording(
+        false
+      );
+
+      setRecordingSeconds(
+        0
+      );
     }
   }
 
@@ -3732,7 +4185,7 @@ export default function Dashboard() {
     if (
       isRecording
     ) {
-      stopRecording();
+      cancelRecording();
     } else {
       void startRecording();
     }
@@ -3789,6 +4242,18 @@ export default function Dashboard() {
             ) =>
               track.stop()
           );
+      }
+
+
+      if (
+        recordingResolveRef.current
+      ) {
+        recordingResolveRef.current(
+          null
+        );
+
+        recordingResolveRef.current =
+          null;
       }
 
 
@@ -5379,7 +5844,8 @@ export default function Dashboard() {
 
 
               {(selectedFile ||
-                isRecording) && (
+                isRecording ||
+                isTranscribing) && (
                 <div
                   className="
                     absolute
@@ -5426,6 +5892,42 @@ export default function Dashboard() {
                           recordingSeconds
                         )
                       }
+                    </div>
+                  )}
+
+
+                  {isTranscribing && (
+                    <div
+                      className="
+                        flex
+                        items-center
+                        gap-2
+                        rounded-full
+                        border
+                        border-[#30AFDC]/25
+                        bg-[#30AFDC]/[0.08]
+                        px-3
+                        py-1.5
+                        text-[10px]
+                        font-medium
+                        text-[#8EDCF5]
+                        backdrop-blur-xl
+                      "
+                    >
+                      <span
+                        className="
+                          h-2
+                          w-2
+                          animate-pulse
+                          rounded-full
+                          bg-[#30AFDC]
+                        "
+                      />
+
+                      {dashboardLanguage ===
+                      "ar"
+                        ? "جاري تحويل الصوت إلى نص..."
+                        : "Transcribing voice..."}
                     </div>
                   )}
 
@@ -5539,7 +6041,8 @@ export default function Dashboard() {
                   }
                   disabled={
                     loading ||
-                    isRecording
+                    isRecording ||
+                    isTranscribing
                   }
                   className="
                     flex
@@ -5624,7 +6127,12 @@ export default function Dashboard() {
                       handleTextareaKeyDown
                     }
                     placeholder={
-                      isRecording
+                      isTranscribing
+                        ? dashboardLanguage ===
+                          "ar"
+                          ? "جاري تحويل الصوت إلى نص..."
+                          : "Transcribing voice..."
+                        : isRecording
                         ? "Recording voice..."
                         : selectedFile
                         ? "What do you want AccessMate to do with this file?"
@@ -5635,7 +6143,8 @@ export default function Dashboard() {
                     className="dashboard-reference-textarea"
                     disabled={
                       loading ||
-                      isRecording
+                      isRecording ||
+                      isTranscribing
                     }
                     rows={
                       1
@@ -5650,7 +6159,8 @@ export default function Dashboard() {
                     toggleRecording
                   }
                   disabled={
-                    loading
+                    loading ||
+                    isTranscribing
                   }
                   className={`
                     relative
@@ -5672,17 +6182,17 @@ export default function Dashboard() {
                   `}
                   title={
                     isRecording
-                      ? "Stop recording"
+                      ? "Cancel recording"
                       : "Record voice"
                   }
                   aria-label={
                     isRecording
-                      ? "Stop voice recording"
+                      ? "Cancel voice recording"
                       : "Start voice recording"
                   }
                   data-voice-label={
                     isRecording
-                      ? "Stop voice recording"
+                      ? "Cancel voice recording"
                       : "Start voice recording"
                   }
                 >
@@ -5721,8 +6231,9 @@ export default function Dashboard() {
                   type="submit"
                   disabled={
                     loading ||
-                    isRecording ||
+                    isTranscribing ||
                     (
+                      !isRecording &&
                       !input.trim() &&
                       !selectedFile
                     )

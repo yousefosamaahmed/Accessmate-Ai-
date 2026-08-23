@@ -33,6 +33,10 @@ from app.services.hearing_persistence_service import HearingPersistenceService
 from app.services.hearing_service import HearingService
 from app.services.hearing_translation_service import HearingTranslationService
 from app.services.sound_awareness_service import SoundAwarenessService
+from app.services.care_action_service import (
+    CareActionError,
+    trigger_sound_care_alert,
+)
 
 
 router = APIRouter(
@@ -141,12 +145,32 @@ async def translate_caption(
 # ENVIRONMENTAL SOUND CLASSIFICATION
 # ============================================================
 
+@router.post("/sound-warmup")
+async def warm_up_environment_sound_model(
+    current_user: User = Depends(get_current_user),
+):
+    _ = current_user
+
+    try:
+        return await SoundAwarenessService().warm_up()
+    except RuntimeError as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(error),
+        ) from error
+    except Exception as error:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"Sound Awareness warm-up failed: {error}",
+        ) from error
+
+
 @router.post(
     "/classify-sound",
     response_model=HearingSoundResponse,
 )
 async def classify_environment_sound(
-    threshold: float = Form(default=0.22),
+    threshold: float = Form(default=0.0),
     audio_file: UploadFile = File(...),
     current_user: User = Depends(get_current_user),
 ):
@@ -184,6 +208,75 @@ async def classify_environment_sound(
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail=f"Sound Awareness classification failed: {error}",
+        ) from error
+
+
+
+# ============================================================
+# CAREGIVER NOTIFICATION FOR STABLE SOUND EVENTS
+# ============================================================
+
+@router.post("/sound-alert")
+def notify_caregiver_for_sound(
+    category: str = Form(...),
+    label: str = Form(...),
+    confidence: float = Form(...),
+    client_id: str | None = Form(default=None),
+    language: str = Form(default="ar"),
+    cooldown_seconds: int = Form(default=30),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Notify the configured caregiver when a *stable* monitored sound event is
+    confirmed by the frontend temporal filter.
+
+    This endpoint is intentionally separate from classify-sound. Classification
+    runs frequently (~twice per second); caregiver notifications should only be
+    created after temporal confirmation and duplicate suppression.
+    """
+    try:
+        result = trigger_sound_care_alert(
+            db,
+            current_user,
+            category=category,
+            label=label,
+            confidence=confidence,
+            language=language,
+            source="hearing_assistant",
+            cooldown_seconds=max(0, min(600, int(cooldown_seconds))),
+        )
+
+        alert = result.alert
+
+        if alert is not None and client_id:
+            try:
+                HearingPersistenceService(db).link_sound_event_to_care_alert(
+                    current_user.id,
+                    client_id,
+                    alert.id,
+                )
+            except ValueError:
+                # Event persistence can race the alert by a few milliseconds;
+                # notification delivery must not fail because of the link.
+                pass
+
+        return {
+            "status": result.status,
+            "alert_id": str(alert.id) if alert is not None else None,
+            "duplicate_suppressed": result.duplicate_suppressed,
+            "caregiver_notified": bool(
+                alert is not None and alert.status == "sent"
+            ),
+        }
+
+    except CareActionError as error:
+        raise HTTPException(
+            status_code=error.status_code,
+            detail={
+                "code": error.code,
+                "message": error.message,
+            },
         ) from error
 
 

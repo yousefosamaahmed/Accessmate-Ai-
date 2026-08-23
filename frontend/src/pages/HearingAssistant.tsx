@@ -35,6 +35,8 @@ import {
   unwrapResponse,
 } from "../lib/api";
 
+import yamnetEvaluation from "../data/yamnetEvaluation";
+
 
 type Language =
   | "en"
@@ -47,7 +49,8 @@ type CaptionSize =
 
 type ActiveMode =
   | "conversation"
-  | "sound";
+  | "sound"
+  | "evaluation";
 
 type CaptionLine = {
   id: string;
@@ -76,6 +79,14 @@ type TranslationResponse = {
   model: string;
   latency_ms: number;
 };
+
+type SoundWarmupResponse = {
+  ready: boolean;
+  model: string;
+  class_count: number;
+  latency_ms: number;
+};
+
 
 type SoundResponse = {
   detected: boolean;
@@ -125,6 +136,24 @@ type SoundEvent = {
   threshold: number;
   model: string;
   createdAt: Date;
+};
+
+
+type SoundAlertResponse = {
+  status: string;
+  alert_id: string | null;
+  duplicate_suppressed: boolean;
+  caregiver_notified: boolean;
+};
+
+type LiveSoundDetection = {
+  detected: boolean;
+  category: string | null;
+  label: string | null;
+  confidence: number;
+  threshold: number;
+  latencyMs: number;
+  updatedAt: number;
 };
 
 type SpeechRecognitionResultLike = {
@@ -211,13 +240,16 @@ const SOUND_HISTORY_KEY =
   "accessmate_hearing_sound_events";
 
 const SOUND_WINDOW_SECONDS =
-  2.4;
+  1.2;
+
+const SOUND_HOP_SECONDS =
+  0.6;
 
 const SOUND_THRESHOLD =
   0.22;
 
 const SOUND_COOLDOWN_MS =
-  15000;
+  30000;
 
 
 const SOUND_CARDS = [
@@ -269,7 +301,100 @@ const SOUND_CARDS = [
     label:
       "Alert Beep",
   },
+
 ] as const;
+
+
+function getRuntimeSoundThreshold(
+  category: string
+) {
+  const value =
+    Number(
+      yamnetEvaluation
+        ?.selected_runtime_thresholds
+        ?.[category]
+      ??
+      yamnetEvaluation
+        ?.optimized_thresholds
+        ?.[category]
+    );
+
+  return Number.isFinite(value)
+    && value > 0
+    ? value
+    : SOUND_THRESHOLD;
+}
+
+
+function getSoundCardLabel(
+  category: string
+) {
+  const card = SOUND_CARDS.find(
+    (item) => item.key === category
+  );
+
+  return card?.label || category;
+}
+
+
+const EVALUATION_AR_LABELS: Record<string, string> = {
+  alarm: "إنذار",
+  siren: "صفارة إنذار",
+  doorbell: "جرس الباب",
+  baby_cry: "بكاء طفل",
+  knock: "طرق على الباب",
+  beep: "تنبيه صوتي",
+  no_detection: "لم يتم الاكتشاف",
+};
+
+
+function getEvaluationLabel(
+  label: string,
+  language: Language
+) {
+  if (language === "ar") {
+    return EVALUATION_AR_LABELS[label] || label;
+  }
+
+  const labels =
+    yamnetEvaluation.display_labels as
+      Record<string, string>;
+
+  return labels[label] || label;
+}
+
+
+function getEvaluationCellTone(
+  value: number,
+  rowIndex: number,
+  columnIndex: number
+) {
+  if (value <= 0) {
+    return "bg-white/[0.025] text-[#667984]";
+  }
+
+  if (rowIndex === columnIndex) {
+    if (value >= 0.8) {
+      return "bg-emerald-400/20 text-emerald-200 border-emerald-300/20";
+    }
+
+    if (value >= 0.5) {
+      return "bg-emerald-400/12 text-emerald-100 border-emerald-300/15";
+    }
+
+    return "bg-emerald-400/[0.07] text-emerald-100 border-emerald-300/10";
+  }
+
+  if (value >= 0.3) {
+    return "bg-red-400/18 text-red-200 border-red-300/20";
+  }
+
+  if (value >= 0.1) {
+    return "bg-amber-400/12 text-amber-100 border-amber-300/15";
+  }
+
+  return "bg-white/[0.045] text-[#9CAEB7]";
+}
 
 
 function getRecognitionConstructor() {
@@ -745,6 +870,18 @@ export default function HearingAssistant() {
     useState(false);
 
   const [
+    soundModelReady,
+    setSoundModelReady,
+  ] =
+    useState(false);
+
+  const [
+    soundModelWarming,
+    setSoundModelWarming,
+  ] =
+    useState(false);
+
+  const [
     soundEvents,
     setSoundEvents,
   ] =
@@ -821,6 +958,34 @@ export default function HearingAssistant() {
       >
     >(
       {}
+    );
+
+  const [
+    liveSoundDetection,
+    setLiveSoundDetection,
+  ] =
+    useState<
+      LiveSoundDetection | null
+    >(
+      null
+    );
+
+  const [
+    soundAlertStatus,
+    setSoundAlertStatus,
+  ] =
+    useState(
+      ""
+    );
+
+  const [
+    matrixView,
+    setMatrixView,
+  ] =
+    useState<
+      "percent" | "count"
+    >(
+      "percent"
     );
 
   const [
@@ -973,6 +1138,20 @@ export default function HearingAssistant() {
 
   const soundBusyRef =
     useRef(false);
+
+  const soundWarmupPromiseRef =
+    useRef<
+      Promise<void> | null
+    >(
+      null
+    );
+
+  const pendingSoundBlobRef =
+    useRef<
+      Blob | null
+    >(
+      null
+    );
 
   const soundCandidateRef =
     useRef<{
@@ -1976,6 +2155,17 @@ export default function HearingAssistant() {
         soundBusyRef.current =
           false;
 
+        pendingSoundBlobRef.current =
+          null;
+
+        setLiveSoundDetection(
+          null
+        );
+
+        setSoundAlertStatus(
+          ""
+        );
+
         setSoundMonitoring(
           false
         );
@@ -2302,6 +2492,8 @@ export default function HearingAssistant() {
             }
           );
 
+          return saved;
+
         } catch (
           persistError
         ) {
@@ -2309,9 +2501,118 @@ export default function HearingAssistant() {
             "Sound event database persistence failed; local fallback kept:",
             persistError
           );
+
+          return null;
         }
       },
       []
+    );
+
+
+  const notifyCaregiverForSound =
+    useCallback(
+      async (
+        event:
+          SoundEvent
+      ) => {
+        try {
+          const formData =
+            new FormData();
+
+          formData.append(
+            "category",
+            event.category
+          );
+
+          formData.append(
+            "label",
+            event.label
+          );
+
+          formData.append(
+            "confidence",
+            String(
+              event.confidence
+            )
+          );
+
+          formData.append(
+            "client_id",
+            event.clientId
+          );
+
+          formData.append(
+            "language",
+            language
+          );
+
+          formData.append(
+            "cooldown_seconds",
+            String(
+              Math.round(
+                SOUND_COOLDOWN_MS /
+                  1000
+              )
+            )
+          );
+
+          const response =
+            await api.post(
+              "/hearing/sound-alert",
+              formData
+            );
+
+          const result =
+            unwrapResponse<
+              SoundAlertResponse
+            >(
+              response
+            );
+
+          if (
+            result
+              .duplicate_suppressed
+          ) {
+            setSoundAlertStatus(
+              `${event.label}: caregiver alert already sent recently.`
+            );
+          } else if (
+            result
+              .caregiver_notified
+          ) {
+            setSoundAlertStatus(
+              `${event.label}: caregiver notified via configured channel.`
+            );
+          } else {
+            setSoundAlertStatus(
+              `${event.label}: sound event saved; caregiver alert status ${result.status}.`
+            );
+          }
+
+          return result;
+
+        } catch (
+          alertError
+        ) {
+          /*
+           * Sound detection must stay live even if Telegram/caregiver
+           * configuration is incomplete.
+           */
+          console.warn(
+            "Caregiver sound notification failed:",
+            alertError
+          );
+
+          setSoundAlertStatus(
+            "Sound detected. Caregiver notification is unavailable or not configured."
+          );
+
+          return null;
+        }
+      },
+      [
+        language,
+      ]
     );
 
 
@@ -2349,7 +2650,7 @@ export default function HearingAssistant() {
           &&
           now -
             previous.lastAt <
-            6000
+            2500
         ) {
           count =
             previous.count +
@@ -2367,11 +2668,19 @@ export default function HearingAssistant() {
               now,
           };
 
+        /*
+         * Temporal confirmation:
+         * - two consecutive live windows, OR
+         * - one very high-confidence window.
+         *
+         * This keeps the UI responsive while avoiding Telegram spam from
+         * a single noisy frame.
+         */
         const confirmed =
           count >= 2
           ||
           result.confidence >=
-            0.50;
+            0.72;
 
         if (!confirmed) {
           return;
@@ -2450,9 +2759,21 @@ export default function HearingAssistant() {
           }
         );
 
-        void persistSoundEvent(
-          event
-        );
+        /*
+         * Persist first so /sound-alert can immediately link the CareAlert
+         * to the exact hearing_sound_event record.
+         */
+        void (
+          async () => {
+            await persistSoundEvent(
+              event
+            );
+
+            await notifyCaregiverForSound(
+              event
+            );
+          }
+        )();
 
         const nav =
           navigator as Navigator & {
@@ -2485,7 +2806,7 @@ export default function HearingAssistant() {
               `AccessMate: ${result.label}`,
               {
                 body:
-                  "Important environmental sound detected.",
+                  `Confidence ${Math.round(result.confidence * 100)}%. Caregiver notification workflow started.`,
               }
             );
           } catch {
@@ -2506,6 +2827,7 @@ export default function HearingAssistant() {
         }
       },
       [
+        notifyCaregiverForSound,
         persistSoundEvent,
       ]
     );
@@ -2520,62 +2842,107 @@ export default function HearingAssistant() {
         if (
           soundBusyRef.current
         ) {
+          /*
+           * Keep only the newest window while inference is busy. This avoids
+           * building a stale queue and keeps Sound Awareness close to real time.
+           */
+          pendingSoundBlobRef.current =
+            blob;
+
           return;
         }
 
         soundBusyRef.current =
           true;
 
+        let currentBlob:
+          Blob | null =
+          blob;
+
         try {
-          const formData =
-            new FormData();
+          while (
+            currentBlob
+          ) {
+            pendingSoundBlobRef.current =
+              null;
 
-          formData.append(
-            "audio_file",
-            new File(
-              [
-                blob,
-              ],
-              "environment.wav",
+            const formData =
+              new FormData();
+
+            formData.append(
+              "audio_file",
+              new File(
+                [
+                  currentBlob,
+                ],
+                "environment.wav",
+                {
+                  type:
+                    "audio/wav",
+                }
+              )
+            );
+
+            /*
+             * No threshold override is sent here. Backend uses the runtime
+             * configuration selected by evaluate_yamnet.py. V3 currently
+             * validates the global 0.22 threshold plus Alarm/Beep resolver.
+             */
+            const response =
+              await api.post(
+                "/hearing/classify-sound",
+                formData
+              );
+
+            const result =
+              unwrapResponse<
+                SoundResponse
+              >(
+                response
+              );
+
+            setLiveSoundScores(
+              result
+                .monitored_scores
+              ||
+              {}
+            );
+
+            setLiveSoundDetection(
               {
-                type:
-                  "audio/wav",
+                detected:
+                  result.detected,
+
+                category:
+                  result.category,
+
+                label:
+                  result.label,
+
+                confidence:
+                  result.confidence,
+
+                threshold:
+                  result.threshold,
+
+                latencyMs:
+                  result.latency_ms,
+
+                updatedAt:
+                  Date.now(),
               }
-            )
-          );
-
-          formData.append(
-            "threshold",
-            String(
-              SOUND_THRESHOLD
-            )
-          );
-
-          const response =
-            await api.post(
-              "/hearing/classify-sound",
-              formData
             );
 
-          const result =
-            unwrapResponse<
-              SoundResponse
-            >(
-              response
+            registerSoundEvent(
+              result
             );
 
-          setLiveSoundScores(
-            result
-              .monitored_scores
-            ||
-            {}
-          );
+            setError("");
 
-          registerSoundEvent(
-            result
-          );
-
-          setError("");
+            currentBlob =
+              pendingSoundBlobRef
+                .current;
+          }
 
         } catch (
           soundError
@@ -2594,12 +2961,106 @@ export default function HearingAssistant() {
         } finally {
           soundBusyRef.current =
             false;
+
+          pendingSoundBlobRef.current =
+            null;
         }
       },
       [
         registerSoundEvent,
       ]
     );
+
+
+  const warmSoundModel =
+    useCallback(
+      async () => {
+        if (
+          soundModelReady
+        ) {
+          return;
+        }
+
+        if (
+          soundWarmupPromiseRef.current
+        ) {
+          await soundWarmupPromiseRef.current;
+          return;
+        }
+
+        const warmupPromise =
+          (async () => {
+            setSoundModelWarming(
+              true
+            );
+
+            try {
+              const response =
+                await api.post(
+                  "/hearing/sound-warmup"
+                );
+
+              const result =
+                unwrapResponse<
+                  SoundWarmupResponse
+                >(
+                  response
+                );
+
+              setSoundModelReady(
+                Boolean(
+                  result.ready
+                )
+              );
+            } catch (warmupError) {
+              /*
+               * Warm-up is an optimization only. If it fails, the first
+               * classify request can still lazily load YAMNet as before.
+               */
+              console.warn(
+                "Sound Awareness warm-up failed; lazy loading will be used:",
+                warmupError
+              );
+            } finally {
+              setSoundModelWarming(
+                false
+              );
+
+              soundWarmupPromiseRef.current =
+                null;
+            }
+          })();
+
+        soundWarmupPromiseRef.current =
+          warmupPromise;
+
+        await warmupPromise;
+      },
+      [
+        soundModelReady,
+      ]
+    );
+
+
+  useEffect(
+    () => {
+      if (
+        activeMode === "sound"
+        &&
+        !soundModelReady
+        &&
+        !soundModelWarming
+      ) {
+        void warmSoundModel();
+      }
+    },
+    [
+      activeMode,
+      soundModelReady,
+      soundModelWarming,
+      warmSoundModel,
+    ]
+  );
 
 
   const startSoundAwareness =
@@ -2626,6 +3087,8 @@ export default function HearingAssistant() {
         );
 
         try {
+          await warmSoundModel();
+
           if (
             !navigator
               .mediaDevices
@@ -2722,6 +3185,12 @@ export default function HearingAssistant() {
                 SOUND_WINDOW_SECONDS
             );
 
+          const hopSamples =
+            Math.floor(
+              context.sampleRate *
+                SOUND_HOP_SECONDS
+            );
+
           processor.onaudioprocess =
             (
               event
@@ -2755,21 +3224,59 @@ export default function HearingAssistant() {
                     soundBuffersRef.current
                   );
 
-                soundBuffersRef.current =
-                  [];
+                const windowStart =
+                  Math.max(
+                    0,
+                    combined.length -
+                      targetSamples
+                  );
 
-                soundSamplesRef.current =
-                  0;
+                const windowSamples =
+                  combined.slice(
+                    windowStart
+                  );
 
                 const wavBlob =
                   makeWavBlob(
-                    combined,
+                    windowSamples,
                     context.sampleRate
                   );
 
                 void sendSoundSample(
                   wavBlob
                 );
+
+                /*
+                 * Keep an overlap so a short sound occurring near a window
+                 * boundary is still present in the next inference window.
+                 */
+                const retainSamples =
+                  Math.max(
+                    0,
+                    targetSamples -
+                      hopSamples
+                  );
+
+                const retained =
+                  retainSamples > 0
+                    ? combined.slice(
+                        Math.max(
+                          0,
+                          combined.length -
+                            retainSamples
+                        )
+                      )
+                    : new Float32Array(0);
+
+                soundBuffersRef.current =
+                  retained.length
+                    ? [
+                        retained,
+                      ]
+                    : [];
+
+                soundSamplesRef.current =
+                  retained.length;
               }
             };
 
@@ -2815,6 +3322,7 @@ export default function HearingAssistant() {
         soundMonitoring,
         stopListening,
         stopSoundAwareness,
+        warmSoundModel,
       ]
     );
 
@@ -3294,6 +3802,905 @@ export default function HearingAssistant() {
       : "";
 
 
+  const liveRankedSounds =
+    useMemo(
+      () =>
+        SOUND_CARDS
+          .map(
+            (
+              item
+            ) => ({
+              ...item,
+              score:
+                Number(
+                  liveSoundScores[
+                    item.key
+                  ]
+                  || 0
+                ),
+              threshold:
+                getRuntimeSoundThreshold(
+                  item.key
+                ),
+            })
+          )
+          .sort(
+            (
+              a,
+              b
+            ) =>
+              b.score -
+              a.score
+          ),
+      [
+        liveSoundScores,
+      ]
+    );
+
+
+  const liveTopSound =
+    liveRankedSounds[0];
+
+
+  function renderModelEvaluation() {
+    const evaluated =
+      yamnetEvaluation.status ===
+        "evaluated"
+      &&
+      Number(
+        yamnetEvaluation
+          .total_samples
+      ) > 0;
+
+    if (!evaluated) {
+      return (
+        <section
+          className="
+            mt-3
+            rounded-[22px]
+            border
+            border-[#173240]
+            bg-[#06121D]
+            p-6
+          "
+        >
+          <div
+            className="
+              flex
+              items-center
+              gap-3
+            "
+          >
+            <Activity
+              className="
+                h-5
+                w-5
+                text-[#55D4FF]
+              "
+            />
+
+            <div>
+              <h2
+                className="
+                  text-[15px]
+                  font-bold
+                "
+              >
+                Model Evaluation
+              </h2>
+
+              <p
+                className="
+                  mt-1
+                  text-[10px]
+                  text-[#657782]
+                "
+              >
+                Run the YAMNet evaluator to generate calibrated metrics.
+              </p>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    const metrics =
+      yamnetEvaluation.metrics;
+
+    const baseline =
+      yamnetEvaluation
+        .baseline_metrics
+      ||
+      null;
+
+    const perClass =
+      yamnetEvaluation.per_class
+      ||
+      {};
+
+    const matrix =
+      matrixView ===
+        "percent"
+        ? yamnetEvaluation
+            .normalized_confusion_matrix
+        : yamnetEvaluation
+            .confusion_matrix;
+
+    return (
+      <section
+        className="
+          mt-3
+          space-y-3
+        "
+      >
+        <div
+          className="
+            rounded-[22px]
+            border
+            border-[#173240]
+            bg-[#06121D]
+            p-5
+          "
+        >
+          <div
+            className="
+              flex
+              flex-col
+              gap-3
+              lg:flex-row
+              lg:items-start
+              lg:justify-between
+            "
+          >
+            <div>
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-3
+                "
+              >
+                <Activity
+                  className="
+                    h-5
+                    w-5
+                    text-[#55D4FF]
+                  "
+                />
+
+                <div>
+                  <h2
+                    className="
+                      text-[15px]
+                      font-bold
+                    "
+                  >
+                    {language ===
+                      "ar"
+                      ? "تقييم نموذج الأصوات"
+                      : "YAMNet Model Evaluation"}
+                  </h2>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[10px]
+                      leading-5
+                      text-[#657782]
+                    "
+                  >
+                    {language ===
+                      "ar"
+                      ? "تقييم المصنف على عينات صوتية معلّمة، مع مقارنة الإعدادات واختيار أفضل إعداد Runtime تم التحقق منه."
+                      : "Evaluation on labeled audio samples, comparing candidate configurations and reporting the validated runtime selection."}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="
+                flex
+                flex-wrap
+                items-center
+                gap-2
+              "
+            >
+              <span
+                className="
+                  rounded-full
+                  border
+                  border-[#55D4FF]/20
+                  bg-[#55D4FF]/[0.05]
+                  px-3
+                  py-1.5
+                  text-[9px]
+                  font-semibold
+                  text-[#A7E9FF]
+                "
+              >
+                {yamnetEvaluation.model}
+              </span>
+
+              <span
+                className="
+                  rounded-full
+                  border
+                  border-white/10
+                  bg-black/10
+                  px-3
+                  py-1.5
+                  text-[9px]
+                  text-[#81939D]
+                "
+              >
+                {yamnetEvaluation.total_samples} samples
+              </span>
+            </div>
+          </div>
+
+          <div
+            className="
+              mt-5
+              grid
+              gap-2
+              sm:grid-cols-2
+              xl:grid-cols-4
+            "
+          >
+            {[
+              {
+                label:
+                  "Accuracy",
+                value:
+                  metrics.accuracy,
+                oldValue:
+                  baseline
+                    ?.accuracy,
+              },
+              {
+                label:
+                  "Macro Precision",
+                value:
+                  metrics
+                    .macro_precision,
+                oldValue:
+                  baseline
+                    ?.macro_precision,
+              },
+              {
+                label:
+                  "Macro Recall",
+                value:
+                  metrics
+                    .macro_recall,
+                oldValue:
+                  baseline
+                    ?.macro_recall,
+              },
+              {
+                label:
+                  "Macro F1",
+                value:
+                  metrics
+                    .macro_f1,
+                oldValue:
+                  baseline
+                    ?.macro_f1,
+              },
+            ].map(
+              (
+                item
+              ) => {
+                const delta =
+                  Number(
+                    item.value
+                    || 0
+                  ) -
+                  Number(
+                    item.oldValue
+                    || 0
+                  );
+
+                return (
+                  <div
+                    key={
+                      item.label
+                    }
+                    className="
+                      rounded-2xl
+                      border
+                      border-white/[0.08]
+                      bg-black/10
+                      p-4
+                    "
+                  >
+                    <p
+                      className="
+                        text-[8px]
+                        font-semibold
+                        uppercase
+                        tracking-[0.16em]
+                        text-[#60737D]
+                      "
+                    >
+                      {item.label}
+                    </p>
+
+                    <div
+                      className="
+                        mt-2
+                        flex
+                        items-end
+                        justify-between
+                        gap-2
+                      "
+                    >
+                      <strong
+                        className="
+                          text-[22px]
+                          font-black
+                          text-[#EAF7FB]
+                        "
+                      >
+                        {(
+                          Number(
+                            item.value
+                            || 0
+                          ) *
+                          100
+                        ).toFixed(
+                          1
+                        )}%
+                      </strong>
+
+                      {baseline && (
+                        <span
+                          className={`
+                            rounded-full
+                            px-2
+                            py-1
+                            text-[8px]
+                            font-bold
+
+                            ${
+                              delta >= 0
+                                ? "bg-emerald-400/10 text-emerald-300"
+                                : "bg-red-400/10 text-red-300"
+                            }
+                          `}
+                        >
+                          {delta >= 0
+                            ? "+"
+                            : ""}
+                          {(
+                            delta *
+                            100
+                          ).toFixed(
+                            1
+                          )} pp
+                        </span>
+                      )}
+                    </div>
+
+                    {baseline && (
+                      <p
+                        className="
+                          mt-1
+                          text-[8px]
+                          text-[#586A74]
+                        "
+                      >
+                        Baseline {(
+                          Number(
+                            item.oldValue
+                            || 0
+                          ) *
+                          100
+                        ).toFixed(
+                          1
+                        )}%
+                      </p>
+                    )}
+                  </div>
+                );
+              }
+            )}
+          </div>
+        </div>
+
+
+        <div
+          className="
+            grid
+            gap-3
+            xl:grid-cols-[minmax(0,1fr)_330px]
+          "
+        >
+          <div
+            className="
+              overflow-hidden
+              rounded-[22px]
+              border
+              border-[#173240]
+              bg-[#06121D]
+              p-4
+            "
+          >
+            <div
+              className="
+                flex
+                flex-col
+                gap-3
+                sm:flex-row
+                sm:items-center
+                sm:justify-between
+              "
+            >
+              <div>
+                <h3
+                  className="
+                    text-[12px]
+                    font-bold
+                  "
+                >
+                  Confusion Matrix
+                </h3>
+
+                <p
+                  className="
+                    mt-1
+                    text-[8px]
+                    text-[#60737D]
+                  "
+                >
+                  Rows = actual • Columns = predicted • cross-validated
+                </p>
+              </div>
+
+              <div
+                className="
+                  inline-flex
+                  self-start
+                  rounded-lg
+                  border
+                  border-white/10
+                  bg-black/10
+                  p-1
+                "
+              >
+                {[
+                  [
+                    "percent",
+                    "%",
+                  ],
+                  [
+                    "count",
+                    "Count",
+                  ],
+                ].map(
+                  (
+                    option
+                  ) => (
+                    <button
+                      key={
+                        option[0]
+                      }
+                      type="button"
+                      onClick={() =>
+                        setMatrixView(
+                          option[0] as
+                            "percent" | "count"
+                        )
+                      }
+                      className={`
+                        rounded-md
+                        px-2.5
+                        py-1.5
+                        text-[8px]
+                        font-semibold
+                        transition
+
+                        ${
+                          matrixView ===
+                            option[0]
+                            ? "bg-[#0A799D] text-white"
+                            : "text-[#72858F] hover:text-white"
+                        }
+                      `}
+                    >
+                      {option[1]}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+
+            <div
+              className="
+                mt-4
+                overflow-x-auto
+              "
+            >
+              <div
+                className="grid gap-1"
+                style={{
+                  gridTemplateColumns:
+                    `138px repeat(${yamnetEvaluation.labels.length}, minmax(72px, 1fr))`,
+                  minWidth:
+                    "720px",
+                }}
+              >
+                <div
+                  className="
+                    flex
+                    items-center
+                    justify-center
+                    rounded-lg
+                    bg-white/[0.025]
+                    p-2
+                    text-[8px]
+                    font-semibold
+                    text-[#60737D]
+                  "
+                >
+                  Actual \ Predicted
+                </div>
+
+                {yamnetEvaluation.labels.map(
+                  (
+                    label:
+                      string
+                  ) => (
+                    <div
+                      key={`head-${label}`}
+                      className="
+                        flex
+                        items-center
+                        justify-center
+                        rounded-lg
+                        bg-white/[0.035]
+                        p-2
+                        text-center
+                        text-[8px]
+                        font-semibold
+                        text-[#8EA4AF]
+                      "
+                    >
+                      {getEvaluationLabel(
+                        label,
+                        language
+                      )}
+                    </div>
+                  )
+                )}
+
+                {yamnetEvaluation.labels.map(
+                  (
+                    rowLabel:
+                      string,
+                    rowIndex:
+                      number
+                  ) => (
+                    <div
+                      key={`eval-${rowLabel}`}
+                      className="contents"
+                    >
+                      <div
+                        className="
+                          flex
+                          items-center
+                          rounded-lg
+                          bg-white/[0.035]
+                          px-2.5
+                          py-2
+                          text-[8px]
+                          font-semibold
+                          text-[#9BB0BA]
+                        "
+                      >
+                        {getEvaluationLabel(
+                          rowLabel,
+                          language
+                        )}
+                      </div>
+
+                      {yamnetEvaluation.labels.map(
+                        (
+                          columnLabel:
+                            string,
+                          columnIndex:
+                            number
+                        ) => {
+                          const rawValue =
+                            Number(
+                              matrix
+                                ?.[rowIndex]
+                                ?.[columnIndex]
+                              || 0
+                            );
+
+                          const normalized =
+                            Number(
+                              yamnetEvaluation
+                                .normalized_confusion_matrix
+                                ?.[rowIndex]
+                                ?.[columnIndex]
+                              || 0
+                            );
+
+                          return (
+                            <div
+                              key={`${rowLabel}-${columnLabel}`}
+                              className={`
+                                flex
+                                min-h-[58px]
+                                flex-col
+                                items-center
+                                justify-center
+                                rounded-lg
+                                border
+                                border-transparent
+                                p-1.5
+                                ${getEvaluationCellTone(
+                                  normalized,
+                                  rowIndex,
+                                  columnIndex
+                                )}
+                              `}
+                            >
+                              <strong
+                                className="
+                                  text-[13px]
+                                  font-black
+                                "
+                              >
+                                {matrixView ===
+                                  "percent"
+                                  ? `${Math.round(rawValue * 100)}%`
+                                  : rawValue}
+                              </strong>
+
+                              <span
+                                className="
+                                  mt-0.5
+                                  text-[7px]
+                                  opacity-65
+                                "
+                              >
+                                {rowIndex ===
+                                  columnIndex
+                                  ? "correct"
+                                  : normalized > 0
+                                  ? "confusion"
+                                  : "—"}
+                              </span>
+                            </div>
+                          );
+                        }
+                      )}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+
+
+          <aside
+            className="
+              space-y-3
+            "
+          >
+            <div
+              className="
+                rounded-[22px]
+                border
+                border-[#173240]
+                bg-[#06121D]
+                p-4
+              "
+            >
+              <h3
+                className="
+                  text-[11px]
+                  font-bold
+                "
+              >
+                Per-class performance
+              </h3>
+
+              <div
+                className="
+                  mt-3
+                  space-y-3
+                "
+              >
+                {SOUND_CARDS.map(
+                  (
+                    item
+                  ) => {
+                    const stats =
+                      perClass[
+                        item.key
+                      ]
+                      || {};
+
+                    const recall =
+                      Number(
+                        stats.recall
+                        || 0
+                      );
+
+                    const threshold =
+                      getRuntimeSoundThreshold(
+                        item.key
+                      );
+
+                    return (
+                      <div
+                        key={`perf-${item.key}`}
+                      >
+                        <div
+                          className="
+                            flex
+                            items-center
+                            justify-between
+                            gap-2
+                          "
+                        >
+                          <span
+                            className="
+                              text-[9px]
+                              font-semibold
+                              text-[#B9C9D0]
+                            "
+                          >
+                            {item.icon}{" "}
+                            {item.label}
+                          </span>
+
+                          <span
+                            className="
+                              text-[8px]
+                              text-[#6B808A]
+                            "
+                          >
+                            Recall {(
+                              recall *
+                              100
+                            ).toFixed(
+                              0
+                            )}% • T {threshold.toFixed(
+                              2
+                            )}
+                          </span>
+                        </div>
+
+                        <div
+                          className="
+                            mt-1.5
+                            h-1.5
+                            overflow-hidden
+                            rounded-full
+                            bg-white/[0.06]
+                          "
+                        >
+                          <div
+                            className="
+                              h-full
+                              rounded-full
+                              bg-[#55D4FF]
+                            "
+                            style={{
+                              width:
+                                `${Math.min(
+                                  100,
+                                  recall *
+                                    100
+                                )}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+
+            <div
+              className="
+                rounded-[22px]
+                border
+                border-[#173240]
+                bg-[#06121D]
+                p-4
+              "
+            >
+              <p
+                className="
+                  text-[10px]
+                  font-bold
+                "
+              >
+                Live diagnostics
+              </p>
+
+              <p
+                className="
+                  mt-1
+                  text-[8px]
+                  leading-4
+                  text-[#60737D]
+                "
+              >
+                This panel follows the live detector. It does not change the confusion matrix because live audio has no ground-truth label.
+              </p>
+
+              <div
+                className="
+                  mt-3
+                  rounded-xl
+                  border
+                  border-white/[0.08]
+                  bg-black/10
+                  p-3
+                "
+              >
+                <p
+                  className="
+                    text-[8px]
+                    uppercase
+                    tracking-[0.14em]
+                    text-[#60737D]
+                  "
+                >
+                  Current candidate
+                </p>
+
+                <p
+                  className="
+                    mt-1
+                    text-[14px]
+                    font-bold
+                  "
+                >
+                  {liveTopSound
+                    ? `${liveTopSound.icon} ${liveTopSound.label}`
+                    : "Waiting for audio"}
+                </p>
+
+                <p
+                  className="
+                    mt-1
+                    text-[9px]
+                    text-[#7F939D]
+                  "
+                >
+                  Confidence {(
+                    Number(
+                      liveTopSound
+                        ?.score
+                      || 0
+                    ) *
+                    100
+                  ).toFixed(
+                    1
+                  )}%
+                  {liveSoundDetection
+                    ? ` • ${liveSoundDetection.latencyMs} ms`
+                    : ""}
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    );
+  }
+
+
   return (
     <main
       className={`
@@ -3446,11 +4853,14 @@ export default function HearingAssistant() {
                         )
                       : "Ready"
                   )
-                : (
+                : activeMode ===
+                    "sound"
+                ? (
                     soundMonitoring
                       ? "Monitoring"
                       : "Ready"
-                  )}
+                  )
+                : "Evaluation"}
             </span>
           </div>
         </header>
@@ -3537,6 +4947,42 @@ export default function HearingAssistant() {
             />
 
             Sound Awareness
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              setActiveMode(
+                "evaluation"
+              )
+            }
+            className={`
+              inline-flex
+              h-9
+              items-center
+              gap-2
+              rounded-lg
+              px-4
+              text-[11px]
+              font-semibold
+              transition
+
+              ${
+                activeMode ===
+                  "evaluation"
+                  ? "bg-[#0A799D] text-white"
+                  : "text-[#83939D] hover:text-white"
+              }
+            `}
+          >
+            <Activity
+              className="
+                h-4
+                w-4
+              "
+            />
+
+            Model Evaluation
           </button>
         </div>
 
@@ -4748,6 +6194,9 @@ export default function HearingAssistant() {
               </div>
             </aside>
           </section>
+        ) : activeMode ===
+            "evaluation" ? (
+          renderModelEvaluation()
         ) : (
           <section
             className="
@@ -4814,6 +6263,34 @@ export default function HearingAssistant() {
                   </p>
                 </div>
 
+                <div
+                  className="flex flex-wrap items-center gap-2"
+                >
+                  <span
+                    className={`
+                      rounded-full
+                      border
+                      px-2.5
+                      py-1
+                      text-[8px]
+                      font-semibold
+
+                      ${
+                        soundModelReady
+                          ? "border-emerald-400/20 bg-emerald-400/[0.07] text-emerald-300"
+                          : soundModelWarming
+                          ? "border-[#55D4FF]/20 bg-[#55D4FF]/[0.06] text-[#A7E9FF]"
+                          : "border-white/10 bg-white/[0.03] text-[#71838D]"
+                      }
+                    `}
+                  >
+                    {soundModelReady
+                      ? "YAMNet ready"
+                      : soundModelWarming
+                      ? "Warming YAMNet…"
+                      : "YAMNet idle"}
+                  </span>
+
                 {!soundMonitoring ? (
                   <button
                     type="button"
@@ -4844,6 +6321,8 @@ export default function HearingAssistant() {
 
                         ${
                           soundLoading
+                          ||
+                          soundModelWarming
                             ? "animate-pulse"
                             : ""
                         }
@@ -4852,6 +6331,8 @@ export default function HearingAssistant() {
 
                     {soundLoading
                       ? "Initializing…"
+                      : soundModelWarming
+                      ? "Preparing YAMNet…"
                       : "Start Monitoring"}
                   </button>
                 ) : (
@@ -4885,78 +6366,373 @@ export default function HearingAssistant() {
                     Stop Monitoring
                   </button>
                 )}
+                </div>
               </div>
 
 
               <div
                 className={`
                   mt-5
+                  overflow-hidden
                   rounded-[20px]
                   border
-                  px-5
-                  py-7
-                  text-center
 
                   ${
                     soundMonitoring
-                      ? "border-[#55D4FF]/25 bg-[#55D4FF]/[0.045]"
+                      ? "border-[#55D4FF]/30 bg-[#55D4FF]/[0.04]"
                       : "border-white/10 bg-black/10"
                   }
                 `}
               >
                 <div
                   className="
-                    mx-auto
-                    flex
-                    h-14
-                    w-14
-                    items-center
-                    justify-center
-                    rounded-full
-                    border
-                    border-[#55D4FF]/20
-                    bg-[#55D4FF]/10
+                    grid
+                    gap-0
+                    lg:grid-cols-[minmax(0,1fr)_230px]
                   "
                 >
-                  <Radio
-                    className={`
-                      h-6
-                      w-6
-                      text-[#55D4FF]
+                  <div
+                    className="
+                      p-5
+                      sm:p-6
+                    "
+                  >
+                    <div
+                      className="
+                        flex
+                        flex-wrap
+                        items-center
+                        gap-2
+                      "
+                    >
+                      <span
+                        className={`
+                          inline-flex
+                          items-center
+                          gap-1.5
+                          rounded-full
+                          border
+                          px-2.5
+                          py-1
+                          text-[8px]
+                          font-bold
 
-                      ${
-                        soundMonitoring
-                          ? "animate-pulse"
-                          : ""
-                      }
-                    `}
-                  />
+                          ${
+                            liveSoundDetection
+                              ?.detected
+                              ? "border-emerald-400/25 bg-emerald-400/10 text-emerald-300"
+                              : soundMonitoring
+                              ? "border-[#55D4FF]/20 bg-[#55D4FF]/10 text-[#A7E9FF]"
+                              : "border-white/10 bg-white/[0.03] text-[#71838D]"
+                          }
+                        `}
+                      >
+                        <span
+                          className={`
+                            h-1.5
+                            w-1.5
+                            rounded-full
+
+                            ${
+                              soundMonitoring
+                                ? "animate-pulse bg-[#55D4FF]"
+                                : "bg-[#52616A]"
+                            }
+                          `}
+                        />
+
+                        {liveSoundDetection
+                          ?.detected
+                          ? "DETECTED"
+                          : soundMonitoring
+                          ? "LIVE ANALYSIS"
+                          : "MONITORING OFF"}
+                      </span>
+
+                      {liveSoundDetection && (
+                        <span
+                          className="
+                            rounded-full
+                            border
+                            border-white/10
+                            bg-black/10
+                            px-2.5
+                            py-1
+                            text-[8px]
+                            text-[#71838D]
+                          "
+                        >
+                          Inference {liveSoundDetection.latencyMs} ms
+                        </span>
+                      )}
+                    </div>
+
+                    <div
+                      className="
+                        mt-5
+                        flex
+                        flex-col
+                        gap-4
+                        sm:flex-row
+                        sm:items-end
+                        sm:justify-between
+                      "
+                    >
+                      <div>
+                        <p
+                          className="
+                            text-[9px]
+                            font-semibold
+                            uppercase
+                            tracking-[0.16em]
+                            text-[#60737D]
+                          "
+                        >
+                          Current sound
+                        </p>
+
+                        <div
+                          className="
+                            mt-1.5
+                            flex
+                            items-center
+                            gap-3
+                          "
+                        >
+                          <span
+                            className="
+                              text-[34px]
+                            "
+                          >
+                            {liveTopSound
+                              ?.icon
+                              || "🎧"}
+                          </span>
+
+                          <div>
+                            <h3
+                              className="
+                                text-[24px]
+                                font-black
+                                tracking-tight
+                                text-[#EFFAFF]
+                              "
+                            >
+                              {soundMonitoring
+                                ? liveSoundDetection
+                                    ?.detected
+                                  ? liveSoundDetection.label
+                                  : liveTopSound
+                                    ? `${liveTopSound.label} candidate`
+                                    : "Analyzing…"
+                                : "Start monitoring"}
+                            </h3>
+
+                            <p
+                              className="
+                                mt-0.5
+                                text-[9px]
+                                text-[#657782]
+                              "
+                            >
+                              1.2 s rolling window • refreshed about every 0.6 s
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        className="
+                          min-w-[170px]
+                          rounded-2xl
+                          border
+                          border-white/[0.08]
+                          bg-black/15
+                          px-4
+                          py-3
+                        "
+                      >
+                        <p
+                          className="
+                            text-[8px]
+                            uppercase
+                            tracking-[0.14em]
+                            text-[#60737D]
+                          "
+                        >
+                          Confidence
+                        </p>
+
+                        <strong
+                          className="
+                            mt-1
+                            block
+                            text-[26px]
+                            font-black
+                            text-[#55D4FF]
+                          "
+                        >
+                          {(
+                            Number(
+                              liveSoundDetection
+                                ?.detected
+                                ? liveSoundDetection
+                                    .confidence
+                                : liveTopSound
+                                  ?.score
+                                || 0
+                            ) *
+                            100
+                          ).toFixed(
+                            1
+                          )}%
+                        </strong>
+
+                        <p
+                          className="
+                            mt-0.5
+                            text-[8px]
+                            text-[#5F737D]
+                          "
+                        >
+                          Threshold {(
+                            liveSoundDetection
+                              ?.detected
+                              ? liveSoundDetection
+                                  .threshold
+                              : liveTopSound
+                                ?.threshold
+                              || SOUND_THRESHOLD
+                          ).toFixed(
+                            2
+                          )}
+                        </p>
+                      </div>
+                    </div>
+
+                    {soundAlertStatus && (
+                      <div
+                        className="
+                          mt-4
+                          rounded-xl
+                          border
+                          border-[#55D4FF]/15
+                          bg-[#55D4FF]/[0.035]
+                          px-3
+                          py-2
+                          text-[9px]
+                          text-[#8FCFE2]
+                        "
+                      >
+                        {soundAlertStatus}
+                      </div>
+                    )}
+                  </div>
+
+
+                  <div
+                    className="
+                      border-t
+                      border-white/[0.07]
+                      bg-black/10
+                      p-4
+                      lg:border-l
+                      lg:border-t-0
+                    "
+                  >
+                    <p
+                      className="
+                        text-[9px]
+                        font-bold
+                        text-[#A9BBC4]
+                      "
+                    >
+                      Top live predictions
+                    </p>
+
+                    <div
+                      className="
+                        mt-3
+                        space-y-3
+                      "
+                    >
+                      {liveRankedSounds
+                        .slice(
+                          0,
+                          3
+                        )
+                        .map(
+                          (
+                            item
+                          ) => (
+                            <div
+                              key={`top-${item.key}`}
+                            >
+                              <div
+                                className="
+                                  flex
+                                  items-center
+                                  justify-between
+                                  gap-2
+                                "
+                              >
+                                <span
+                                  className="
+                                    text-[9px]
+                                    text-[#94A8B2]
+                                  "
+                                >
+                                  {item.icon}{" "}
+                                  {item.label}
+                                </span>
+
+                                <span
+                                  className="
+                                    text-[8px]
+                                    font-bold
+                                    text-[#7ACDEA]
+                                  "
+                                >
+                                  {(
+                                    item.score *
+                                    100
+                                  ).toFixed(
+                                    1
+                                  )}%
+                                </span>
+                              </div>
+
+                              <div
+                                className="
+                                  mt-1.5
+                                  h-1
+                                  overflow-hidden
+                                  rounded-full
+                                  bg-white/[0.06]
+                                "
+                              >
+                                <div
+                                  className="
+                                    h-full
+                                    rounded-full
+                                    bg-[#55D4FF]
+                                  "
+                                  style={{
+                                    width:
+                                      `${Math.min(
+                                        100,
+                                        item.score *
+                                          100
+                                      )}%`,
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          )
+                        )}
+                    </div>
+                  </div>
                 </div>
-
-                <p
-                  className="
-                    mt-4
-                    text-[18px]
-                    font-bold
-                  "
-                >
-                  {soundMonitoring
-                    ? "Listening to the environment"
-                    : "Sound monitoring is off"}
-                </p>
-
-                <p
-                  className="
-                    mx-auto
-                    mt-1
-                    max-w-lg
-                    text-[10px]
-                    leading-5
-                    text-[#657782]
-                  "
-                >
-                  Important sounds require repeated detection unless confidence is very high, reducing accidental alerts.
-                </p>
               </div>
 
 
@@ -4980,9 +6756,14 @@ export default function HearingAssistant() {
                       ||
                       0;
 
+                    const threshold =
+                      getRuntimeSoundThreshold(
+                        item.key
+                      );
+
                     const active =
                       score >=
-                      SOUND_THRESHOLD;
+                      threshold;
 
                     return (
                       <div
@@ -5041,6 +6822,16 @@ export default function HearingAssistant() {
                           {item.label}
                         </p>
 
+                        <p
+                          className="
+                            mt-0.5
+                            text-[7px]
+                            text-[#52616A]
+                          "
+                        >
+                          threshold {threshold.toFixed(2)}
+                        </p>
+
                         <div
                           className="
                             mt-2
@@ -5071,6 +6862,8 @@ export default function HearingAssistant() {
                   }
                 )}
               </div>
+
+
             </div>
 
 
@@ -5294,7 +7087,7 @@ export default function HearingAssistant() {
                 "
               >
                 {criticalSound
-                  ? `${criticalSound.label} was detected. Do you want to alert your caregiver?`
+                  ? `${criticalSound.label} was detected and the caregiver notification workflow has already started. Do you want to escalate this as an emergency?`
                   : "Do you want AccessMate to send an emergency care alert to your caregiver?"}
               </p>
 
@@ -5338,6 +7131,8 @@ export default function HearingAssistant() {
 
                   {emergencySending
                     ? "Sending…"
+                    : criticalSound
+                    ? "Escalate Emergency"
                     : "Send Alert"}
                 </button>
 

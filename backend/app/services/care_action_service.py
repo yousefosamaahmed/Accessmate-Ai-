@@ -16,6 +16,25 @@ from app.services.telegram_service import TelegramService
 DEFAULT_HEARING_ALERT_COOLDOWN_SECONDS = 30
 
 
+SOUND_ALERT_RISK_LEVELS = {
+    "alarm": "high",
+    "siren": "high",
+    "doorbell": "low",
+    "baby_cry": "medium",
+    "knock": "low",
+    "beep": "medium",
+}
+
+SOUND_ALERT_LABELS = {
+    "alarm": {"en": "Alarm", "ar": "إنذار"},
+    "siren": {"en": "Siren", "ar": "صفارة إنذار"},
+    "doorbell": {"en": "Doorbell", "ar": "جرس الباب"},
+    "baby_cry": {"en": "Baby Cry", "ar": "بكاء طفل"},
+    "knock": {"en": "Knocking", "ar": "طرق على الباب"},
+    "beep": {"en": "Alert Beep", "ar": "تنبيه صوتي"},
+}
+
+
 class CareActionError(Exception):
     def __init__(
         self,
@@ -32,7 +51,7 @@ class CareActionError(Exception):
 
 @dataclass
 class CareActionResult:
-    action: DailyNeedAction
+    action: DailyNeedAction | None
     caregiver: Caregiver | None
     alert: CareAlert | None
     status: str
@@ -135,12 +154,16 @@ def build_telegram_message(
 
     if language == "ar":
         account_name = account_name or "صاحب الحساب"
-        need = (
-            getattr(action, "name_ar", None)
-            or getattr(action, "name_en", None)
-            or alert.intent
-            or "طلب رعاية"
-        )
+        if str(alert.intent or "").startswith("sound:"):
+            sound_category = str(alert.intent).split(":", 1)[1]
+            need = get_sound_alert_label(sound_category, "ar")
+        else:
+            need = (
+                getattr(action, "name_ar", None)
+                or getattr(action, "name_en", None)
+                or alert.intent
+                or "طلب رعاية"
+            )
 
         if risk == "emergency":
             title = "🚨 <b>تنبيه طوارئ عاجل - AccessMate AI</b>"
@@ -167,12 +190,16 @@ def build_telegram_message(
         )
 
     account_name = account_name or "Account owner"
-    need = (
-        getattr(action, "name_en", None)
-        or getattr(action, "name_ar", None)
-        or alert.intent
-        or "Care request"
-    )
+    if str(alert.intent or "").startswith("sound:"):
+        sound_category = str(alert.intent).split(":", 1)[1]
+        need = get_sound_alert_label(sound_category, "en")
+    else:
+        need = (
+            getattr(action, "name_en", None)
+            or getattr(action, "name_ar", None)
+            or alert.intent
+            or "Care request"
+        )
 
     if risk == "emergency":
         title = "🚨 <b>URGENT EMERGENCY - AccessMate AI</b>"
@@ -198,6 +225,196 @@ def build_telegram_message(
         f"<b>Status:</b> Sent"
     )
 
+
+
+def get_sound_alert_label(
+    category: str,
+    language: str,
+    fallback_label: str | None = None,
+) -> str:
+    category = str(category or "").strip().lower()
+    language = normalize_language(language)
+    labels = SOUND_ALERT_LABELS.get(category, {})
+    return str(
+        labels.get(language)
+        or fallback_label
+        or category.replace("_", " ").title()
+        or "Sound"
+    )
+
+
+def build_sound_alert_message(
+    *,
+    category: str,
+    label: str | None,
+    confidence: float,
+    language: str,
+    user_display_name: str | None,
+) -> str:
+    language = normalize_language(language)
+    display = get_sound_alert_label(category, language, label)
+    confidence_percent = max(0.0, min(100.0, float(confidence) * 100.0))
+
+    if language == "ar":
+        owner = user_display_name or "صاحب الحساب"
+        return (
+            f"رصد AccessMate صوتًا مهمًا بالقرب من {owner}: "
+            f"{display}. مستوى الثقة {confidence_percent:.1f}%. "
+            "يرجى الاطمئنان على صاحب الحساب إذا كان يحتاج إلى مساعدة."
+        )
+
+    owner = user_display_name or "the account owner"
+    return (
+        f"AccessMate detected an important environmental sound near {owner}: "
+        f"{display}. Confidence {confidence_percent:.1f}%. "
+        "Please check on the account owner if assistance may be needed."
+    )
+
+
+def find_recent_sound_alert(
+    db: Session,
+    *,
+    user_id: UUID,
+    category: str,
+    source: str,
+    cooldown_seconds: int,
+) -> CareAlert | None:
+    if cooldown_seconds <= 0:
+        return None
+
+    cutoff = datetime.now(timezone.utc) - timedelta(
+        seconds=cooldown_seconds
+    )
+    intent = f"sound:{str(category or '').strip().lower()}"
+
+    return (
+        db.query(CareAlert)
+        .filter(CareAlert.user_id == user_id)
+        .filter(CareAlert.intent == intent)
+        .filter(CareAlert.source == source)
+        .filter(CareAlert.created_at >= cutoff)
+        .filter(
+            CareAlert.status.in_(
+                ["pending", "sent", "acknowledged"]
+            )
+        )
+        .order_by(CareAlert.created_at.desc())
+        .first()
+    )
+
+
+def trigger_sound_care_alert(
+    db: Session,
+    user: User,
+    *,
+    category: str,
+    label: str | None,
+    confidence: float,
+    caregiver_id: UUID | None = None,
+    language: str = "ar",
+    source: str = "hearing_assistant",
+    cooldown_seconds: int = DEFAULT_HEARING_ALERT_COOLDOWN_SECONDS,
+) -> CareActionResult:
+    """
+    Create a caregiver alert for a stable environmental-sound event.
+
+    Unlike the old emergency-only flow, every monitored sound category can
+    notify the caregiver. Severity is still differentiated so a doorbell is
+    not presented as an emergency while sirens/alarms remain high priority.
+    Duplicate alerts for the same category are suppressed during cooldown.
+    """
+    category = str(category or "").strip().lower()
+    source = str(source or "hearing_assistant").strip().lower()
+    language = normalize_language(language)
+
+    if category not in SOUND_ALERT_RISK_LEVELS:
+        raise CareActionError(
+            "Unsupported sound alert category.",
+            code="unsupported_sound_category",
+        )
+
+    confidence = max(0.0, min(1.0, float(confidence)))
+
+    caregiver = resolve_caregiver(
+        db,
+        user.id,
+        caregiver_id,
+    )
+
+    if not caregiver:
+        raise CareActionError(
+            "No active caregiver found. Please add a caregiver first.",
+            code="no_caregiver",
+        )
+
+    existing = find_recent_sound_alert(
+        db,
+        user_id=user.id,
+        category=category,
+        source=source,
+        cooldown_seconds=max(0, int(cooldown_seconds)),
+    )
+
+    if existing:
+        return CareActionResult(
+            action=None,
+            caregiver=caregiver,
+            alert=existing,
+            status=existing.status,
+            duplicate_suppressed=True,
+        )
+
+    display_label = get_sound_alert_label(
+        category,
+        language,
+        label,
+    )
+
+    alert = CareAlert(
+        user_id=user.id,
+        caregiver_id=caregiver.id,
+        daily_need_action_id=None,
+        alert_type="sound_event",
+        intent=f"sound:{category}",
+        message=build_sound_alert_message(
+            category=category,
+            label=display_label,
+            confidence=confidence,
+            language=language,
+            user_display_name=getattr(user, "full_name", None),
+        ),
+        channel=caregiver.preferred_channel,
+        status="pending",
+        risk_level=SOUND_ALERT_RISK_LEVELS[category],
+        confidence=confidence,
+        source=source,
+        confirmed_by_user=False,
+        error_message=None,
+        sent_at=None,
+        acknowledged_at=None,
+        resolved_at=None,
+    )
+
+    db.add(alert)
+    db.commit()
+    db.refresh(alert)
+
+    alert = send_alert_if_telegram(
+        db,
+        alert,
+        caregiver,
+        None,
+        source=source,
+        user_display_name=getattr(user, "full_name", None),
+        language=language,
+    )
+
+    return CareActionResult(
+        action=None,
+        caregiver=caregiver,
+        alert=alert,
+        status=alert.status,
+    )
 
 def get_default_caregiver(
     db: Session,

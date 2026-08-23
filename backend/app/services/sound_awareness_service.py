@@ -278,6 +278,22 @@ class SoundAwarenessService:
             self.__class__._class_names = class_names
             self.__class__._category_indices = category_indices
 
+    async def warm_up(self) -> dict:
+        """Load YAMNet and its class map without running a user sample."""
+        started = perf_counter()
+
+        await asyncio.to_thread(
+            self._ensure_loaded
+        )
+
+        return {
+            "ready": self.__class__._model is not None,
+            "model": self.MODEL_NAME,
+            "class_count": len(self.__class__._class_names),
+            "latency_ms": int((perf_counter() - started) * 1000),
+        }
+
+
     async def classify(
         self,
         audio_bytes: bytes,

@@ -119,3 +119,6 @@ backend/account_routes.json
 backend/evaluation/yamnet/ESC-50-master.zip
 
 backend/evaluation/yamnet/ESC-50-master.zip
+
+
+accessmate_backup*.sql

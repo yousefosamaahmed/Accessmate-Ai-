@@ -326,17 +326,6 @@ function getRuntimeSoundThreshold(
 }
 
 
-function getSoundCardLabel(
-  category: string
-) {
-  const card = SOUND_CARDS.find(
-    (item) => item.key === category
-  );
-
-  return card?.label || category;
-}
-
-
 const EVALUATION_AR_LABELS: Record<string, string> = {
   alarm: "إنذار",
   siren: "صفارة إنذار",

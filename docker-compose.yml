@@ -1,0 +1,58 @@
+services:
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: accessmate-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: AccessMateDB2026!
+      POSTGRES_DB: accessmate_ai
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+
+    container_name: accessmate-backend
+    restart: unless-stopped
+
+    env_file:
+      - backend/.env
+
+    environment:
+      DATABASE_URL: postgresql://postgres:AccessMateDB2026!@postgres:5432/accessmate_ai
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "8000:8000"
+
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+
+    container_name: accessmate-frontend
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "80:80"
+
+
+volumes:
+
+  postgres_data:

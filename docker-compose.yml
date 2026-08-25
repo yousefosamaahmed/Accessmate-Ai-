@@ -7,7 +7,7 @@ services:
 
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: AccessMateDB2026!
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: accessmate_ai
 
     expose:
@@ -29,7 +29,7 @@ services:
       - backend/.env
 
     environment:
-      DATABASE_URL: postgresql://postgres:AccessMateDB2026!@postgres:5432/accessmate_ai
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD}@postgres:5432/accessmate_ai
 
     depends_on:
       - postgres

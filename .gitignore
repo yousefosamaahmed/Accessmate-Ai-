@@ -124,3 +124,5 @@ backend/evaluation/yamnet/ESC-50-master.zip
 accessmate_backup*.sql
 # Production database backups
 accessmate_production.sql
+
+.env.production

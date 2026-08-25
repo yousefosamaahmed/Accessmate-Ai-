@@ -1,124 +1,393 @@
 # AccessMate AI
 
-> An AI-powered accessibility platform designed to make communication, digital interaction, information access, and everyday assistance more accessible.
+## AI-Powered Accessibility Platform
 
-🌐 **Live Production:**  
+![AccessMate AI](https://img.shields.io/badge/AI-Accessibility-blue)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-green)
+![React](https://img.shields.io/badge/Frontend-React-blue)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
+![Docker](https://img.shields.io/badge/Deployment-Docker-blue)
+
+🌐 **Production URL**
+
 https://accessmate-ai.duckdns.org
 
----
-
-## 📌 Overview
-
-**AccessMate AI** is a full-stack accessibility platform that combines Artificial Intelligence, assistive technologies, document intelligence, hearing support, safety tools, and caregiver communication in one unified web application.
-
-The project focuses on creating practical AI-powered tools that can support users with different accessibility needs while maintaining privacy, security, usability, and human control.
-
-The project originally started as a group project. After the other members withdrew, the current final version was independently continued, redesigned, developed, integrated, tested, and deployed by the project owner.
 
 ---
 
-# ✨ Core Features
+# 1. Project Overview
 
-## 🤖 AI Assistant
+AccessMate AI is an intelligent accessibility platform that uses Artificial Intelligence to improve communication, information access, and digital interaction for people with accessibility needs.
 
-AccessMate AI includes an intelligent conversational assistant capable of:
+The platform combines multiple AI-powered services into one integrated ecosystem, including:
 
-- Answering natural-language questions
-- Supporting Arabic and English
-- Understanding contextual follow-up questions
-- Simplifying complex text
-- Providing detailed explanations
-- Supporting accessibility-oriented interactions
-- Maintaining conversation history
+- AI conversational assistance
+- Voice interaction
+- Vision assistance
+- Hearing assistance
+- Document intelligence
+- Website safety analysis
+- Caregiver support and alert management
 
-Conversations and messages are stored in PostgreSQL so users can continue previous sessions.
 
----
+The main objective of AccessMate AI is to provide practical, accessible, and secure AI-based assistance through a unified platform instead of isolated accessibility solutions.
 
-## 🎤 Voice Interaction
-
-Users can interact with the AI using voice.
-
-The system supports:
-
-- Voice recording
-- Speech-to-text transcription
-- Arabic speech input
-- English speech input
-- Automatic insertion of transcription into chat
-- AI responses based on spoken requests
-
-Voice messages are processed as text-based conversation input rather than being displayed as uploaded audio files.
 
 ---
 
-## 👂 Hearing Assistant
+# 2. Project Background and Ownership
 
-The **Hearing Assistant** is designed to support users who are deaf or hard of hearing.
+AccessMate AI was initially started as a group project.
 
-Current functionality includes:
+During development, the other team members withdrew from the project. The current final version was independently continued, developed, integrated, tested, and deployed by the project owner.
 
-- Microphone-based assistance
+The final production version includes:
+
+- System architecture design
+- Frontend development
+- Backend development
+- Database architecture
+- AI service integration
+- Authentication system
+- Accessibility workflows
+- Cloud deployment
+- Security configuration
+
+
+---
+
+# 3. Problem Statement
+
+People with different accessibility requirements often face difficulties when interacting with digital systems.
+
+Existing solutions usually provide separate tools for:
+
+- Communication assistance
+- Information understanding
+- Visual support
+- Hearing support
+- Emergency communication
+
+
+This creates fragmented user experiences.
+
+AccessMate AI addresses this challenge by providing a unified AI-powered accessibility ecosystem where different assistive technologies work together.
+
+
+---
+
+# 4. Project Objectives
+
+The main objectives of AccessMate AI are:
+
+- Build an accessible AI assistant capable of natural interaction.
+- Support multiple communication methods.
+- Improve access to digital information.
+- Provide AI-based visual and hearing assistance.
+- Enable caregiver communication workflows.
+- Maintain secure handling of user data.
+- Provide a scalable architecture for future accessibility technologies.
+
+
+---
+
+# 5. Innovation
+
+The innovation of AccessMate AI is based on combining multiple AI accessibility workflows into one platform.
+
+## Main Innovation Points
+
+### 1. Multimodal Interaction
+
+Users can interact with the system using:
+
+- Text
+- Voice
+- Images
+
+
+### 2. Accessibility-Centered AI
+
+The system is designed around accessibility needs instead of adding accessibility as an additional feature.
+
+
+### 3. Integrated Assistance Ecosystem
+
+The platform combines:
+
+- AI assistant
+- Vision support
+- Hearing support
+- Document intelligence
+- Caregiver workflows
+
+
+### 4. Privacy-Aware Architecture
+
+The system follows secure design principles:
+
+- Protected authentication
+- Environment-based secrets
+- HTTPS deployment
+- Internal service communication
+
+
+---
+
+# 6. Final Product Scope
+
+The current production version includes:
+
+
+## Implemented Features
+
+✅ AI Assistant
+
+✅ Authentication System
+
+✅ OTP Verification
+
+✅ Voice Interaction
+
+✅ Vision Assistance
+
+✅ OCR Processing
+
+✅ Document Management
+
+✅ Document Intelligence
+
+✅ Hearing Assistant
+
+✅ Environmental Sound Awareness
+
+✅ Website Safety
+
+✅ Caregiver Management
+
+✅ Care Alerts
+
+✅ Telegram Integration
+
+✅ Conversation History
+
+✅ Archive Management
+
+✅ User Preferences
+
+
+---
+
+# 7. AI Assistant
+
+The AI Assistant is the core interaction layer of AccessMate AI.
+
+It provides:
+
+- Natural language understanding
+- Arabic language support
+- English language support
+- Context-aware conversations
+- Text simplification
+- Information explanation
+- Persistent conversation history
+
+
+## Conversation Flow
+
+```
+User Input
+
+      |
+
+Authentication Layer
+
+      |
+
+Conversation Service
+
+      |
+
+AI Processing Layer
+
+      |
+
+Response Generation
+
+      |
+
+Database Storage
+```
+
+
+---
+
+# 8. Voice Interaction
+
+The Voice module allows users to communicate naturally using speech.
+
+## Workflow
+
+```
+Voice Input
+
+      |
+
+Audio Processing
+
+      |
+
+Speech Recognition
+
+      |
+
+Text Processing
+
+      |
+
+AI Response Generation
+
+      |
+
+User Output
+```
+
+
+Supported workflow:
+
+- User records voice
+- Speech is converted into text
+- Text is processed by AI
+- Response is generated in the same conversation flow
+
+
+The system supports Arabic and English voice interaction.
+
+
+---
+
+# 9. Vision Assistance
+
+AccessMate AI provides AI-powered image understanding capabilities.
+
+## Vision Pipeline
+
+```
+Image Upload
+
+      |
+
+Input Validation
+
+      |
+
+Vision Processing
+
+      |
+
+Description Generation
+
+      |
+
+User Response
+```
+
+
+Applications:
+
+- Image description
+- Visual information extraction
+- Accessibility support for visual content
+
+
+---
+
+# 10. Hearing Assistant
+
+The Hearing Assistant is designed to support users who are deaf or hard of hearing.
+
+Capabilities:
+
 - Speech caption workflows
-- Environmental sound awareness
-- Sound event detection
+- Hearing-related assistance
+- Sound awareness workflows
 - Accessible visual feedback
 
-Microphone functionality requires HTTPS because modern browsers restrict microphone access to secure contexts.
+
+The objective is to transform important audio information into accessible digital feedback.
+
 
 ---
 
-## 🔊 Sound Awareness
+# 11. Document Intelligence
 
-AccessMate AI includes an environmental sound-awareness pipeline.
+The document system enables users to upload and interact with documents.
 
-It can analyze environmental audio and help surface relevant sound events visually.
 
-This feature is designed to improve awareness of important sounds in the user's surroundings.
+## Processing Pipeline
 
----
+```
+Document Upload
 
-## 👁️ Vision Assistance
+      |
 
-The platform includes AI-powered visual assistance.
+Text Extraction
 
-Users can provide images and receive useful descriptions generated by supported AI vision services.
+      |
 
-The backend includes fallback handling so another configured AI provider can be used when the primary vision provider is temporarily unavailable.
+Document Processing
 
----
+      |
 
-## 📄 Document Library
+Chunk Generation
 
-Users can upload and manage documents through the Library.
+      |
 
-The system supports document-processing workflows and AI-assisted retrieval.
+Vector Representation
 
-Technologies used include:
+      |
+
+Similarity Search
+
+      |
+
+AI Response
+```
+
+
+Technology:
 
 - PostgreSQL
 - pgvector
 - Vector-based retrieval
-- Document chunking
-- AI-assisted information retrieval
+
+
+---
+# 12. Website Safety Module
+
+The Website Safety module helps users evaluate websites and identify potentially unsafe domains.
+
+The module provides:
+
+- URL analysis workflow
+- Trusted domain management
+- Website checking history
+- Safety-related feedback
+
+
+The goal is to help users make safer decisions while browsing digital content.
 
 ---
 
-## 🔐 Website Safety
+# 13. Caregiver Management System
 
-AccessMate AI includes a **Website Safety** feature that helps users evaluate URLs and identify potentially unsafe websites.
+AccessMate AI includes a caregiver support system designed to connect users with trusted people.
 
-The feature is intended to provide decision support and should not be considered a replacement for dedicated cybersecurity software.
+## Caregiver Features
 
----
+Users can manage:
 
-## 👨‍👩‍👦 Caregiver Management
-
-Users can manage trusted caregivers directly inside AccessMate AI.
-
-Supported caregiver information includes:
-
-- Full name
+- Caregiver name
 - Relationship
 - Phone number
 - Telegram Chat ID
@@ -126,205 +395,786 @@ Supported caregiver information includes:
 - Preferred communication channel
 - Primary caregiver status
 
-When another caregiver becomes the primary caregiver, the previous primary caregiver is automatically updated.
+
+## Primary Caregiver Logic
+
+The system maintains one primary caregiver.
+
+When a new caregiver is selected as primary:
+
+```
+New Primary Caregiver
+
+        |
+
+System Validation
+
+        |
+
+Previous Primary Caregiver
+
+        |
+
+Automatically Updated
+
+        |
+
+New Primary Caregiver Activated
+```
+
 
 ---
 
-## 🚨 Care Alerts
+# 14. Care Alerts
 
-AccessMate AI includes caregiver alert workflows.
+The Care Alert system enables users to create and manage assistance alerts.
 
-Users can:
+Features:
 
-- Create care alerts
-- View previous alerts
-- Maintain alert history
-- Connect alerts with supported caregiver communication channels
+- Alert creation
+- Alert history
+- Caregiver notification workflow
+- Telegram integration support
+
+
+Alert workflow:
+
+```
+User Need Detected
+
+        |
+
+Care Alert Created
+
+        |
+
+Database Storage
+
+        |
+
+Caregiver Notification
+
+        |
+
+Alert History
+```
 
 ---
 
-## 👤 User Accounts
+# 15. Authentication System
 
-The application includes a complete authentication system with:
+AccessMate AI implements a secure authentication architecture.
 
-- Email and password authentication
-- OTP verification workflows
+Implemented:
+
+- Email/password authentication
+- OTP verification workflow
 - JWT authentication
-- User account management
-- User preferences
-- Accessibility profiles
-- Theme settings
-- Language-aware interfaces
+- Protected API endpoints
+- User session management
+
+
+Authentication flow:
+
+```
+User Login
+
+      |
+
+Credential Validation
+
+      |
+
+OTP Verification
+
+      |
+
+JWT Token Generation
+
+      |
+
+Authenticated Session
+```
 
 ---
 
-## 💬 Conversation Management
+# 16. Conversation Management
 
-Users can manage their AI conversations through:
+The platform supports persistent conversation management.
 
-- Recent conversations
-- Conversation history
-- Archive
-- Unarchive
-- Persistent messages
-- Automatic interface updates
+Features:
 
----
+- Create conversations
+- Store messages
+- View recent conversations
+- Archive conversations
+- Restore archived conversations
 
-# 🚫 Removed Experimental Feature
 
-## Sign Language Recognition
+Database relationship:
 
-Sign Language Recognition was explored during an earlier development stage.
+```
+User
 
-It is **not part of the final AccessMate AI product**.
+ |
 
-The project direction was changed and the final product focuses instead on the Hearing Assistant and other accessibility workflows.
+Conversations
 
-This README documents only the current final version of the project.
+ |
 
----
-
-# 🧠 AI & Machine Learning
-
-AccessMate AI combines multiple AI and machine-learning workflows for different accessibility tasks.
-
-The platform includes AI-powered capabilities for:
-
-- Conversational assistance
-- Speech transcription
-- Environmental sound classification
-- Image understanding
-- Document retrieval
-- Text simplification
-- Context-aware responses
-
-The architecture separates these services so individual providers or models can be replaced or improved without redesigning the entire platform.
+Messages
+```
 
 ---
 
-# 🛠️ Technology Stack
+# 17. Backend Architecture
 
-## Frontend
+The backend is built using FastAPI following a modular architecture.
+
+## Backend Stack
+
+- Python
+- FastAPI
+- SQLAlchemy
+- PostgreSQL
+- JWT Authentication
+
+
+## Backend Structure
+
+```
+backend/
+
+│
+
+├── app/
+
+│   ├── api/
+
+│   │   └── v1/
+
+│   │
+
+│   ├── core/
+
+│   │
+
+│   ├── models/
+
+│   │
+
+│   ├── schemas/
+
+│   │
+
+│   ├── services/
+
+│   │
+
+│   └── main.py
+
+│
+
+└── Dockerfile
+```
+
+---
+
+# 18. API Architecture
+
+The backend exposes versioned REST APIs.
+
+Base path:
+
+```
+/api/v1
+```
+
+
+Main API groups include:
+
+```
+Authentication
+
+/api/v1/auth
+
+
+Users
+
+/api/v1/users
+
+
+Profile
+
+/api/v1/profile
+
+
+Conversations
+
+/api/v1/conversations
+
+
+AI Services
+
+/api/v1/ai
+
+
+Voice
+
+/api/v1/voice
+
+
+Vision
+
+/api/v1/vision
+
+
+OCR
+
+/api/v1/ocr
+
+
+Documents
+
+/api/v1/documents
+
+
+Caregivers
+
+/api/v1/caregivers
+
+
+Care Alerts
+
+/api/v1/care-alerts
+
+
+Website Safety
+
+/api/v1/website-safety
+```
+
+---
+
+# 19. Frontend Architecture
+
+The frontend is developed using:
 
 - React
 - TypeScript
 - Vite
 - Tailwind CSS
-- React Router
-- Framer Motion
-- Axios
+
+
+## Frontend Structure
+
+```
+frontend/
+
+│
+
+├── src/
+
+│   ├── components/
+
+│   ├── contexts/
+
+│   ├── pages/
+
+│   ├── services/
+
+│   ├── lib/
+
+│   └── main.tsx
+
+│
+
+├── Dockerfile
+
+└── nginx.conf
+```
+
 
 ---
 
-## Backend
+# 20. Database Architecture
 
-- Python
-- FastAPI
-- SQLAlchemy
-- JWT Authentication
-- REST APIs
-- AI service integrations
-- Speech-processing services
-- Vision-processing services
+AccessMate AI uses PostgreSQL with pgvector support.
+
+
+## Main Database Tables
+
+
+### Users
+
+Stores user account information.
+
+
+### Conversations
+
+Stores user conversation sessions.
+
+
+### Messages
+
+Stores AI assistant messages.
+
+
+### Documents
+
+Stores uploaded documents.
+
+
+### Document Chunks
+
+Stores processed document sections for retrieval.
+
+
+### Caregivers
+
+Stores trusted caregiver information.
+
+
+### Care Alerts
+
+Stores assistance alerts.
+
+
+### Hearing Sessions
+
+Stores hearing assistance sessions.
+
+
+### Hearing Sound Events
+
+Stores detected sound events.
+
+
+### Website Checks
+
+Stores website safety analysis history.
+
 
 ---
 
-## Database
+# 21. Database Relationship Overview
 
-- PostgreSQL
-- pgvector
+```
+Users
+
+ |
+
+ +---- Conversations
+
+ |          |
+
+ |          +---- Messages
+
+ |
+
+ +---- Documents
+
+ |          |
+
+ |          +---- Document Chunks
+
+ |
+
+ +---- Caregivers
+
+            |
+
+            +---- Care Alerts
+```
 
 ---
 
-## Infrastructure
+# 22. AI Processing Architecture
 
-- Docker
-- Docker Compose
-- Nginx
+AccessMate AI follows a modular AI service architecture.
+
+General AI pipeline:
+
+```
+Input
+
+ |
+
+Validation
+
+ |
+
+Preprocessing
+
+ |
+
+AI Processing
+
+ |
+
+Post Processing
+
+ |
+
+Response Generation
+
+ |
+
+User Output
+```
+
+---
+
+# 23. AI Model Evaluation
+
+For AI components that perform classification tasks, evaluation can be performed using a confusion matrix.
+
+
+## Confusion Matrix
+
+
+```
+                         Predicted
+
+                    Positive     Negative
+
+
+Actual Positive        TP           FN
+
+
+Actual Negative        FP           TN
+
+```
+
+
+Where:
+
+### True Positive (TP)
+
+Samples correctly classified as positive.
+
+
+### True Negative (TN)
+
+Samples correctly classified as negative.
+
+
+### False Positive (FP)
+
+Negative samples incorrectly classified as positive.
+
+
+### False Negative (FN)
+
+Positive samples incorrectly classified as negative.
+
+
+---
+
+# 24. Evaluation Metrics
+
+
+## Accuracy
+
+Accuracy measures the overall percentage of correct predictions.
+
+
+Formula:
+
+\[
+Accuracy =
+\frac{TP + TN}
+{TP + TN + FP + FN}
+\]
+
+
+---
+
+## Precision
+
+Precision measures how many predicted positive samples are actually positive.
+
+
+Formula:
+
+\[
+Precision =
+\frac{TP}
+{TP + FP}
+\]
+
+
+---
+
+## Recall
+
+Recall measures the ability of the model to detect actual positive samples.
+
+
+Formula:
+
+\[
+Recall =
+\frac{TP}
+{TP + FN}
+\]
+
+
+---
+
+## F1 Score
+
+F1 score provides a balance between Precision and Recall.
+
+
+Formula:
+
+\[
+F1 =
+2 \times
+\frac{Precision \times Recall}
+{Precision + Recall}
+\]
+
+
+---
+
+# 25. Evaluation Matrix Format
+
+The evaluation results should be represented as:
+
+```
+                 Predicted Class
+
+              C1     C2     C3
+
+
+Actual C1    [ ]    [ ]    [ ]
+
+
+Actual C2    [ ]    [ ]    [ ]
+
+
+Actual C3    [ ]    [ ]    [ ]
+
+```
+
+For multi-class classification:
+
+\[
+CM =
+\begin{bmatrix}
+C_{11} & C_{12} & ... & C_{1n}\\
+C_{21} & C_{22} & ... & C_{2n}\\
+... & ... & ... & ...\\
+C_{n1} & C_{n2} & ... & C_{nn}
+\end{bmatrix}
+\]
+
+
+---
+
+# 26. Testing & Validation
+
+The system was tested across multiple layers.
+
+
+## Backend Testing
+
+Validated:
+
+- API availability
+- Authentication flow
+- Database connectivity
+- Endpoint responses
+
+
+## Database Testing
+
+Validated:
+
+- Database migration
+- Table creation
+- Data restoration
+- UTF-8 Arabic data storage
+
+
+## Deployment Testing
+
+Validated:
+
+- Docker image building
+- Container startup
+- HTTPS accessibility
+- Production connectivity
+
+
+---
+
+# 27. Production Deployment Architecture
+
+The production deployment runs on AWS EC2.
+
+
+Architecture:
+
+```
+                    Internet
+
+                       |
+
+              DuckDNS Domain
+
+                       |
+
+                 Caddy Server
+
+              HTTPS / TLS Layer
+
+                       |
+
+              Frontend Container
+
+               React + Nginx
+
+                       |
+
+              Backend Container
+
+                  FastAPI
+
+                       |
+
+          PostgreSQL + pgvector
+
+```
+
+---
+
+# 28. Docker Deployment
+
+Production services:
+
+```
+accessmate-caddy
+
+accessmate-frontend
+
+accessmate-backend
+
+accessmate-postgres
+```
+
+
+Start production:
+
+```bash
+docker compose --env-file .env.production up -d
+```
+
+
+Build:
+
+```bash
+docker compose --env-file .env.production up -d --build
+```
+
+---
+
+# 29. HTTPS Configuration
+
+HTTPS is provided using:
+
 - Caddy
 - Let's Encrypt
-- DuckDNS
-- AWS EC2
-- Ubuntu Server 24.04 LTS
+- Automatic certificate renewal
 
----
 
-# 🏗️ Production Architecture
+Production domain:
 
-```text
-                    Internet
-                       │
-                       ▼
-            accessmate-ai.duckdns.org
-                       │
-                       ▼
-                    Caddy
-                 Ports 80 / 443
-                Automatic HTTPS
-                       │
-                       ▼
-              Frontend Container
-                 React + Nginx
-                       │
-                       │ /api/*
-                       ▼
-               Backend Container
-                   FastAPI
-                    :8000
-                       │
-                       ▼
-            PostgreSQL + pgvector
-                    :5432
 ```
-
-Only the public web gateway is exposed to the internet.
-
-The Backend and PostgreSQL ports remain inside the Docker network.
-
----
-
-# 📁 Repository Structure
-
-```text
-Accessmate-Ai-/
-│
-├── backend/
-│   ├── app/
-│   │   ├── api/
-│   │   ├── core/
-│   │   ├── models/
-│   │   ├── schemas/
-│   │   ├── services/
-│   │   └── main.py
-│   │
-│   ├── Dockerfile
-│   ├── requirements-lock.txt
-│   └── .env
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── contexts/
-│   │   ├── lib/
-│   │   ├── pages/
-│   │   └── services/
-│   │
-│   ├── Dockerfile
-│   ├── nginx.conf
-│   └── .env
-│
-├── Caddyfile
-├── docker-compose.yml
-├── .gitignore
-└── README.md
+https://accessmate-ai.duckdns.org
 ```
 
 ---
 
-# ⚙️ Environment Configuration
+# 30. Security Architecture
 
-Sensitive credentials must **never** be committed to GitHub.
+Security measures:
+
+## Authentication
+
+- JWT tokens
+- Protected endpoints
+
+
+## Secrets Management
+
+Sensitive data is stored outside GitHub:
+
+- Database passwords
+- API keys
+- Tokens
+
+
+## Network Isolation
+
+Production architecture keeps:
+
+- Backend internal
+- Database internal
+
+
+Only HTTPS traffic is exposed publicly.
+
+---
+
+# 31. Ethical AI Considerations
+
+AccessMate AI follows responsible AI principles.
+
+
+## Privacy
+
+User data and credentials are protected.
+
+
+## Transparency
+
+The system documents implemented capabilities clearly.
+
+
+## Human Control
+
+AI provides assistance but does not replace human decisions.
+
+
+## Accessibility
+
+Accessibility is treated as a primary design requirement.
+
+
+## Responsible Usage
+
+AI-generated outputs should be considered supportive assistance and not absolute decisions.
+
+---
+
+# 32. Future Development
+
+Possible improvements:
+
+- More advanced accessibility models
+- Additional assistive workflows
+- Improved personalization
+- Expanded AI capabilities
+
+---
+# 33. Environment Configuration
+
+AccessMate AI uses environment-based configuration to separate application settings from source code.
+
+Sensitive information is never stored directly inside the repository.
 
 ---
 
@@ -332,24 +1182,32 @@ Sensitive credentials must **never** be committed to GitHub.
 
 Create:
 
-```text
+```
 backend/.env
 ```
 
-Typical configuration categories include:
+Example structure:
 
 ```env
 SECRET_KEY=your-secret-key
 
-FRONTEND_ORIGIN=https://your-domain.example
+FRONTEND_ORIGIN=https://accessmate-ai.duckdns.org
 
-# AI provider credentials
-# SMTP configuration
-# Telegram configuration
+
+# AI Provider Configuration
+
 # External API credentials
+
+
+# Communication Services
+
+# Telegram configuration
+
+
+# Email configuration
 ```
 
-Real credentials must remain private.
+Actual production credentials must remain private.
 
 ---
 
@@ -357,107 +1215,101 @@ Real credentials must remain private.
 
 Create:
 
-```text
+```
 frontend/.env
 ```
 
-For the current production architecture:
+Production configuration:
 
 ```env
 VITE_API_BASE_URL=
 ```
 
-The frontend then communicates with the backend through:
+The frontend communicates with the backend through the same domain using:
 
-```text
+```
 /api/v1
 ```
 
-Nginx proxies these API requests internally to the FastAPI container.
-
 ---
 
-# 🔑 Production Database Credentials
+# 34. Production Database Configuration
 
-Database credentials are not stored directly inside `docker-compose.yml`.
+The production database password is stored separately.
 
-Create:
+Production environment file:
 
-```text
+```
 .env.production
 ```
 
 Example:
 
 ```env
-DB_PASSWORD=your-strong-database-password
+DB_PASSWORD=your-secure-password
 ```
 
-Then start production using:
+The file must not be committed to GitHub.
+
+---
+
+# 35. Local Installation
+
+## Clone Repository
 
 ```bash
-docker compose --env-file .env.production up -d
+git clone https://github.com/yousefosamaahmed/Accessmate-Ai-.git
+
+cd Accessmate-Ai-
 ```
 
-The `.env.production` file must never be committed to Git.
-
 ---
 
-# 💻 Local Development
+# Backend Setup
 
-## Requirements
-
-Recommended environment:
-
-- Python 3.11
-- Node.js
-- PostgreSQL
-- pgvector
-- Git
-
-Docker Desktop can also be used for containerized local development.
-
----
-
-# 🚀 Running the Backend Locally
-
-Navigate to:
+Navigate:
 
 ```bash
 cd backend
 ```
 
-Install dependencies using the project's Python environment.
-
-Then run:
+Create virtual environment:
 
 ```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+python -m venv .venv
 ```
 
-Backend health endpoint:
+Activate:
 
-```text
-http://localhost:8000/
+Windows:
+
+```bash
+.venv\Scripts\activate
 ```
 
-Expected response:
+Linux:
 
-```json
-{
-  "success": true,
-  "message": "AccessMate AI Backend is running",
-  "data": {
-    "version": "1.0.0"
-  }
-}
+```bash
+source .venv/bin/activate
+```
+
+Install requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run backend:
+
+```bash
+uvicorn app.main:app --reload
 ```
 
 ---
 
-# 🌐 Running the Frontend Locally
+# Frontend Setup
 
-Navigate to:
+Navigate:
 
 ```bash
 cd frontend
@@ -469,115 +1321,89 @@ Install dependencies:
 npm install
 ```
 
-Run development server:
+Run:
 
 ```bash
 npm run dev
 ```
 
-Vite will display the development URL in the terminal.
-
 ---
 
-# 🐳 Docker Production Deployment
+# 36. Docker Production Deployment
 
-## Build and Start
+## Build and Run
 
 ```bash
 docker compose --env-file .env.production up -d --build
 ```
 
----
 
-## Check Containers
+Check running containers:
 
 ```bash
 docker ps
 ```
 
-Expected production containers:
+Expected:
 
-```text
+```
 accessmate-caddy
+
 accessmate-frontend
+
 accessmate-backend
+
 accessmate-postgres
 ```
 
 ---
 
-# 🔎 Check Backend Logs
+# 37. Container Monitoring
+
+## Backend Logs
 
 ```bash
 docker logs accessmate-backend --tail 100
 ```
 
-A healthy backend should contain:
 
-```text
+Expected:
+
+```
 Application startup complete.
+
 Uvicorn running on http://0.0.0.0:8000
 ```
 
 ---
 
-# 🔗 Test Internal Backend Connection
-
-Because the backend is not publicly exposed, it can be tested through the Docker network:
+## Frontend Logs
 
 ```bash
-docker exec accessmate-frontend wget -qO- http://backend:8000/
-```
-
-Expected result:
-
-```json
-{
-  "success": true,
-  "message": "AccessMate AI Backend is running",
-  "data": {
-    "version": "1.0.0"
-  }
-}
+docker logs accessmate-frontend --tail 100
 ```
 
 ---
 
-# 🔒 HTTPS
+## Caddy Logs
 
-Production is available at:
-
-```text
-https://accessmate-ai.duckdns.org
+```bash
+docker logs accessmate-caddy --tail 100
 ```
-
-Caddy provides:
-
-- Automatic HTTPS
-- TLS certificates
-- Let's Encrypt integration
-- HTTP → HTTPS redirect
-- Automatic certificate renewal
 
 ---
 
-# 🌐 DuckDNS
+## Database Logs
 
-DuckDNS provides the production hostname:
-
-```text
-accessmate-ai.duckdns.org
+```bash
+docker logs accessmate-postgres --tail 100
 ```
-
-A server-side updater keeps the hostname synchronized with the EC2 public IP.
-
-The DuckDNS token is stored privately on the production server and is never committed to Git.
 
 ---
 
-# 🗄️ Database Backup
+# 38. Database Backup
 
-Create a PostgreSQL backup:
+PostgreSQL backup command:
 
 ```bash
 docker exec accessmate-postgres \
@@ -588,7 +1414,7 @@ pg_dump \
 -f /tmp/accessmate_backup.sql
 ```
 
-Copy it from the container:
+Copy backup:
 
 ```bash
 docker cp \
@@ -596,13 +1422,13 @@ accessmate-postgres:/tmp/accessmate_backup.sql \
 ./accessmate_backup.sql
 ```
 
-Database backups must not be committed to GitHub.
+Database backups should always be stored securely.
 
 ---
 
-# ♻️ Database Restore
+# 39. Database Restore
 
-For a plain SQL backup:
+Restore SQL backup:
 
 ```bash
 docker exec -i accessmate-postgres \
@@ -615,223 +1441,125 @@ psql \
 
 ---
 
-# 🔐 Security Architecture
+# 40. Production Health Checks
 
-The production environment follows several security principles.
+## Backend Check
 
-### HTTPS
-
-All production traffic uses HTTPS.
-
-### Internal Backend
-
-FastAPI port:
-
-```text
-8000
+```bash
+curl http://localhost:8000/
 ```
 
-is available only inside the Docker network.
+Expected:
 
-### Internal Database
-
-PostgreSQL port:
-
-```text
-5432
-```
-
-is available only inside the Docker network.
-
-### Environment Variables
-
-Sensitive credentials are stored outside the Git repository.
-
-### Database Credentials
-
-Production database passwords are passed through environment variables.
-
-### API Credentials
-
-External AI/API credentials are stored in environment configuration and are not committed.
-
-### Backup Protection
-
-Database backup files are ignored by Git.
-
----
-
-# ☁️ AWS Security Group
-
-Recommended inbound rules:
-
-| Port | Service | Source |
-|---|---|---|
-| 22 | SSH | Administrator IP only |
-| 80 | HTTP | Public |
-| 443 | HTTPS | Public |
-
-Do **not** publicly expose:
-
-```text
-8000
-5432
+```json
+{
+ "success": true,
+ "message": "AccessMate AI Backend is running",
+ "data": {
+   "version": "1.0.0"
+ }
+}
 ```
 
 ---
 
-# 🛡️ Privacy & Ethical AI
-
-AccessMate AI is built around responsible AI principles.
-
-## Data Minimization
-
-Only information required for application functionality should be collected and processed.
-
-## Human Control
-
-AI assists users but does not remove human decision-making.
-
-## Accessibility First
-
-Accessibility is treated as a core product requirement rather than an optional feature.
-
-## Privacy
-
-Sensitive credentials and private application data are kept outside the public repository.
-
-## Responsible AI
-
-AI-generated output can contain errors.
-
-Users should not rely exclusively on automated output for critical medical, legal, financial, emergency, or safety decisions.
-
-## Transparency
-
-The project documentation describes the capabilities of the current implemented version and avoids presenting experimental or removed functionality as production features.
-
----
-
-# 📊 Production Status
-
-| Component | Status |
-|---|---|
-| React Frontend | ✅ Running |
-| FastAPI Backend | ✅ Running |
-| PostgreSQL | ✅ Running |
-| pgvector | ✅ Enabled |
-| Docker | ✅ Running |
-| Nginx | ✅ Running |
-| Caddy | ✅ Running |
-| HTTPS | ✅ Enabled |
-| Let's Encrypt | ✅ Enabled |
-| DuckDNS | ✅ Enabled |
-| Auto IP Update | ✅ Enabled |
-| Database Restore | ✅ Verified |
-| Arabic UTF-8 Data | ✅ Verified |
-| Docker Auto Restart | ✅ Verified |
-| EC2 Reboot Test | ✅ Passed |
-
----
-
-# ✅ Production Health Check
-
-Production URL:
-
-```text
-https://accessmate-ai.duckdns.org
-```
-
-Test:
+## Frontend Check
 
 ```bash
 curl -I https://accessmate-ai.duckdns.org
 ```
 
-Expected response:
+Expected:
 
-```text
+```
 HTTP/2 200
 ```
 
 ---
 
-# 🔄 Production Restart
+# 41. AWS Deployment
 
-Start the complete production stack:
+Production environment:
 
-```bash
-docker compose --env-file .env.production up -d
 ```
+Cloud Provider:
+AWS EC2
 
-Rebuild after application changes:
 
-```bash
-docker compose --env-file .env.production up -d --build
-```
+Operating System:
+Ubuntu Server 24.04 LTS
 
----
 
-# 🛑 Stop Production Containers
+Container Platform:
+Docker + Docker Compose
 
-```bash
-docker compose --env-file .env.production down
-```
 
-Do not use:
+Reverse Proxy:
+Caddy
 
-```bash
-docker compose down -v
-```
 
-unless you intentionally want to remove persistent Docker volumes.
-
-Removing the PostgreSQL volume can permanently delete the stored database if no backup exists.
-
----
-
-# 📋 Useful Production Commands
-
-## Container Status
-
-```bash
-docker ps
-```
-
-## Backend Logs
-
-```bash
-docker logs accessmate-backend --tail 100
-```
-
-## Frontend Logs
-
-```bash
-docker logs accessmate-frontend --tail 100
-```
-
-## Caddy Logs
-
-```bash
-docker logs accessmate-caddy --tail 100
-```
-
-## PostgreSQL Logs
-
-```bash
-docker logs accessmate-postgres --tail 100
-```
-
-## Database Tables
-
-```bash
-docker exec accessmate-postgres \
-psql -U postgres -d accessmate_ai -c "\dt"
+Domain:
+DuckDNS
 ```
 
 ---
 
-# 🔄 Git Workflow
+# 42. AWS Security Group Configuration
+
+Required inbound rules:
+
+| Port | Service | Access |
+|---|---|---|
+| 22 | SSH | Administrator IP |
+| 80 | HTTP | Public |
+| 443 | HTTPS | Public |
+
+
+The following ports should not be publicly exposed:
+
+```
+8000  FastAPI
+
+5432  PostgreSQL
+```
+
+They are available only internally through Docker networking.
+
+---
+
+# 43. Production Networking
+
+```
+                 Internet
+
+                    |
+
+              HTTPS :443
+
+                    |
+
+              Caddy Proxy
+
+                    |
+
+          -------------------
+
+          |                 |
+
+     Frontend           Backend
+
+     Nginx              FastAPI
+
+                            |
+
+                       PostgreSQL
+
+                       pgvector
+```
+
+---
+
+# 44. Git Workflow
 
 Before committing:
 
@@ -839,17 +1567,20 @@ Before committing:
 git status
 ```
 
-Stage changes:
+
+Add changes:
 
 ```bash
 git add .
 ```
 
+
 Commit:
 
 ```bash
-git commit -m "Your commit message"
+git commit -m "Update project documentation"
 ```
+
 
 Push:
 
@@ -857,102 +1588,204 @@ Push:
 git push origin main
 ```
 
-The production EC2 server uses SSH authentication with GitHub.
-
 ---
 
-# 🚨 Never Commit These Files
+# 45. Protected Files
 
-Never upload:
+The following files must never be committed:
 
-```text
+```
 backend/.env
+
 .env.production
+
 *.pem
-DuckDNS tokens
-API keys
-database passwords
-SMTP passwords
-Telegram bot tokens
-database backups
+
 *.sql
+
+database backups
+
+API keys
+
+tokens
+
+passwords
+
+private credentials
 ```
 
-If a secret is accidentally exposed, it should be rotated immediately.
+---
+
+# 46. Production Status
+
+| Component | Status |
+|---|---|
+| React Frontend | ✅ Deployed |
+| FastAPI Backend | ✅ Deployed |
+| PostgreSQL Database | ✅ Running |
+| pgvector Extension | ✅ Enabled |
+| Docker Deployment | ✅ Completed |
+| HTTPS | ✅ Enabled |
+| SSL Certificate | ✅ Active |
+| DuckDNS Domain | ✅ Configured |
+| Reverse Proxy | ✅ Caddy |
+| Database Migration | ✅ Completed |
+| Backup Restore Test | ✅ Verified |
+| Arabic Data Storage | ✅ Verified |
+| Container Restart Policy | ✅ Enabled |
+| EC2 Deployment | ✅ Completed |
+
 
 ---
 
-# 👨‍💻 Project Development & Ownership
+# 47. Project Limitations
 
-AccessMate AI initially started as a group project.
+Current limitations:
 
-After the other members withdrew, development of the current final version was independently continued by the project owner.
+- AI responses depend on configured AI services.
+- Some AI capabilities require external model providers.
+- AI outputs may contain errors and require user judgment.
+- Performance depends on available computing resources and service availability.
 
-The current production version — including its architecture, frontend integration, backend integration, AI workflows, database migration, accessibility redesign, debugging, deployment, HTTPS configuration, and production infrastructure — represents the independently completed final version of the project.
-
----
-
-# 🎯 Project Vision
-
-AccessMate AI aims to demonstrate how Artificial Intelligence can be integrated into accessible digital experiences in a practical and responsible way.
-
-Instead of building isolated accessibility tools, AccessMate AI brings multiple assistive capabilities together into one platform.
-
-The long-term objective is to create an expandable accessibility ecosystem where additional assistive technologies can be integrated without redesigning the entire platform.
 
 ---
 
-# 🌍 Live Application
+# 48. Future Roadmap
 
-## AccessMate AI
+Potential improvements:
 
-### https://accessmate-ai.duckdns.org
+## AI Improvements
 
----
+- More optimized AI models
+- Improved personalization
+- Better context understanding
 
-# 📚 Technical References
 
-- FastAPI  
-  https://fastapi.tiangolo.com/
+## Accessibility Improvements
 
-- React  
-  https://react.dev/
+- Additional assistive workflows
+- More accessibility integrations
+- Enhanced user customization
 
-- Vite  
-  https://vite.dev/
 
-- PostgreSQL  
-  https://www.postgresql.org/docs/
+## Infrastructure Improvements
 
-- pgvector  
-  https://github.com/pgvector/pgvector
+- Automated CI/CD pipeline
+- Advanced monitoring
+- Horizontal scaling
 
-- Docker  
-  https://docs.docker.com/
-
-- Docker Compose  
-  https://docs.docker.com/compose/
-
-- Nginx  
-  https://nginx.org/en/docs/
-
-- Caddy  
-  https://caddyserver.com/docs/
-
-- AWS EC2  
-  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/
-
-- DuckDNS  
-  https://www.duckdns.org/
 
 ---
 
-# 📄 License
+# 49. Project Ownership
 
-No open-source license is granted unless a separate `LICENSE` file is explicitly added to this repository.
+AccessMate AI started as a group project.
+
+After the withdrawal of other team members, the current final version was independently completed.
+
+The final implementation includes:
+
+- Product architecture
+- Frontend implementation
+- Backend implementation
+- Database design
+- AI integrations
+- Security configuration
+- Cloud deployment
+- Production testing
+
 
 ---
 
-# 💙 Final Note
+# 50. Ethical AI Statement
 
-**AccessMate AI uses practical Artificial Intelligence to make digital experiences more accessible, understandable, and supportive.**
+AccessMate AI is developed following responsible AI principles.
+
+## Privacy
+
+User information and system credentials are protected.
+
+## Transparency
+
+The project documents actual implemented capabilities only.
+
+## Human Oversight
+
+AI assists users but does not replace human decisions.
+
+## Accessibility
+
+The platform is designed to reduce barriers and improve digital inclusion.
+
+---
+
+# 51. References
+
+## Frameworks
+
+FastAPI  
+https://fastapi.tiangolo.com/
+
+
+React  
+https://react.dev/
+
+
+Vite  
+https://vite.dev/
+
+
+PostgreSQL  
+https://www.postgresql.org/
+
+
+---
+
+## Infrastructure
+
+Docker Documentation  
+https://docs.docker.com/
+
+
+Docker Compose  
+https://docs.docker.com/compose/
+
+
+Nginx Documentation  
+https://nginx.org/en/docs/
+
+
+Caddy Documentation  
+https://caddyserver.com/docs/
+
+
+AWS EC2 Documentation  
+https://docs.aws.amazon.com/ec2/
+
+
+DuckDNS  
+https://www.duckdns.org/
+
+
+---
+
+# 52. License
+
+No open-source license is provided unless a LICENSE file is added.
+
+All rights reserved by the project owner.
+
+---
+
+# 53. Final Note
+
+AccessMate AI demonstrates how Artificial Intelligence can be applied to create more accessible, inclusive, and supportive digital experiences.
+
+The project focuses on combining practical AI technologies with accessibility principles to build a platform that can evolve with future assistive technology needs.
+
+
+---
+
+# AccessMate AI
+
+🌐 https://accessmate-ai.duckdns.org
